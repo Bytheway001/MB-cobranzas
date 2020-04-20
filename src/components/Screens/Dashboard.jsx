@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Row, Col, Card, FormCheck, Form, FormControl, Button, Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const Dashboard = props => {
     const [criteria, setCriteria] = useState('')
@@ -46,9 +47,9 @@ const Dashboard = props => {
                             </Row>
                             <Row>
                                 <Col sm={12} className='text-center'>
-                                    <Button 
-                                    
-                                        className='w-50' 
+                                    <Button
+
+                                        className='w-50'
                                         style={{ borderRadius: 0 }}>Buscar</Button>
                                 </Col>
                             </Row>
@@ -63,10 +64,10 @@ const Dashboard = props => {
                     <Card.Body>
                         <Row className='h-100'>
                             <Col sm={3}>
-                                <Button size='lg' className='h-100' variant='warning' block>Registrar Cobranza</Button>
+                                <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='warning' block>Registrar Cobranza</Button>
                             </Col>
                             <Col sm={3}>
-                                <Button size='lg' className='h-100' variant='info' block>Crear Cliente</Button>
+                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='info' block>Crear Cliente</Button>
                             </Col>
                         </Row>
 
@@ -107,7 +108,7 @@ const Dashboard = props => {
                                     <td>01/01/1990</td>
                                     <td>01/01/1991</td>
                                     <td>Anual</td>
-                                    <td><Button block size='sm'>Ver</Button></td>
+                                    <td><Button as={Link} to='/clients/profile' block size='sm'>Ver</Button></td>
                                 </tr>
 
                             </tbody>

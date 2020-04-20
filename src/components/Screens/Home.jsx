@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import GoogleLogin from 'react-google-login';
-import { Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../ducks/session';
 const HomeScreen = ({ login, user, loading, history }) => {
-
     const responseGoogle = (response) => {
         console.log(response.profileObj)
+        
         login(response.profileObj)
         history.push('/')
-
+    }
+    const responseGoogleFail=(response)=>{
+        console.log('----')
+        console.log(response)
     }
     if (!user) {
         return (
@@ -23,7 +25,7 @@ const HomeScreen = ({ login, user, loading, history }) => {
                             clientId="346512427285-0gs9tg2cvhd0v4b3r5h7dvjitm8fkcal.apps.googleusercontent.com"
                             buttonText="Login"
                             onSuccess={responseGoogle}
-                            onFailure={responseGoogle}
+                            onFailure={responseGoogleFail}
                             cookiePolicy={'single_host_origin'}
                             isSignedIn={true}
                         />
