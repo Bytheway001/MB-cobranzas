@@ -12,7 +12,7 @@ import Home from './components/Screens/Home';
 import Dashboard from './components/Screens/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 
-import { NewClient } from './components/Screens/Clients/New';
+import NewClient from './components/Screens/Clients/New';
 import { NewPayment } from './components/Screens/Payments/New';
 import { ClientProfile } from './components/Screens/Clients/Profile';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
