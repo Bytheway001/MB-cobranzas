@@ -53,6 +53,14 @@ export const createClient=(data)=>{
    
 }
 
+export const createBulkClients=(clientList)=>{
+    return dispatch=>{
+        Axios.post(API+'/clients/bulk',clientList).then(res=>{
+            console.log(res.data)
+        })
+    }
+}
+
 export const agentReducer = (state = initialState, action) => {
     switch (action.type) {
         case AGENT_LIST_REQUESTED:

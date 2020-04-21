@@ -173,5 +173,21 @@ export const Companies = [
                 name:'Azure Guarantee'
             }
         ]
+    },{
+        id:6,
+        name:'American Fidelity',
+        plans:[]
+    },
+    {
+        id:7,
+        name:'Morgan & White'
+    },
+    {
+        id:8,
+        name:'Hiscox'
+    },
+    {
+        id:9,
+        name:'Old Mutual'
     }
 ]

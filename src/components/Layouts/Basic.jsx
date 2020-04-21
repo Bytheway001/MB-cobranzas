@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, Alert } from 'react-bootstrap'
 
 import { connect } from 'react-redux';
 
@@ -13,10 +13,17 @@ const BasicLayout = ({ children }) => {
 
                 {children}
             </Container>
+            <Notification/>
         </Fragment>
 
     )
 }
+
+const Notification=(props)=>(
+    <Alert dismissible variant='danger' className='notification'>
+        This is a text notification with a brief message
+    </Alert>
+)
 
 const mapStateToProps = state => ({
     user: state.session.user
