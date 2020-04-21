@@ -250,10 +250,10 @@ const BulkModal = ({ keys, createBulkClients }) => {
     const handleShow = () => setShow(true);
     const [data, setData] = useState([])
     const handleSubmit = (e) => {
-
-        alert('a')
         createBulkClients(data)
-        console.log(data)
+        setShow(false)
+        setData([])
+       
     }
     return (
         <Fragment>

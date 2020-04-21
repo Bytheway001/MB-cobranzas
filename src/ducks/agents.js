@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { API } from "./root";
+import { onSetNotification } from "./notifications";
 
 export const AGENT_LIST_REQUESTED = "AGENT_LIST_REQUESTED";
 export const AGENT_LIST_SUCCEEDED = "AGENT_LIST_SUCCEEDED";
@@ -47,7 +48,7 @@ export const getCollectors = () => {
 export const createClient=(data)=>{
     return dispatch=>{
         Axios.post(API+'/clients/create',data).then(res=>{
-            console.log(res.data)
+            dispatch(onSetNotification('success',res.data.data))
         })
     }
    
@@ -56,7 +57,7 @@ export const createClient=(data)=>{
 export const createBulkClients=(clientList)=>{
     return dispatch=>{
         Axios.post(API+'/clients/bulk',clientList).then(res=>{
-            console.log(res.data)
+            dispatch(onSetNotification('success',res.data.data))
         })
     }
 }

@@ -17,7 +17,9 @@ import { NewPayment } from './components/Screens/Payments/New';
 import { ClientProfile } from './components/Screens/Clients/Profile';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+
+const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+const store = createStore(rootReducer, compose(applyMiddleware(thunk), reduxDevTools));
 if (localStorage.getItem('user')) {
   store.dispatch({ type: 'LOGIN_SUCCEEDED', payload: JSON.parse(localStorage.getItem('user')) })
 }
