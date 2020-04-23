@@ -1,14 +1,23 @@
 import React, { useState } from 'react'
 import { Row, Col, Card, FormCheck, Form, FormControl, Button, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-
-const Dashboard = props => {
+import { getClientList } from '../../ducks/agents'
+import { connect } from 'react-redux';
+const Dashboard = ({ getClientList, clients }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
 
+    useState(() => {
+        getClientList()
+    }, [])
     const changeCriteria = (value) => {
         setTerm('')
         setCriteria(value)
+    }
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+        getClientList({criteria,term})
     }
     return (
         <Row>
@@ -18,7 +27,7 @@ const Dashboard = props => {
                         Buscar Poliza
                     </Card.Header>
                     <Card.Body>
-                        <Form>
+                        <Form onSubmit={handleSubmit}>
                             <Row className='mb-3'>
                                 <Col sm={6}>
                                     <FormCheck value='client' name='criteria' type='radio' label='Cliente' onChange={({ target }) => changeCriteria(target.value)} />
@@ -48,7 +57,7 @@ const Dashboard = props => {
                             <Row>
                                 <Col sm={12} className='text-center'>
                                     <Button
-
+                                        type='submit'
                                         className='w-50'
                                         style={{ borderRadius: 0 }}>Buscar</Button>
                                 </Col>
@@ -97,19 +106,24 @@ const Dashboard = props => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>12345</td>
-                                    <td>Pedro Perez</td>
-                                    <td>Maria Martinez</td>
-                                    <td>Jesus Jimenez</td>
-                                    <td>Best Doctors</td>
-                                    <td>Premir Plus</td>
-                                    <td>5000</td>
-                                    <td>01/01/1990</td>
-                                    <td>01/01/1991</td>
-                                    <td>Anual</td>
-                                    <td><Button as={Link} to='/clients/profile' block size='sm'>Ver</Button></td>
-                                </tr>
+                                {
+                                    clients.list.map((client, key) => (
+                                        <tr>
+                                            <td>{client.id}</td>
+                                            <td>{client.name}</td>
+                                            <td>{client.agent}</td>
+                                            <td>{client.collector}</td>
+                                            <td>{client.company}</td>
+                                            <td>{client.plan}</td>
+                                            <td>{client.option}</td>
+                                            <td>{new Date(client.effective_date).toLocaleDateString()}</td>
+                                            <td>{new Date(client.renovation_date).toLocaleDateString()}</td>
+                                            <td>{client.frequency}</td>
+                                            <td><Button as={Link} to='/clients/profile' block size='sm'>Ver</Button></td>
+                                        </tr>
+                                    ))
+                                }
+
 
                             </tbody>
                         </Table>
@@ -119,4 +133,12 @@ const Dashboard = props => {
         </Row>
     )
 }
-export default Dashboard
+
+const mapStateToProps = state => ({
+    clients: state.clients
+})
+
+const mapDispatchToProps = dispatch => ({
+    getClientList: (search) => dispatch(getClientList(search))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

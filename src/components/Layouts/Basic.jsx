@@ -14,7 +14,7 @@ const BasicLayout = ({ children, notifications, deleteNotification }) => {
 
                 {children}
             </Container>
-            <div class='notification-wrapper'>
+            <div className='notification-wrapper'>
                 {
                     notifications.length > 0 && notifications.map((not, index) => {
                         return <Notification index={index} key={index} deleteNotification={deleteNotification} type={not.type}>{not.text}</Notification>

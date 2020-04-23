@@ -5,8 +5,7 @@ export const onSetNotification = (msgType, text) => ({ type: "ADD_NOTIFICATION",
 export const onDeleteNotification = (index) => ({ type: DELETE_NOTIFICATION, payload: index })
 
 const initialState = [
-    {type:'success',text:'This is a Successful Message'},
-    {type:'danger',text:"This is a Failre Message"}
+   
 ]
 
 export const addNotification = (type, text) => {
