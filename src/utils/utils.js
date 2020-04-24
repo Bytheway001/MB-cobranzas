@@ -176,7 +176,8 @@ export const Companies = [
     },{
         id:6,
         name:'American Fidelity',
-        plans:[]
+        plans:[],
+        slug:'American Fidelity'
     },
     {
         id:7,
@@ -189,5 +190,9 @@ export const Companies = [
     {
         id:9,
         name:'Old Mutual'
+    },
+    {
+        id:10,
+        name:'BUPA OFF'
     }
 ]

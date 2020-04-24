@@ -69,3 +69,13 @@ html,body{
     padding-bottom:10px;
     padding-top:10px;
 }
+
+.react-datepicker__header{
+    background:orange!important;
+    .react-datepicker__current-month{
+        color:white;
+    }
+    .react-datepicker__day-name{
+        color:white!important;
+    }
+}

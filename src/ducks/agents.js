@@ -18,6 +18,11 @@ export const CLIENT_LIST_REQUESTED = "CLIENT_LIST_REQUESTED";
 export const CLIENT_LIST_SUCCEEDED = "CLIENT_LIST_SUCCEEDED";
 export const CLIENT_LIST_FAILED = "CLIENT_LIST_FAILED";
 
+export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
+
+export const PAYMENT_CREATION_REQUESTED ="PAYMENT_CREATION_REQUESTED"
+export const PAYMENT_CREATION_SUCCEEDED="PAYMENT_CREATION_SUCCEEDED"
+export const PAYMENT_CREATION_FAILED='PAYMENT_CREATION_FAILED'
 
 const onAgentListRequested = () => ({ type: AGENT_LIST_REQUESTED })
 const onAgentListSucceeded = (data) => ({ type: AGENT_LIST_SUCCEEDED, payload: data })
@@ -35,12 +40,17 @@ const onClientListRequested = () => ({ type: CLIENT_LIST_REQUESTED })
 const onClientListSucceeded = (clientList) => ({ type: CLIENT_LIST_SUCCEEDED, payload: clientList })
 const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
 
+const onPaymentCreationRequested =()=>({type:PAYMENT_CREATION_REQUESTED});
+const onPaymentCreationSucceeded =(data)=>({type:PAYMENT_CREATION_SUCCEEDED,payload:data});
+const onPaymentCreationFailed = (err)=>({type:PAYMENT_CREATION_FAILED,payload:err})
 
+const onClientProfileUpdated=(client)=>({type:CLIENT_PROFILE_UPDATED,payload:client})
 
 const initialState = {
     agents: [],
     collectors: [],
-    loading: false
+    loading: false,
+    creatingPayment:false
 }
 
 const clientInitialState = {
@@ -49,7 +59,7 @@ const clientInitialState = {
     editing: null
 }
 
-
+/** Functions */
 export const getClientById = (id) => {
     return dispatch => {
         Axios.get(API + '/clients/' + id).then(res => {
@@ -99,10 +109,20 @@ export const getCollectors = () => {
     }
 }
 
+export const UpdateClientPolicy=(id,data)=>{
+    return dispatch=>{
+        Axios.put(API+'/clients/'+id+'/update',data).then(res=>{
+            dispatch(onClientProfileUpdated(res.data.data))
+            dispatch(onSetNotification('success',"El perfil del cliente ha sido actualizado"))
+        })
+        
+    }
+}
+
 export const createClient = (data) => {
     return dispatch => {
         Axios.post(API + '/clients/create', data).then(res => {
-            dispatch(onSetNotification('success', res.data.data))
+            dispatch(onSetNotification('success', 'res.data.data'))
         })
     }
 
@@ -116,6 +136,18 @@ export const createBulkClients = (clientList) => {
     }
 }
 
+export const createPayment=(payment)=>{
+    return dispatch=>{
+        dispatch(onPaymentCreationRequested())
+        Axios.post(API+'/payments/create',payment).then(res=>{
+            dispatch(onPaymentCreationSucceeded(res.data))
+            dispatch(onSetNotification('success','Pago creado con exito'))
+            console.log(res)
+        })
+    }
+}
+
+/** Reducers */
 export const agentReducer = (state = initialState, action) => {
     switch (action.type) {
         case AGENT_LIST_REQUESTED:
@@ -147,6 +179,16 @@ export const agentReducer = (state = initialState, action) => {
                 ...state,
                 loading: false
             }
+        case PAYMENT_CREATION_REQUESTED:
+            return {
+                ...state,
+                creatingPayment:true
+            }
+            case PAYMENT_CREATION_SUCCEEDED:
+            return {
+                ...state,
+                creatingPayment:false
+            }
 
         default:
             return state
@@ -167,6 +209,13 @@ export const clientReducer = (state = clientInitialState, action) => {
                 editing:action.payload,
                 loading:false
             }
+        case CLIENT_PROFILE_UPDATED:
+            return{
+                ...state,
+                editing:action.payload,
+                loading:false
+            }
+        
         default:
             return state
     }

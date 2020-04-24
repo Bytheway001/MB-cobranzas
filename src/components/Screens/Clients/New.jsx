@@ -250,6 +250,7 @@ const BulkModal = ({ keys, createBulkClients }) => {
     const handleShow = () => setShow(true);
     const [data, setData] = useState([])
     const handleSubmit = (e) => {
+        console.log(data)
         createBulkClients(data)
         setShow(false)
         setData([])

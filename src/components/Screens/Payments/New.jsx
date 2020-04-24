@@ -1,10 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import {Companies} from '../../../utils/utils';
+import { Companies } from '../../../utils/utils';
 import { connect } from 'react-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { getClientList, getClientById } from '../../../ducks/agents'
 import { Modal, Form, Row, Col, Card, Button, FormGroup, FormControl } from 'react-bootstrap';
-import {UpdateClientModal} from '../Clients/UpdateClientModal';
+import UpdateClientModal from '../Clients/UpdateClientModal';
+import ReactDatePicker from 'react-datepicker';
+import  FormCobranza  from './FormCobranza';
 const NewPayment = ({ clients, getClientList, getClientById }) => {
     const [client, setClient] = useState([]);
     const [profile, setProfile] = useState(null);
@@ -78,15 +80,15 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                                 <Card.Footer>
                                     <Row>
                                         <Col sm={12}>
-                                            <UpdateClientModal client={clients.editing}/>
+                                            <UpdateClientModal />
                                         </Col>
 
                                     </Row>
                                 </Card.Footer>
                             </Card>
                         </Col>
-                        <Col sm={4}>
-                            <FormCobranza />
+                        <Col sm={12}>
+                            <FormCobranza id={clients.editing.id} />
                         </Col>
                     </Fragment>
                     :
@@ -98,52 +100,6 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
     )
 }
 
-const FormCobranza = props => {
-    return (
-        <Card>
-            <Card.Header className='bg-primary text-light'>Registrar Cobranza</Card.Header>
-            <Card.Body>
-                <Form>
-                    <FormGroup>
-                        <label>Metodo de Pago</label>
-                        <FormControl as='select'>
-                            <option>Pago Directo en su portal de cliente con Tarjeta de Credito</option>
-                            <option>Pago con Tarjeta de Credito para que cobradora pague la poliza</option>
-                            <option>Pago con transferencia Bancaria a la Aseguradora</option>
-                            <option>Pago con cheque extranjero a la compañia</option>
-                            <option>Pago con cheque extranjero a la agencia</option>
-                            <option>Pago con cheque local a la agencia</option>
-                            <option>Pago con transferencia bancaria a cuenta local de agencia</option>
-                            <option>Pago en efectivo (USD) a la agencia</option>
-                            <option>Pago en efectivo (Bolivianos) a la agencia</option>
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                        <label>Cuenta Receptora</label>
-                        <FormControl as='select'>
-                            <option>Cuenta BNB 12345</option>
-                            <option>Cuenta Bisa 1234567</option>
-                            <option>Cuenta Union 666666</option>
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                        <label>Tipo de Pago</label>
-                        <FormControl as='select'>
-                            <option>Prima Completa</option>
-                            <option>Prima descuento agencia</option>
-                            <option>Prima descuento aseguradora</option>
-                            <option>Plan de Pagos de agencia</option>
-                            <option>Plan de pagos con descuento de agencia</option>
-                            <option>Plan de pagos con descuento de aseguradora</option>
-                            <option>Cambio de forma de pago</option>
-                        </FormControl>
-                    </FormGroup>
-                </Form>
-            </Card.Body>
-        </Card>
-
-    )
-}
 
 
 
