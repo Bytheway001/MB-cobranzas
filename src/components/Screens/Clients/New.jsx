@@ -1,10 +1,13 @@
-import React from 'react';
-import { Row, Col, Card, Form, FormGroup, FormControl, Button } from 'react-bootstrap';
+import React, { useEffect, Fragment } from 'react';
+import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup, Modal, Table } from 'react-bootstrap';
 import { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
-export const NewClient = props => {
+import { getAgents, getCollectors, createClient, createBulkClients } from '../../../ducks/agents';
+import { connect } from 'react-redux';
+import CsvParse from '@vtex/react-csv-parse'
+import { Companies } from '../../../utils/utils';
+const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
     const [name, setName] = useState('');
     const [agent, setAgent] = useState([])
     const [cobrador, setCobrador] = useState([])
@@ -13,125 +16,321 @@ export const NewClient = props => {
     const [company, setCompany] = useState('')
     const [plan, setPlan] = useState([])
     const [option, setOption] = useState('')
-    const [renovationDate, setRenovationDate] = useState('')
-    const [effectiveDate, setEffectiveDate] = useState('')
+    const [renovationYear, setRenovationYear] = useState('')
+    const [renovationMonth, setRenovationMonth] = useState('')
+    const [renovationDay, setRenovationDay] = useState('')
+    const [effectiveYear, setEffectiveYear] = useState('')
+    const [effectiveMonth, setEffectiveMonth] = useState('')
+    const [effectiveDay, setEffectiveDay] = useState('')
     const [frequency, setFrequency] = useState('')
     const [prima, setPrima] = useState('')
 
+    useEffect(() => {
+
+        getAgents();
+        getCollectors()
+        // eslint-disable-next-line
+    }, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        let renovationDate = `${renovationDay}-${renovationMonth}-${renovationYear}`
+        let effectiveDate = `${effectiveDay}-${effectiveMonth}-${effectiveYear}`
+        let client = {
+            name,
+            agent_id: agent[0].id,
+            collector_id: cobrador[0].id,
+            policy_number: policyNumber,
+            policy_type: policyType,
+            company: Companies.find(x => x.slug === company).name,
+            plan: plan[0].name,
+            option,
+            renovation_date: renovationDate,
+            effective_date: effectiveDate,
+            frequency,
+            prima
+        }
+        console.log(client)
+        createClient(client)
+    }
+    const year = new Date().getFullYear()
+    const keys = [
+        'h_id',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'collector',
+        'company',
+        'effective_date',
+        'renovation_date',
+        'plan',
+        'policy_number',
+        'prima',
+        'option',
+        'agent',
+    ]
+
 
     return (
-        <Form>
-            <Row>
-               
-                <Col md={6}>
-                    <Card>
-                        <Card.Header className='bg-primary text-light' >Datos del Usuario</Card.Header>
-                        <Card.Body>
-                            <FormGroup>
-                                <label>Nombre y Apellido:</label>
-                                <FormControl value={name} size='sm' onChange={({ target }) => setName(target.value)} />
-                                <p>{name.length > 7 ? 'El nombre no puede tener mas de 7 caracteres' : ''}</p>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Agente:</label>
-                                <Typeahead id='agent' clearButton={true} size='sm' selected={agent} onChange={setAgent} options={['Agente1', 'Agente2', 'Agente3']} />
+        <Fragment>
+            <Form onSubmit={handleSubmit}>
+                <Row>
+                    <Col md={6}>
+                        <Card>
+                            <Card.Header className='bg-primary text-light' >Datos del Usuario</Card.Header>
+                            <Card.Body>
+                                <FormGroup>
+                                    <label>Nombre y Apellido:</label>
+                                    <FormControl required value={name} size='sm' onChange={({ target }) => setName(target.value)} />
 
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Cobrador:</label>
-                                <Typeahead id='cobrador' clearButton={true} size='sm' selected={cobrador} onChange={setCobrador} options={['Cobrador 1', 'Cobrador 2', 'Cobrador 3']} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>Agente:</label>
+                                    <Typeahead inputProps={{ required: true }} id='agent' clearButton={true} size='sm' selected={agent} onChange={setAgent} labelKey='name' options={agents} />
 
-                            </FormGroup>
-                            <Button>Crear</Button>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col md={6}>
-                    <Card>
-                        <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
-                        <Card.Body>
-                            <Row>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Numero de Poliza:</label>
-                                        <FormControl value={policyNumber} onChange={({ target }) => setPolicyNumber(target.value)} size='sm' />
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Aseguradora:</label>
-                                        <FormControl size='sm' as='select' value={company} onChange={({ target }) => setCompany(target.value)}>
-                                            <option>Best Doctors</option>
-                                            <option>Vumi Group</option>
-                                            <option>Bupa Salud</option>
-                                            <option>Allianz Care</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                </Col>
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>Cobrador:</label>
+                                    <Typeahead inputProps={{ required: true }} id='cobrador' clearButton={true} size='sm' selected={cobrador} labelKey='name' onChange={setCobrador} options={collectors} />
 
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Plan:</label>
-                                        <Typeahead
-                                            id='plan'
-                                            clearButton={true} size='sm'
-                                            selected={plan}
-                                            options={[{id:1,label:'Agent1'},{id:2,label:'agent2'}]}
-                                            onChange={setPlan}
-                                        />
-                                      
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Tipo de Poliza:</label>
-                                        <FormControl as='select' size='sm' value={policyType} onChange={({ target }) => setPolicyType(target.value)}>
-                                            <option>Individual</option>
-                                            <option>Familiar</option>
-                                            <option>Corporativa</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Opcion:</label>
-                                        <FormControl value={option} onChange={({ target }) => setOption(target.value)} size='sm' />
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Fecha Renovacion:</label>
-                                        <DatePicker value={renovationDate} onChange={(e) => setRenovationDate(e.toLocaleDateString())} className='form-control form-control-sm date-picker' />
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Fecha Efectiva:</label>
-                                        <DatePicker value={effectiveDate} onChange={(e) => setEffectiveDate(e.toLocaleDateString())} className='form-control form-control-sm date-picker' />
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Frecuencia de Pago:</label>
-                                        <FormControl value={frequency} onChange={(val) => setFrequency(val)} as='select' size='sm'>
-                                            <option>Anual</option>
-                                            <option>Semestral</option>
-                                            <option>Mensual</option>
+                                </FormGroup>
+                                <Button type='submit'>Crear</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col md={6}>
+                        <Card className='h-100'>
+                            <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
+                            <Card.Body>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Numero de Poliza:</label>
+                                            <FormControl required value={policyNumber} onChange={({ target }) => setPolicyNumber(target.value)} size='sm' />
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Aseguradora:</label>
+                                            <FormControl required size='sm' as='select' value={company} onChange={({ target }) => { setPlan([]); setCompany(target.value) }}>
+                                                <option value="">Seleccione...</option>
+                                                {
+                                                    Companies.map(company => (
+                                                        <option value={company.slug}>{company.name}</option>
+                                                    ))
+                                                }
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
 
-                                        </FormControl>
-                                    </FormGroup>
-                                </Col>
-                                <Col sm={4}>
-                                    <FormGroup>
-                                        <label>Prima Total:</label>
-                                        <FormControl value={prima} onChange={({ target }) => setPrima(target.value)} size='sm' />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Plan:</label>
+
+
+                                            <Typeahead
+                                                inputProps={{ required: true }}
+                                                defaultInputValue=""
+                                                id='plan'
+                                                clearButton={true} size='sm'
+                                                selected={plan}
+                                                options={(Companies.find(x => x.slug === company) && Companies.find(x => x.slug === company).plans.map(plan => plan)) || ([])}
+                                                onChange={setPlan}
+                                                labelKey='name'
+                                            />
+
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Tipo de Poliza:</label>
+                                            <FormControl required as='select' size='sm' value={policyType} onChange={({ target }) => setPolicyType(target.value)}>
+                                                <option>Individual</option>
+                                                <option>Familiar</option>
+                                                <option>Corporativa</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Opcion:</label>
+                                            <InputGroup size='sm'>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text>$</InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <FormControl required value={option} onChange={({ target }) => setOption(target.value)} size='sm' />
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Fecha Renovacion:</label>
+                                            <Row>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={1} max={31} required size='sm' value={renovationDay} onChange={({ target }) => setRenovationDay(target.value)} placeholder='Dia' />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={1} max={12} required size='sm' value={renovationMonth} onChange={({ target }) => setRenovationMonth(target.value)} placeholder='Mes' />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={renovationYear} onChange={({ target }) => setRenovationYear(target.value)} />
+
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Fecha Efectiva:</label>
+                                            <Row>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={1} max={31} required size='sm' value={effectiveDay} onChange={({ target }) => setEffectiveDay(target.value)} placeholder='Dia' />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={1} max={12} required size='sm' value={effectiveMonth} onChange={({ target }) => setEffectiveMonth(target.value)} placeholder='Mes' />
+                                                    </FormGroup>
+                                                </Col>
+                                                <Col sm={4}>
+                                                    <FormGroup>
+                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={effectiveYear} onChange={({ target }) => setEffectiveYear(target.value)} />
+
+                                                    </FormGroup>
+                                                </Col>
+                                            </Row>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Frecuencia de Pago:</label>
+                                            <FormControl required value={frequency} onChange={({ target }) => setFrequency(target.value)} as='select' size='sm'>
+                                                <option value='Anual'>Anual</option>
+                                                <option value='Semestral'>Semestral</option>
+                                                <option value='Mensual'>Mensual</option>
+
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <FormGroup>
+                                            <label>Prima Total:</label>
+                                            <InputGroup size='sm'>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text>$</InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <FormControl required value={prima} onChange={({ target }) => setPrima(target.value)} size='sm' />
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+
+            </Form>
+            <Row className='mt-5'>
+                <Col sm={12} className='text-center'>
+                    <BulkModal keys={keys} createBulkClients={createBulkClients} />
                 </Col>
             </Row>
-        </Form>
+        </Fragment>
+
     )
 }
+
+const BulkModal = ({ keys, createBulkClients }) => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [data, setData] = useState([])
+    const handleSubmit = (e) => {
+        console.log(data)
+        createBulkClients(data)
+        setShow(false)
+        setData([])
+
+    }
+    return (
+        <Fragment>
+            <Button size='lg' variant="primary" onClick={handleShow}>Cargar Via CSV</Button>
+
+
+            <Modal dialogClassName="modal-90w" size='lg' show={show} onHide={handleClose}>
+
+                <Modal.Header closeButton>
+                    <Modal.Title>Crear Clientes en Masa</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormGroup>
+                        <CsvParse
+                            keys={keys}
+                            onDataUploaded={(data) => setData(data)}
+                            render={onChange => <FormControl type='file' onChange={onChange} />} />
+                    </FormGroup>
+                    {
+                        data.length > 0 &&
+                        <Table size='sm' style={{ fontSize: '0.8em' }}>
+                            <thead>
+
+                                <tr>
+                                    {Object.keys(data[0]).map((header, index) => (
+                                        <th>{header}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    data.map(client => (
+
+                                        <tr>
+                                            {keys.map((h, k) => {
+                                                if (!client[h]) {
+                                                    return <td style={{ color: 'red' }}><b>--</b></td>
+                                                }
+                                                return <td>{client[h]}</td>
+                                            })}
+
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
+
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
+                    <Button onClick={handleSubmit} variant="primary">Continuar</Button>
+                </Modal.Footer>
+
+            </Modal>
+
+        </Fragment>
+    );
+}
+
+const mapStateToProps = state => (
+    {
+        agents: state.agents.agents,
+        collectors: state.agents.collectors
+    }
+)
+
+const mapDispatchToProps = dispatch => ({
+    getAgents: () => dispatch(getAgents()),
+    getCollectors: () => dispatch(getCollectors()),
+    createClient: (client) => dispatch(createClient(client)),
+    createBulkClients: (clientList) => dispatch(createBulkClients(clientList))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewClient)

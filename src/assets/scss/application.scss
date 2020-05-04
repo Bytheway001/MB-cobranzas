@@ -1,5 +1,6 @@
 html,body{
     height: 100%;
+    background:#FFFFFF!important;
 }
 .login{
     
@@ -26,4 +27,56 @@ html,body{
 
 .react-datepicker-wrapper{
     width:100%!important
+}
+
+.modal-90w{
+  
+    max-width:100vw;
+    width:75vw!important;
+}
+
+.notification{
+    &.alert-success{
+       background-color: #0747A6;
+       color:white;
+       box-shadow:3px 3px 10px black;
+       border:none;
+       border-radius:0px;
+    }
+    &.alert-danger{
+        background:#b81a1a;
+        color:white;
+        box-shadow:3px 3px 10px black;
+        border:none;
+        border-radius:0px;
+        
+    }
+    width:100%;
+    margin-bottom:10px;
+   
+   
+    height:100px;
+}
+
+.notification-wrapper{
+   
+    width:320px;
+    position:absolute;
+    bottom:10px;
+    right:50px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom:10px;
+    padding-top:10px;
+}
+
+.react-datepicker__header{
+    background:orange!important;
+    .react-datepicker__current-month{
+        color:white;
+    }
+    .react-datepicker__day-name{
+        color:white!important;
+    }
 }

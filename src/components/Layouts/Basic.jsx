@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, Alert } from 'react-bootstrap'
 
 import { connect } from 'react-redux';
 
 import Navbar from '../Navbar';
+import { deleteNotification } from '../../ducks/notifications';
 
-const BasicLayout = ({ children }) => {
+const BasicLayout = ({ children, notifications, deleteNotification }) => {
     return (
         <Fragment>
             <Navbar />
@@ -13,12 +14,31 @@ const BasicLayout = ({ children }) => {
 
                 {children}
             </Container>
+            <div className='notification-wrapper'>
+                {
+                    notifications.length > 0 && notifications.map((not, index) => {
+                        return <Notification index={index} key={index} deleteNotification={deleteNotification} type={not.type}>{not.text}</Notification>
+                    })
+                }
+            </div>
+
+
         </Fragment>
 
     )
 }
 
+const Notification = ({ children, type, deleteNotification, index }) => (
+    <Alert dismissible onClose={() => deleteNotification(index)} variant={type} className='notification'>
+        {children}
+    </Alert>
+)
+
 const mapStateToProps = state => ({
-    user: state.session.user
+    user: state.session.user,
+    notifications: state.notifications
 })
-export default connect(mapStateToProps, null)(BasicLayout)
+const mapDispatchToProps = dispatch => ({
+    deleteNotification: (index) => dispatch(deleteNotification(index))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout)
