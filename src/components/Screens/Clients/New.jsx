@@ -26,9 +26,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [prima, setPrima] = useState('')
 
     useEffect(() => {
+
         getAgents();
         getCollectors()
-
+        // eslint-disable-next-line
     }, [])
 
     const handleSubmit = (e) => {
@@ -41,7 +42,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             collector_id: cobrador[0].id,
             policy_number: policyNumber,
             policy_type: policyType,
-            company,
+            company: Companies.find(x => x.slug === company).name,
             plan: plan[0].name,
             option,
             renovation_date: renovationDate,
@@ -54,18 +55,19 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     }
     const year = new Date().getFullYear()
     const keys = [
-        'name',
-        'agent',
+        'h_id',
+        'first_name',
+        'last_name',
+        'phone_number',
         'collector',
         'company',
-        'plan',
-        'option',
-        'policy_number',
-        'policy_type',
-        'prima',
         'effective_date',
         'renovation_date',
-        'frequency'
+        'plan',
+        'policy_number',
+        'prima',
+        'option',
+        'agent',
     ]
 
 
@@ -97,17 +99,17 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                         </Card>
                     </Col>
                     <Col md={6}>
-                        <Card>
+                        <Card className='h-100'>
                             <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
                             <Card.Body>
                                 <Row>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Numero de Poliza:</label>
                                             <FormControl required value={policyNumber} onChange={({ target }) => setPolicyNumber(target.value)} size='sm' />
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Aseguradora:</label>
                                             <FormControl required size='sm' as='select' value={company} onChange={({ target }) => { setPlan([]); setCompany(target.value) }}>
@@ -121,7 +123,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                         </FormGroup>
                                     </Col>
 
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Plan:</label>
 
@@ -132,14 +134,14 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 id='plan'
                                                 clearButton={true} size='sm'
                                                 selected={plan}
-                                                options={Companies.find(x => x.slug === company) && Companies.find(x => x.slug === company).plans.map(plan => plan) || []}
+                                                options={(Companies.find(x => x.slug === company) && Companies.find(x => x.slug === company).plans.map(plan => plan)) || ([])}
                                                 onChange={setPlan}
                                                 labelKey='name'
                                             />
 
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Tipo de Poliza:</label>
                                             <FormControl required as='select' size='sm' value={policyType} onChange={({ target }) => setPolicyType(target.value)}>
@@ -149,7 +151,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                             </FormControl>
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Opcion:</label>
                                             <InputGroup size='sm'>
@@ -160,13 +162,13 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                             </InputGroup>
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Fecha Renovacion:</label>
                                             <Row>
                                                 <Col sm={4}>
                                                     <FormGroup>
-                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={renovationYear} onChange={({ target }) => setRenovationYear(target.value)} />
+                                                        <FormControl type='number' min={1} max={31} required size='sm' value={renovationDay} onChange={({ target }) => setRenovationDay(target.value)} placeholder='Dia' />
                                                     </FormGroup>
                                                 </Col>
                                                 <Col sm={4}>
@@ -176,20 +178,21 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 </Col>
                                                 <Col sm={4}>
                                                     <FormGroup>
-                                                        <FormControl type='number' min={1} max={31} required size='sm' value={renovationDay} onChange={({ target }) => setRenovationDay(target.value)} placeholder='Dia' />
+                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={renovationYear} onChange={({ target }) => setRenovationYear(target.value)} />
+
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
 
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Fecha Efectiva:</label>
                                             <Row>
                                                 <Col sm={4}>
                                                     <FormGroup>
-                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={effectiveYear} onChange={({ target }) => setEffectiveYear(target.value)} />
+                                                        <FormControl type='number' min={1} max={31} required size='sm' value={effectiveDay} onChange={({ target }) => setEffectiveDay(target.value)} placeholder='Dia' />
                                                     </FormGroup>
                                                 </Col>
                                                 <Col sm={4}>
@@ -199,13 +202,14 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 </Col>
                                                 <Col sm={4}>
                                                     <FormGroup>
-                                                        <FormControl type='number' min={1} max={31} required size='sm' value={effectiveDay} onChange={({ target }) => setEffectiveDay(target.value)} placeholder='Dia' />
+                                                        <FormControl type='number' min={year - 2} max={year + 2} required size='sm' placeholder='Año' value={effectiveYear} onChange={({ target }) => setEffectiveYear(target.value)} />
+
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Frecuencia de Pago:</label>
                                             <FormControl required value={frequency} onChange={({ target }) => setFrequency(target.value)} as='select' size='sm'>
@@ -216,7 +220,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                             </FormControl>
                                         </FormGroup>
                                     </Col>
-                                    <Col sm={4}>
+                                    <Col sm={6}>
                                         <FormGroup>
                                             <label>Prima Total:</label>
                                             <InputGroup size='sm'>
@@ -254,7 +258,7 @@ const BulkModal = ({ keys, createBulkClients }) => {
         createBulkClients(data)
         setShow(false)
         setData([])
-       
+
     }
     return (
         <Fragment>
@@ -277,37 +281,25 @@ const BulkModal = ({ keys, createBulkClients }) => {
                         data.length > 0 &&
                         <Table size='sm' style={{ fontSize: '0.8em' }}>
                             <thead>
+
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Agente</th>
-                                    <th>Cobrador</th>
-                                    <th>Aseguradora</th>
-                                    <th>Plan</th>
-                                    <th>Opcion</th>
-                                    <th>Numero de Poliza</th>
-                                    <th>Tipo de Poliza</th>
-                                    <th>Prima</th>
-                                    <th>Fecha Efectiva</th>
-                                    <th>Fecha de Renovacion</th>
-                                    <th>Frecuencia de Pago</th>
+                                    {Object.keys(data[0]).map((header, index) => (
+                                        <th>{header}</th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     data.map(client => (
+
                                         <tr>
-                                            <td>{client.name}</td>
-                                            <td>{client.agent}</td>
-                                            <td>{client.collector}</td>
-                                            <td>{client.company}</td>
-                                            <td>{client.plan}</td>
-                                            <td>{client.option}</td>
-                                            <td>{client.policy_number}</td>
-                                            <td>{client.policy_type}</td>
-                                            <td>{client.prima}</td>
-                                            <td>{client.effective_date}</td>
-                                            <td>{client.renovation_date}</td>
-                                            <td>{client.frequency}</td>
+                                            {keys.map((h, k) => {
+                                                if (!client[h]) {
+                                                    return <td style={{ color: 'red' }}><b>--</b></td>
+                                                }
+                                                return <td>{client[h]}</td>
+                                            })}
+
                                         </tr>
                                     ))
                                 }

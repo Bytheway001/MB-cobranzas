@@ -14,15 +14,19 @@ export const CLIENT_PROFILE_REQUESTED = "CLIENT_PROFILE_REQUESTED";
 export const CLIENT_PROFILE_SUCCEEDED = "CLIENT_PROFILE_SUCCEEDED";
 export const CLIENT_PROFILE_FAILED = "CLIENT_PROFILE_FAILED";
 
+export const CLIENT_SHOW_REQUESTED = "CLIENT_SHOW_REQUESTED"
+export const CLIENT_SHOW_SUCCEEDED = "CLIENT_SHOW_SUCCEEDED"
+export const CLIENT_SHOW_FAILED = "CLIENT_SHOW_FAILED"
+
 export const CLIENT_LIST_REQUESTED = "CLIENT_LIST_REQUESTED";
 export const CLIENT_LIST_SUCCEEDED = "CLIENT_LIST_SUCCEEDED";
 export const CLIENT_LIST_FAILED = "CLIENT_LIST_FAILED";
 
 export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
 
-export const PAYMENT_CREATION_REQUESTED ="PAYMENT_CREATION_REQUESTED"
-export const PAYMENT_CREATION_SUCCEEDED="PAYMENT_CREATION_SUCCEEDED"
-export const PAYMENT_CREATION_FAILED='PAYMENT_CREATION_FAILED'
+export const PAYMENT_CREATION_REQUESTED = "PAYMENT_CREATION_REQUESTED"
+export const PAYMENT_CREATION_SUCCEEDED = "PAYMENT_CREATION_SUCCEEDED"
+export const PAYMENT_CREATION_FAILED = 'PAYMENT_CREATION_FAILED'
 
 const onAgentListRequested = () => ({ type: AGENT_LIST_REQUESTED })
 const onAgentListSucceeded = (data) => ({ type: AGENT_LIST_SUCCEEDED, payload: data })
@@ -32,31 +36,35 @@ const onCollectorListRequested = () => ({ type: COLLECTOR_LIST_REQUESTED })
 const onCollectorListSucceeded = (data) => ({ type: COLLECTOR_LIST_SUCCEEDED, payload: data })
 const onCollectorListFailed = (err) => ({ type: COLLECTOR_LIST_FAILED, payload: err })
 
-const onClientProfileRequested = () => ({ type: CLIENT_PROFILE_REQUESTED })
 const onClientProfileSucceeded = (profile) => ({ type: CLIENT_PROFILE_SUCCEEDED, payload: profile })
-const onClientProfileFailed = (err) => ({ type: CLIENT_PROFILE_FAILED, payload: err })
 
-const onClientListRequested = () => ({ type: CLIENT_LIST_REQUESTED })
+
+
+const onClientShowSucceeded = (data) => ({ type: CLIENT_SHOW_SUCCEEDED, payload: data })
+
+
+
 const onClientListSucceeded = (clientList) => ({ type: CLIENT_LIST_SUCCEEDED, payload: clientList })
 const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
 
-const onPaymentCreationRequested =()=>({type:PAYMENT_CREATION_REQUESTED});
-const onPaymentCreationSucceeded =(data)=>({type:PAYMENT_CREATION_SUCCEEDED,payload:data});
-const onPaymentCreationFailed = (err)=>({type:PAYMENT_CREATION_FAILED,payload:err})
+const onPaymentCreationRequested = () => ({ type: PAYMENT_CREATION_REQUESTED });
+const onPaymentCreationSucceeded = (data) => ({ type: PAYMENT_CREATION_SUCCEEDED, payload: data });
+const onPaymentCreationFailed = (err) => ({ type: PAYMENT_CREATION_FAILED, payload: err })
 
-const onClientProfileUpdated=(client)=>({type:CLIENT_PROFILE_UPDATED,payload:client})
+const onClientProfileUpdated = (client) => ({ type: CLIENT_PROFILE_UPDATED, payload: client })
 
 const initialState = {
     agents: [],
     collectors: [],
     loading: false,
-    creatingPayment:false
+    creatingPayment: false
 }
 
 const clientInitialState = {
     list: [],
     loading: false,
-    editing: null
+    editing: null,
+    showing: null
 }
 
 /** Functions */
@@ -68,23 +76,31 @@ export const getClientById = (id) => {
     }
 }
 
+export const showClientProfile = (id) => {
+    return dispatch => {
+        Axios.get(API + '/clients/show/' + id).then(res => {
+            dispatch(onClientShowSucceeded(res.data.data))
+        })
+    }
+}
+
 export const getClientList = (search = null) => {
-   
+
     let string = '';
     if (!search) {
-        string=API+'/clients/list';
+        string = API + '/clients/list';
     }
-    else{
-        string=API+'/clients/list?criteria='+search.criteria+'&term='+search.term
+    else {
+        string = API + '/clients/list?criteria=' + search.criteria + '&term=' + search.term
     }
 
     return dispatch => {
         Axios.get(string).then(res => {
             dispatch(onClientListSucceeded(res.data.data))
         })
-        .catch(err=>{
-            dispatch(onClientListFailed(err))
-        })
+            .catch(err => {
+                dispatch(onClientListFailed(err))
+            })
     }
 }
 
@@ -109,20 +125,20 @@ export const getCollectors = () => {
     }
 }
 
-export const UpdateClientPolicy=(id,data)=>{
-    return dispatch=>{
-        Axios.put(API+'/clients/'+id+'/update',data).then(res=>{
+export const UpdateClientPolicy = (id, data) => {
+    return dispatch => {
+        Axios.put(API + '/clients/' + id + '/update', data).then(res => {
             dispatch(onClientProfileUpdated(res.data.data))
-            dispatch(onSetNotification('success',"El perfil del cliente ha sido actualizado"))
+            dispatch(onSetNotification('success', "El perfil del cliente ha sido actualizado"))
         })
-        
+
     }
 }
 
 export const createClient = (data) => {
     return dispatch => {
         Axios.post(API + '/clients/create', data).then(res => {
-            dispatch(onSetNotification('success', 'res.data.data'))
+            dispatch(onSetNotification('success', 'Cliente Creado Correctamente'))
         })
     }
 
@@ -136,13 +152,17 @@ export const createBulkClients = (clientList) => {
     }
 }
 
-export const createPayment=(payment)=>{
-    return dispatch=>{
+export const createPayment = (payment) => {
+    return dispatch => {
         dispatch(onPaymentCreationRequested())
-        Axios.post(API+'/payments/create',payment).then(res=>{
+        Axios.post(API + '/payments/create', payment).then(res => {
             dispatch(onPaymentCreationSucceeded(res.data))
-            dispatch(onSetNotification('success','Pago creado con exito'))
-            console.log(res)
+            dispatch(onSetNotification('success', 'Pago creado con exito'))
+          
+        })
+        .catch(err=>{
+            dispatch(onSetNotification('danger', 'No se pudo crear este pago'))
+            dispatch(onPaymentCreationFailed('No se pudo crear este pago'))
         })
     }
 }
@@ -182,14 +202,18 @@ export const agentReducer = (state = initialState, action) => {
         case PAYMENT_CREATION_REQUESTED:
             return {
                 ...state,
-                creatingPayment:true
+                creatingPayment: true
             }
-            case PAYMENT_CREATION_SUCCEEDED:
+        case PAYMENT_CREATION_SUCCEEDED:
             return {
+                ...state,
+                creatingPayment: false
+            }
+        case PAYMENT_CREATION_FAILED:
+            return{
                 ...state,
                 creatingPayment:false
             }
-
         default:
             return state
     }
@@ -206,16 +230,22 @@ export const clientReducer = (state = clientInitialState, action) => {
         case CLIENT_PROFILE_SUCCEEDED:
             return {
                 ...state,
-                editing:action.payload,
-                loading:false
+                editing: action.payload,
+                loading: false
             }
         case CLIENT_PROFILE_UPDATED:
-            return{
+            return {
                 ...state,
-                editing:action.payload,
-                loading:false
+                editing: action.payload,
+                loading: false
             }
-        
+        case CLIENT_SHOW_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                showing:action.payload
+            }
+
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
 import './assets/scss/overrides.scss'
@@ -14,9 +14,9 @@ import PrivateRoute from './components/PrivateRoute';
 
 import NewClient from './components/Screens/Clients/New';
 import  NewPayment  from './components/Screens/Payments/New';
-import { ClientProfile } from './components/Screens/Clients/Profile';
+import ClientProfile from './components/Screens/Clients/Profile';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-
+import Reports from './components/Screens/Reports/Reports';
 
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
@@ -41,8 +41,9 @@ const AppRoutes = props => (
   <BasicLayout>
     <PrivateRoute exact path='/' comp={Dashboard} />
     <Route exact path='/clients/new' component={NewClient} />
-    <Route exact path='/clients/profile' component={ClientProfile} />
+    <Route exact path='/clients/profile/:id' component={ClientProfile} />
     <Route exact path='/payments/new' component={NewPayment} />
+    <Route exact path='/reports' component={Reports} />
   </BasicLayout>
 
 )

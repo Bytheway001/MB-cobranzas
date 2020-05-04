@@ -8,6 +8,7 @@ import { UpdateClientPolicy, getCollectors } from '../../../ducks/agents';
 export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getCollectorList }) => {
     useEffect(() => {
         getCollectorList()
+         // eslint-disable-next-line
     }, [])
     const initialState = {
         plan: [client.plan],
@@ -17,7 +18,8 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         frequency: client.frequency,
         collector: [{ id: client.collector_id, name: client.collector }],
         policyType: client.policy_type,
-        policyNumber: client.policy_number
+        policyNumber: client.policy_number,
+        phone:client.phone
     }
 
 
@@ -30,6 +32,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
     const [collector, setCollector] = useState(initialState.collector)
     const [policyNumber, setPolicyNumber] = useState(initialState.policyNumber)
     const [policyType, setPolicyType] = useState(initialState.policyType)
+    const [phone,setPhone]=useState(initialState.phone)
     const handleClose = () => {
         setShow(false)
         setPlan(initialState.plan)
@@ -37,6 +40,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         setCompany(initialState.company)
         setPrima(initialState.prima)
         setFrequency(initialState.frequency)
+        setPhone(initialState.phone)
     };
     const handleShow = () => {
         setPlan(initialState.plan)
@@ -44,6 +48,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         setCompany(initialState.company)
         setPrima(initialState.prima)
         setFrequency(initialState.frequency)
+        setPhone(initialState.phone)
         setShow(true);
     }
 
@@ -58,10 +63,12 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
             frequency,
             collector_id: collector.length > 0 ? collector[0].id : '',
             policy_type: policyType,
-            policy_number: policyNumber
+            policy_number: policyNumber,
+            phone:phone
         }
     
         updateClientPolicy(c.id,c)
+        handleClose()
     }
 
     return (
@@ -78,6 +85,10 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
                     <Form id='clientModal' onSubmit={handleSubmit}>
                         <Row>
                             <Col sm={6}>
+                            <FormGroup>
+                                    <label>Telefono</label>
+                                    <FormControl size='sm' value={phone} onChange={({ target }) => setPhone(target.value)} />
+                                </FormGroup>
                                 <FormGroup>
                                     <label>Numero de Poliza</label>
                                     <FormControl size='sm' value={policyNumber} onChange={({ target }) => setPolicyNumber(target.value)} />
@@ -102,7 +113,8 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
                                         id='plan'
                                         clearButton={true} size='sm'
                                         selected={plan}
-                                        options={Companies.find(x => x.slug === company.id) && Companies.find(x => x.slug === company).plans.map(plan => plan) || []}
+                                        options={(Companies.find(x => x.slug === company.id) && Companies.find(x => x.slug === company).plans.map(plan => plan)) || []}
+                                        allowNew={true}
                                         onChange={setPlan}
                                         labelKey='name'
                                     />

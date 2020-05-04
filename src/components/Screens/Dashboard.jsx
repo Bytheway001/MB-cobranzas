@@ -119,7 +119,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                             <td>{new Date(client.effective_date).toLocaleDateString()}</td>
                                             <td>{new Date(client.renovation_date).toLocaleDateString()}</td>
                                             <td>{client.frequency}</td>
-                                            <td><Button as={Link} to='/clients/profile' block size='sm'>Ver</Button></td>
+                                            <td><Button as={Link} to={'/clients/profile/'+client.id} block size='sm'>Ver</Button></td>
                                         </tr>
                                     ))
                                 }

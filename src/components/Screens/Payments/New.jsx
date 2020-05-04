@@ -1,25 +1,26 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import { Companies } from '../../../utils/utils';
+
 import { connect } from 'react-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { getClientList, getClientById } from '../../../ducks/agents'
-import { Modal, Form, Row, Col, Card, Button, FormGroup, FormControl } from 'react-bootstrap';
+import {  Form, Row, Col, Card,  FormGroup } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
-import ReactDatePicker from 'react-datepicker';
+
 import  FormCobranza  from './FormCobranza';
 const NewPayment = ({ clients, getClientList, getClientById }) => {
     const [client, setClient] = useState([]);
-    const [profile, setProfile] = useState(null);
+
 
     useEffect(() => {
         getClientList()
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
         if (client.length > 0) {
             getClientById(client[0].id)
         }
-
+// eslint-disable-next-line
     }, [client])
 
 
@@ -36,7 +37,7 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                             </FormGroup>
 
 
-                            <Button block>Registrar Pago</Button>
+                           
                         </Form>
 
                     </Card.Body>
@@ -52,6 +53,7 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                                     <Row>
                                         <Col sm={3}>
                                             <TextGroup label='Nombre' text={clients.editing.name} />
+                                            <TextGroup label='Telefono:' text={clients.editing.phone || '--'} />
                                             <TextGroup label='Agente:' text={clients.editing.agent} />
                                             <TextGroup label='Cobrador:' text={clients.editing.collector} />
 
@@ -72,7 +74,6 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                                             <TextGroup label='Frecuencia de Pago:' text={clients.editing.frequency} />
                                             <TextGroup label='Fecha Efectiva:' text={new Date(clients.editing.effective_date).toLocaleDateString()} />
                                             <TextGroup label='Fecha de Renovacion:' text={new Date(clients.editing.renovation_date).toLocaleDateString()} />
-
                                         </Col>
 
                                     </Row>

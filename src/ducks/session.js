@@ -3,9 +3,9 @@ export const LOGIN_SUCCEEDED = "LOGIN_SUCCEEDED";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT_SUCCEEDED = "LOGOUT_SUCCEEDED";
 
-const onLoginRequested = ()=>({type:LOGIN_REQUESTED})
+
 const onLoginSucceeded = (data)=>({type:LOGIN_SUCCEEDED,payload:data})
-const onLoginFailed = (error)=>({type:LOGIN_REQUESTED,payload:error})
+
 const onLogoutSucceeded = ()=>({type:LOGOUT_SUCCEEDED})
 
 
