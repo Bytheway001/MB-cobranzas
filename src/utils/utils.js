@@ -1,7 +1,7 @@
 export const Companies = [
     {
         id: 1,
-        name: 'Best Doctors',
+        name: 'BEST DOCTORS',
         slug: 'bestdoctors',
         plans: [
             {
@@ -44,7 +44,7 @@ export const Companies = [
     },
     {
         id: 2,
-        name: 'Allianz Care',
+        name: 'ALLIANZ',
         slug: 'allianz',
         plans: [
             {
@@ -75,7 +75,7 @@ export const Companies = [
     },
     {
         id:3,
-        name:'Vumi Group',
+        name:'VUMI',
         slug:'vumi',
         plans:[
             {
@@ -102,7 +102,7 @@ export const Companies = [
     },
     {
         id:4,
-        name:'Bupa Salud',
+        name:'BUPA BOLIVIA',
         slug:'bupa',
         plans:[
             {

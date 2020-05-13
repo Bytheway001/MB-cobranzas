@@ -1,16 +1,19 @@
 import React, { useEffect, Fragment } from 'react';
-import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup, Modal, Table } from 'react-bootstrap';
+import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { getAgents, getCollectors, createClient, createBulkClients } from '../../../ducks/agents';
 import { connect } from 'react-redux';
-import CsvParse from '@vtex/react-csv-parse'
+
 import { Companies } from '../../../utils/utils';
+import { BulkModal } from './BulkModal';
 const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
-    const [name, setName] = useState('');
+    const [first_name, setFirstName] = useState('');
+    const [comment, setComment] = useState('');
+    const [last_name, setLastName] = useState('');
     const [agent, setAgent] = useState([])
-    const [cobrador, setCobrador] = useState([])
+    const [collector, setCollector] = useState([])
     const [policyNumber, setPolicyNumber] = useState('')
     const [policyType, setPolicyType] = useState('')
     const [company, setCompany] = useState('')
@@ -24,12 +27,11 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [effectiveDay, setEffectiveDay] = useState('')
     const [frequency, setFrequency] = useState('')
     const [prima, setPrima] = useState('')
+    const [h_id, setHubspotId] = useState('');
 
     useEffect(() => {
-
         getAgents();
         getCollectors()
-        // eslint-disable-next-line
     }, [])
 
     const handleSubmit = (e) => {
@@ -37,9 +39,9 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         let renovationDate = `${renovationDay}-${renovationMonth}-${renovationYear}`
         let effectiveDate = `${effectiveDay}-${effectiveMonth}-${effectiveYear}`
         let client = {
-            name,
+            first_name,
             agent_id: agent[0].id,
-            collector_id: cobrador[0].id,
+            collector_id: collector[0].id,
             policy_number: policyNumber,
             policy_type: policyType,
             company: Companies.find(x => x.slug === company).name,
@@ -50,26 +52,24 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             frequency,
             prima
         }
-        console.log(client)
         createClient(client)
     }
+    
     const year = new Date().getFullYear()
     const keys = [
-        'h_id',
-        'first_name',
-        'last_name',
-        'phone_number',
-        'collector',
         'company',
-        'effective_date',
-        'renovation_date',
-        'plan',
+        'comment',
         'policy_number',
-        'prima',
+        'h_id',
+        'collector',
+        'name',
+        'plan',
         'option',
+        'renovation_date',
+        'effective_date',
+        'frequency',
         'agent',
     ]
-
 
     return (
         <Fragment>
@@ -79,10 +79,25 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                         <Card>
                             <Card.Header className='bg-primary text-light' >Datos del Usuario</Card.Header>
                             <Card.Body>
-                                <FormGroup>
-                                    <label>Nombre y Apellido:</label>
-                                    <FormControl required value={name} size='sm' onChange={({ target }) => setName(target.value)} />
-
+                                <FormGroup as={Row}>
+                                    <Col sm={6}>
+                                        <label>Nombre:</label>
+                                        <FormControl required value={first_name} size='sm' onChange={({ target }) => setFirstName(target.value)} />
+                                    </Col>
+                                    <Col sm={6}>
+                                        <label>Apellido:</label>
+                                        <FormControl required value={last_name} size='sm' onChange={({ target }) => setLastName(target.value)} />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup as={Row}>
+                                    <Col sm={6}>
+                                        <label>ID en Hubspot</label>
+                                        <FormControl value={h_id} size='sm' onChange={({ target }) => setHubspotId(target.value)} />
+                                    </Col>
+                                    <Col sm={6}>
+                                        <label>Cobrador:</label>
+                                        <Typeahead inputProps={{ required: true }} id='cobrador' clearButton={true} size='sm' selected={collector} labelKey='name' onChange={setCollector} options={collectors} />
+                                    </Col>
                                 </FormGroup>
                                 <FormGroup>
                                     <label>Agente:</label>
@@ -90,9 +105,12 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
 
                                 </FormGroup>
                                 <FormGroup>
-                                    <label>Cobrador:</label>
-                                    <Typeahead inputProps={{ required: true }} id='cobrador' clearButton={true} size='sm' selected={cobrador} labelKey='name' onChange={setCobrador} options={collectors} />
 
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <label>Comentario:</label>
+                                    <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
                                 </FormGroup>
                                 <Button type='submit'>Crear</Button>
                             </Card.Body>
@@ -248,76 +266,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     )
 }
 
-const BulkModal = ({ keys, createBulkClients }) => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [data, setData] = useState([])
-    const handleSubmit = (e) => {
-        console.log(data)
-        createBulkClients(data)
-        setShow(false)
-        setData([])
 
-    }
-    return (
-        <Fragment>
-            <Button size='lg' variant="primary" onClick={handleShow}>Cargar Via CSV</Button>
-
-
-            <Modal dialogClassName="modal-90w" size='lg' show={show} onHide={handleClose}>
-
-                <Modal.Header closeButton>
-                    <Modal.Title>Crear Clientes en Masa</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormGroup>
-                        <CsvParse
-                            keys={keys}
-                            onDataUploaded={(data) => setData(data)}
-                            render={onChange => <FormControl type='file' onChange={onChange} />} />
-                    </FormGroup>
-                    {
-                        data.length > 0 &&
-                        <Table size='sm' style={{ fontSize: '0.8em' }}>
-                            <thead>
-
-                                <tr>
-                                    {Object.keys(data[0]).map((header, index) => (
-                                        <th>{header}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    data.map(client => (
-
-                                        <tr>
-                                            {keys.map((h, k) => {
-                                                if (!client[h]) {
-                                                    return <td style={{ color: 'red' }}><b>--</b></td>
-                                                }
-                                                return <td>{client[h]}</td>
-                                            })}
-
-                                        </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </Table>
-
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>Cancelar</Button>
-                    <Button onClick={handleSubmit} variant="primary">Continuar</Button>
-                </Modal.Footer>
-
-            </Modal>
-
-        </Fragment>
-    );
-}
 
 const mapStateToProps = state => (
     {

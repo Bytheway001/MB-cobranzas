@@ -45,6 +45,7 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
             </Col>
             {
                 clients.editing ?
+                    
                     <Fragment>
                         <Col sm={8} className='mb-5'>
                             <Card>
@@ -72,8 +73,8 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                                         </Col>
                                         <Col sm={3}>
                                             <TextGroup label='Frecuencia de Pago:' text={clients.editing.frequency} />
-                                            <TextGroup label='Fecha Efectiva:' text={new Date(clients.editing.effective_date).toLocaleDateString()} />
-                                            <TextGroup label='Fecha de Renovacion:' text={new Date(clients.editing.renovation_date).toLocaleDateString()} />
+                                            <TextGroup label='Fecha Efectiva:' text={clients.editing.effective_date} />
+                                            <TextGroup label='Fecha de Renovacion:' text={clients.editing.renovation_date} />
                                         </Col>
 
                                     </Row>

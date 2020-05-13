@@ -98,9 +98,8 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <th>Aseguradora</th>
                                     <th>Plan</th>
                                     <th>Opcion</th>
-
-                                    <th>Fecha Efectiva</th>
                                     <th>Fecha Renovacion</th>
+                                    <th>Fecha Efectiva</th>
                                     <th>Frecuencia de Pago</th>
                                     <th>Ver</th>
                                 </tr>
@@ -116,8 +115,8 @@ const Dashboard = ({ getClientList, clients }) => {
                                             <td>{client.company}</td>
                                             <td>{client.plan}</td>
                                             <td>{client.option}</td>
-                                            <td>{new Date(client.effective_date).toLocaleDateString()}</td>
-                                            <td>{new Date(client.renovation_date).toLocaleDateString()}</td>
+                                            <td>{client.effective_date}</td>
+                                            <td>{client.renovation_date}</td>
                                             <td>{client.frequency}</td>
                                             <td><Button as={Link} to={'/clients/profile/'+client.id} block size='sm'>Ver</Button></td>
                                         </tr>

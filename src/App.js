@@ -17,9 +17,16 @@ import  NewPayment  from './components/Screens/Payments/New';
 import ClientProfile from './components/Screens/Clients/Profile';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Reports from './components/Screens/Reports/Reports';
+import {BulkPayments} from './components/Screens/Payments/Bulk'
+import { RCC } from './components/Screens/Reports/components/RCC';
+import NewExpense from './components/Screens/Expenses/New';
+import Expenses from './components/Screens/Expenses/Expenses';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
-
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const store = createStore(rootReducer, 
+  composeWithDevTools(
+  applyMiddleware(thunk))
+  );
 if (localStorage.getItem('user')) {
   store.dispatch({ type: 'LOGIN_SUCCEEDED', payload: JSON.parse(localStorage.getItem('user')) })
 }
@@ -44,6 +51,10 @@ const AppRoutes = props => (
     <Route exact path='/clients/profile/:id' component={ClientProfile} />
     <Route exact path='/payments/new' component={NewPayment} />
     <Route exact path='/reports' component={Reports} />
+    <Route exact path='/reports/rcc' component={RCC} />
+    <Route exact path='/payments/bulk' component={BulkPayments}/>
+    <Route exact path='/expenses' component={Expenses}/>
+    <Route exact path='/expenses/new' component={NewExpense}/>
   </BasicLayout>
 
 )
