@@ -4,6 +4,8 @@ import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, InputGro
 import ReactDatePicker from 'react-datepicker';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
+import { PaymentMethodOptions, AccountsOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
+import { Input, Select, DatePicker } from '../../custom/Controls';
 export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
@@ -16,6 +18,20 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
     const [currency, setCurrency] = useState('')
+
+    const customSetMethod = (value) => {
+        if (value == 'cash_to_agency') {
+            setAccount(1);
+        }
+        else if (value == 'check_to_local_agency' || value == 'check_to_foreign_agency') {
+            setAccount(5)
+        }
+        else {
+            setAccount("")
+        }
+        setMethod(value)
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,10 +50,11 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
             account
         }
         createPayment(payment)
-
     }
-  
-    
+
+    const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
+
+
     return (
         <Card>
             <Card.Header className='bg-primary text-light'>Registrar Cobranza</Card.Header>
@@ -45,120 +62,25 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                 <Form onSubmit={handleSubmit}>
                     <Row>
                         <Col sm={4}>
-                            <FormGroup>
-                                <label>Metodo de Pago</label>
-                                <FormControl size='sm' value={method} onChange={({ target }) => setMethod(target.value)} as='select' required>
-                                    <option value=''>Seleccione...</option>
-                                    <optgroup label='Pagos a la Aseguradora'>
-                                        <option value='tdc_to_company'>Pago Directo en su portal de cliente con Tarjeta de Credito</option>
-                                        <option value='transfer_to_company'>Pago con transferencia Bancaria a la Aseguradora</option>
-                                        <option value='check_to_foreign_company'>Pago con cheque extranjero a la Aseguradora</option>
-                                        <option value='tdc_to_collector'>Pago con Tarjeta de Credito para que cobradora pague la poliza</option>
-                                        <option value='claim_to_company'>Pago con abono de reclamo</option>
-                                    </optgroup>
-                                    <optgroup label='Pagos a la agencia'>
-                                        <option value='transfer_to_local_agency'>Pago con transferencia bancaria a cuenta local de agencia</option>
-                                        <option value='transfer_to_foreign_agency'>Pago con transferencia bancaria a cuenta extranjera a la agencia</option>
-                                        <option value='check_to_foreign_agency'>Pago con cheque extranjero a la agencia</option>
-                                        <option value='check_to_local_agency'>Pago con cheque local a la agencia</option>
-                                        <option value='cash_to_agency'>Pago en efectivo la agencia</option>
-                                    </optgroup>
-
-
-
-
-
-                                </FormControl>
-                            </FormGroup>
-                            {
-                                (method === 'transfer_to_local_agency' || method === 'transfer_to_foreign_agency') &&
-                                <FormGroup>
-                                    <label>Cuenta Receptora:</label>
-                                    <FormControl size='sm' as='select' value={account} onChange={({ target }) => setAccount(target.value)} required>
-                                        <option value="1">Cuenta 1</option>
-                                        <option value='2'>Cuenta 2</option>
-                                        <option value='3'>Cuenta 3</option>
-                                    </FormControl>
-                                </FormGroup>
-                            }
-
-
-                            <FormGroup >
-                                <label>Tipo de Pago</label>
-                                <FormControl size='sm' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} as='select' required>
-                                    <option value=''>Seleccione...</option>
-                                    <option value='total'>Prima Completa</option>
-                                    <option value='partial'>Pago Parcial</option>
-
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Departamento:</label>
-                                <FormControl size='sm' as='select' value={city} onChange={({ target }) => setCity(target.value)} required>
-                                    <option value="sc">Santa Cruz</option>
-                                    <option value='lp'>La Paz</option>
-                                    <option value='cb'>Cochabamba</option>
-
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Fecha de Pago:</label>
-                                <ReactDatePicker required className='form-control form-control-sm' onChange={setPaymentDate} dateFormat='dd/MM/yyyy' selected={paymentDate} />
-                            </FormGroup>
+                            <Select label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
+                            <Select label='Cuenta Receptora' value={account} onChange={({ target }) => setAccount(target.value)} options={<AccountsOptions />} />
+                            <Select label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
+                            <Select label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
+                            <DatePicker label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
-                            <FormGroup>
-                                <label>Descuento de Aseguradora:</label>
-                                <InputGroup size='sm'>
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text>$</InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <FormControl size='sm' required type='number' value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Descuento de Agencia:</label>
-                                <InputGroup size='sm'>
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text>$</InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <FormControl size='sm' required type='number' value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Descuento de Agente:</label>
-                                <InputGroup size='sm'>
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text>$</InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <FormControl size='sm' required type='number' value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
-                                </InputGroup>
-
-                            </FormGroup>
-                            <FormGroup>
-                                <Row>
-                                    <Col sm={4}>
-                                        <label>Moneda:</label>
-                                        <FormControl size='sm' as='select' value={currency} onChange={({ target }) => setCurrency(target.value)} required>
-                                            <option value=''>Seleccione...</option>
-                                            <option value='USD'>USD</option>
-                                            <option value='BOB'>Bolivianos</option>
-                                        </FormControl>
-
-                                    </Col>
-                                    <Col sm={8}>
-                                        <label>Monto Cancelado:</label>
-                                        <InputGroup size='sm'>
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text>$</InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <FormControl required size='sm' type='text' value={amount} onChange={({ target }) => setAmount(target.value)} />
-                                        </InputGroup>
-
-                                    </Col>
-                                </Row>
-
-                            </FormGroup>
+                            <Input type='number' label='Descuento de Aseguradora' prepend='$' value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
+                            <Input type='number' label='Descuento de Agencia:' prepend='$' value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
+                            <Input type='number' label='Descuento de Agente:' prepend='$' value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
+                         
+                            <Row>
+                                <Col sm={6}>
+                                <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
+                                </Col>
+                                <Col sm={6}>
+                                <Input type='number' label='Monto Cancelado:' prepend='$' value={amount} onChange={({ target }) => setAmount(target.value)} required/>
+                                </Col>
+                            </Row>
                         </Col>
                         <Col sm={5}>
                             <FormGroup>
@@ -167,12 +89,9 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
 
                                 </FormControl>
                             </FormGroup>
-                            <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border'/> : 'Registrar Cobranza'} </Button>
+                            <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border' /> : 'Registrar Cobranza'} </Button>
                         </Col>
                     </Row>
-
-
-
                 </Form>
             </Card.Body>
         </Card>

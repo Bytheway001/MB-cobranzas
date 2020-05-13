@@ -18,6 +18,7 @@ const Navbar = ({ user, logout, login }) => {
                     <Nav.Link as={Link} to='/clients/new'>Crear Cliente</Nav.Link>
                     <Nav.Link as={Link} to='/payments/new'>Registrar Cobranza</Nav.Link>
                     <Nav.Link as={Link} to='/reports'>Reportes</Nav.Link>
+                    <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>
                 </Nav>
                 <Nav className="ml-auto">
 
