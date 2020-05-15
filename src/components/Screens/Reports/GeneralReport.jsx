@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { API } from '../../../ducks/root';
 import { formatMoney } from '../../../utils/utils';
 import ReactDatePicker from 'react-datepicker';
+import { AccountsArray } from '../../../options/options';
 
 const GeneralReport = props => {
 
@@ -169,7 +170,7 @@ const GeneralReport = props => {
                                                     <td>{r.client}</td>
                                                     <td>{r.collector}</td>
                                                     <td>{r.payment_method}</td>
-                                                    <td>{r.account}</td>
+                                                    <td>{AccountsArray[r.account] }</td>
                                                     <td>{r.currency}</td>
                                                     <td> <td>{formatMoney(r.amount, 0, '.', ',', '')}</td></td>
 

@@ -22,6 +22,8 @@ import { RCC } from './components/Screens/Reports/components/RCC';
 import NewExpense from './components/Screens/Expenses/New';
 import Expenses from './components/Screens/Expenses/Expenses';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import PaymentsReport from './components/Screens/Reports/Payments';
+import GeneralReport from './components/Screens/Reports/GeneralReport';
 
 const store = createStore(rootReducer, 
   composeWithDevTools(
@@ -52,6 +54,8 @@ const AppRoutes = props => (
     <Route exact path='/payments/new' component={NewPayment} />
     <Route exact path='/reports' component={Reports} />
     <Route exact path='/reports/rcc' component={RCC} />
+    <Route exact path='/reports/general' component={GeneralReport}/>
+    <Route exact path='/reports/payments' component={PaymentsReport}/>
     <Route exact path='/payments/bulk' component={BulkPayments}/>
     <Route exact path='/expenses' component={Expenses}/>
     <Route exact path='/expenses/new' component={NewExpense}/>

@@ -23,8 +23,8 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
         if (value == 'cash_to_agency') {
             setAccount(1);
         }
-        else if (value == 'check_to_local_agency' || value == 'check_to_foreign_agency') {
-            setAccount(5)
+        else if (value == 'check_to_agency_local' || value == 'check_to_agency_foreign') {
+            setAccount(9)
         }
         else {
             setAccount("")
@@ -53,8 +53,6 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
-
-
     return (
         <Card>
             <Card.Header className='bg-primary text-light'>Registrar Cobranza</Card.Header>

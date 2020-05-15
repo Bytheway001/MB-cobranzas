@@ -9,14 +9,12 @@ const Reports = (props)=>{
                 <h1 className="text-center">Seleccione un reporte</h1>
             </Col>
             <Col sm={4}>
-                <Button block>Reporte General</Button>
+                <Button as={Link} to='/reports/payments' block>Reporte General de Cobranzas</Button>
                 <Button as={Link} to='/reports/rcc' block>Reporte de Cobranza por compañias</Button>
-                <Button block>Reporte de Estado de Clientes</Button>
+                <Button as={Link} to='/reports/general' block>Reporte general de Estado</Button>
             </Col>
         </Row>
     )
 }
-
-
 
 export default Reports
