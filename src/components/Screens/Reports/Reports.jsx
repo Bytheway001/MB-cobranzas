@@ -12,6 +12,7 @@ const Reports = (props)=>{
                 <Button as={Link} to='/reports/payments' block>Reporte General de Cobranzas</Button>
                 <Button as={Link} to='/reports/rcc' block>Reporte de Cobranza por compañias</Button>
                 <Button as={Link} to='/reports/general' block>Reporte general de Estado</Button>
+                <Button as={Link} to='/reports/general' block>Cheques en Transito</Button>
             </Col>
         </Row>
     )

@@ -73,7 +73,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
 
     return (
         <>
-            <Button onClick={handleShow} block>Actualizar Poliza</Button>
+            <Button size='sm' onClick={handleShow} block>Actualizar Poliza</Button>
 
             <Modal size='lg' show={show} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>

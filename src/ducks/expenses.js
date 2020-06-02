@@ -24,7 +24,9 @@ export const getExpenses = () => {
 
 
 const initialState = {
-    list: []
+    list: [],
+    expenses:[],
+    payments:[]
 }
 
 export const expensesReducer = (state = initialState, action) => {
@@ -32,7 +34,8 @@ export const expensesReducer = (state = initialState, action) => {
         case EXPENSES_LIST_SUCCEEDED:
             return {
                 ...state,
-                list: action.payload
+                expenses:action.payload.expenses,
+                payments:action.payload.payments
             }
         case EXPENSES_LIST_REQUESTED:
             return {

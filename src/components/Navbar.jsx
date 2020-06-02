@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar as Bar, Nav, Button, Image } from 'react-bootstrap'
+import { Navbar as Bar, Nav, Button, Image, NavDropdown } from 'react-bootstrap'
 import { login, logout } from '../ducks/session';
 import { connect } from 'react-redux'
 import { GoogleLogout } from 'react-google-login';
@@ -16,7 +16,11 @@ const Navbar = ({ user, logout, login }) => {
                 <Nav className='mr-auto'>
                     <Nav.Link as={Link} to='/'>Inicio</Nav.Link>
                     <Nav.Link as={Link} to='/clients/new'>Crear Cliente</Nav.Link>
-                    <Nav.Link as={Link} to='/payments/new'>Registrar Cobranza</Nav.Link>
+                    <NavDropdown title='Operaciones'>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
+                    </NavDropdown>
                     <Nav.Link as={Link} to='/reports'>Reportes</Nav.Link>
                     <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>
                 </Nav>
@@ -28,8 +32,6 @@ const Navbar = ({ user, logout, login }) => {
                         <Image src={user.imageUrl} height={32} style={{ borderRadius: 50, cursor: 'pointer' }} />
                     </Bar.Text>
                     <Bar.Brand>
-
-
                     </Bar.Brand>
                     <GoogleLogout
                         clientId='346512427285-0gs9tg2cvhd0v4b3r5h7dvjitm8fkcal.apps.googleusercontent.com'

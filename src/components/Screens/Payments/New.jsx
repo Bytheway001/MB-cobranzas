@@ -1,26 +1,20 @@
+// Formulario para nueva cobranza 
 import React, { useEffect, useState, Fragment } from 'react'
-
 import { connect } from 'react-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { getClientList, getClientById } from '../../../ducks/agents'
-import {  Form, Row, Col, Card,  FormGroup } from 'react-bootstrap';
+import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
 
-import  FormCobranza  from './FormCobranza';
+import FormCobranza from './FormCobranza';
+import ClientSelect from '../../custom/ClientSelect';
 const NewPayment = ({ clients, getClientList, getClientById }) => {
     const [client, setClient] = useState([]);
-
-
-    useEffect(() => {
-        getClientList()
-        // eslint-disable-next-line
-    }, [])
-
     useEffect(() => {
         if (client.length > 0) {
             getClientById(client[0].id)
         }
-// eslint-disable-next-line
+        // eslint-disable-next-line
     }, [client])
 
 
@@ -33,70 +27,85 @@ const NewPayment = ({ clients, getClientList, getClientById }) => {
                         <Form>
                             <FormGroup>
                                 <label>Cliente:</label>
-                                <Typeahead id='client' options={clients.list} onChange={setClient} selected={client} labelKey='name' />
+                                <ClientSelect onChange={setClient} selected={client}/>
+
                             </FormGroup>
-
-
-                           
                         </Form>
+                        {
+                            clients.editing ?
+                                <Row>
+                                    <Col sm={12}>
+                                    <p>Datos del cliente</p>
+                                    </Col>
+                                    <Col sm={12}>
+                                    <Table size='sm'>
+                                       
+                                        <tr>
+                                            <th># Poliza</th>
+                                            <td>{clients.editing.policy_number}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nombre:</th>
+                                            <td>{clients.editing.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Telefono:</th>
+                                            <td>{clients.editing.phone}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Aseguradora</th>
+                                            <td>{clients.editing.company}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Plan/Opcion:</th>
+                                            <td>{clients.editing.plan} / {clients.editing.option}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Frecuencia de Pago</th>
+                                            <td>{clients.editing.frequency}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha Efectiva</th>
+                                            <td>{clients.editing.effective_date}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha de Renovacion</th>
+                                            <td>{clients.editing.renovation_date}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Prima</th>
+                                            <td>{clients.editing.prima}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Agente</th>
+                                            <td>{clients.editing.agent}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Cobrador</th>
+                                            <td>{clients.editing.collector}</td>
+                                        </tr>
+                                        <tr>
+                                           <th colSpan={2}><UpdateClientModal /></th>
+                                       </tr>
+                                    </Table>
+                                    </Col>
+                                   
+                                </Row>
+                                :
+                                null
+                        }
 
                     </Card.Body>
                 </Card>
             </Col>
-            {
-                clients.editing ?
-                    
-                    <Fragment>
-                        <Col sm={8} className='mb-5'>
-                            <Card>
-                                <Card.Header className='bg-primary text-light'>2.- Poliza del cliente</Card.Header>
-                                <Card.Body>
-                                    <Row>
-                                        <Col sm={3}>
-                                            <TextGroup label='Nombre' text={clients.editing.name} />
-                                            <TextGroup label='Telefono:' text={clients.editing.phone || '--'} />
-                                            <TextGroup label='Agente:' text={clients.editing.agent} />
-                                            <TextGroup label='Cobrador:' text={clients.editing.collector} />
-
-                                        </Col>
-                                        <Col sm={3}>
-                                            <TextGroup label='Aseguradora:' text={clients.editing.company} />
-                                            <TextGroup label='Plan:' text={clients.editing.plan} />
-                                            <TextGroup label='Opcion:' text={clients.editing.option} />
-
-                                        </Col>
-                                        <Col sm={3}>
-                                            <TextGroup label='Numero de Poliza:' text={clients.editing.policy_number} />
-                                            <TextGroup label='Tipo de poliza:' text={clients.editing.policy_type} />
-                                            <TextGroup label='Prima:' text={clients.editing.prima} />
-
-                                        </Col>
-                                        <Col sm={3}>
-                                            <TextGroup label='Frecuencia de Pago:' text={clients.editing.frequency} />
-                                            <TextGroup label='Fecha Efectiva:' text={clients.editing.effective_date} />
-                                            <TextGroup label='Fecha de Renovacion:' text={clients.editing.renovation_date} />
-                                        </Col>
-
-                                    </Row>
-                                </Card.Body>
-                                <Card.Footer>
-                                    <Row>
-                                        <Col sm={12}>
-                                            <UpdateClientModal />
-                                        </Col>
-
-                                    </Row>
-                                </Card.Footer>
-                            </Card>
-                        </Col>
-                        <Col sm={12}>
-                            <FormCobranza id={clients.editing.id} />
-                        </Col>
-                    </Fragment>
+            <Col sm={8}>
+                {
+                    clients.editing?
+                    <FormCobranza id={clients.editing.id}/>
                     :
                     null
-            }
-
+                }
+            </Col>
         </Row>
 
     )
@@ -118,8 +127,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getClientList: () => dispatch(getClientList()),
     getClientById: (id) => dispatch(getClientById(id))
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(NewPayment);

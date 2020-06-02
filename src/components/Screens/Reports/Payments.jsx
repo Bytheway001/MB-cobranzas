@@ -3,9 +3,9 @@ import { Row, Col, Table, Button } from 'react-bootstrap'
 import { getPaymentList, validatePayment } from '../../../ducks/payments'
 import { connect } from 'react-redux'
 import { formatMoney } from '../../../utils/utils'
-import { MethodsArray, AccountsArray } from '../../../options/options'
+import { MethodsArray } from '../../../options/options'
 
-const PaymentsReport = ({ getPayments, list, validate }) => {
+const PaymentsReport = ({ getPayments, list, validate,accounts }) => {
     useEffect(() => {
         getPayments()
     }, [])
@@ -62,7 +62,7 @@ const PaymentsReport = ({ getPayments, list, validate }) => {
                                     </td>
                                     <td>{payment.collector}</td>
                                     <td style={{fontSize:'0.8em'}}>{MethodsArray[payment.payment_method]}</td>
-                                    <td>{AccountsArray[payment.account] }</td>
+                                    <td>{accounts.length>0&&accounts.find(x=>x.id==payment.account).name}</td>
                                 </tr>
                             )
                             )
@@ -74,7 +74,10 @@ const PaymentsReport = ({ getPayments, list, validate }) => {
     )
 }
 const mapStateToProps = state => (
-    { list: state.payments.list, }
+    { 
+        list: state.payments.list,
+        accounts:state.accounts.list
+     }
 )
 const mapDispatchToProps = dispatch => (
     {

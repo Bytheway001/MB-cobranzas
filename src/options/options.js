@@ -18,7 +18,7 @@ export const PaymentMethodOptions = () => {
                     { value: 'transfer_to_agency_local', label: 'Pago con transferencia bancaria a cuenta local de agencia' },
                     { value: 'transfer_to_agency_foreign', label: 'Pago con transferencia bancaria a cuenta extranjera a la agencia' },
                     { value: 'check_to_agency_local', label: 'Pago con cheque local a la agencia' },
-                    { value: 'check_to_agency_foreign', label: "Pago con cheque local a a la agencia" },
+                    { value: 'check_to_agency_foreign', label: "Pago con cheque extranjero a a la agencia" },
                     { value: 'cash_to_agency', label: 'Pago en efectivo a la agencia' }
                 ]
         }
@@ -50,21 +50,6 @@ export const CurrencyOptions = () => {
     )
 }
 
-export const AccountsOptions = () => {
-    return (
-        <Fragment>
-            <option value='1'>Caja</option>
-            <option value="2">17. Cuenta Bisa (USD)</option>
-            <option value='3'>21. BISA (USD)</option>
-            <option value='4'>14. BISA (BOB)</option>
-            <option value='5'>10. BISA-FDR (USD)</option>
-            <option value='6'>2014. BISA-FDR (USD)</option>
-            <option value='7'>0011. BISA-FDR (USD)</option>
-            <option value='8'>99. BISA-FDR (USD)</option>
-            <option value='9'>Cheques en Transito</option>
-        </Fragment>
-    )
-}
 
 export const OfficeOptions = () => (
     <Fragment>
@@ -105,20 +90,6 @@ export const MethodsArray = {
     transfer_to_agency_local: 'Pago con transferencia bancaria a cuenta local de agencia',
     transfer_to_agency_foreign: 'Pago con transferencia bancaria a cuenta extranjera a la agencia',
     check_to_agency_local: 'Pago con cheque local a la agencia',
-    check_to_agency_foreign: "Pago con cheque local a a la agencia",
+    check_to_agency_foreign: "Pago con cheque extranjero a a la agencia",
     cash_to_agency: 'Pago en efectivo a la agencia',
-
-}
-
-export const AccountsArray = {
-    0: 'N/A',
-    1: '00- Caja',
-    2: '17- BISA (USD)',
-    3: '21- BISA (USD)',
-    4: '14- BISA (BOB)',
-    5: '10- BISA-FDR (USD)',
-    6: '2014- BISA-PS (USD)',
-    7: '0011- BISA-PS (BOB)',
-    8: '99- BOA (USD)',
-    9: '01.- Cheques en Transito'
 }

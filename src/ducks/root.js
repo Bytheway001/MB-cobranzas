@@ -4,8 +4,9 @@ import { agentReducer, clientReducer } from "./agents";
 import { notificationReducer } from "./notifications";
 import { expensesReducer } from "./expenses";
 import { paymentsReducer } from "./payments";
-export const API = 'https://capi.megabrokerslatam.com'
-//export const API = 'http://192.168.0.12:200'
+import { AccountsReducer } from "./accounts";
+//export const API = 'https://capi.megabrokerslatam.com'
+export const API = 'http://192.168.0.11:200'
 export const rootReducer = combineReducers(
     {
         session: sessionReducer,
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers(
         notifications:notificationReducer,
         clients:clientReducer,
         expenses:expensesReducer,
-        payments:paymentsReducer
+        payments:paymentsReducer,
+        accounts:AccountsReducer,
     }
 )

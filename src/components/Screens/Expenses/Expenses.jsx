@@ -3,7 +3,7 @@ import { Row, Col, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getExpenses } from '../../../ducks/expenses';
-import { AccountsArray } from '../../../options/options';
+
 
 const Expenses = ({ getExpenses, list }) => {
     useEffect(() => {
@@ -15,7 +15,7 @@ const Expenses = ({ getExpenses, list }) => {
         <Row>
             <Col sm={12}>
 
-                <h1 className="text-center">Reporte de Gastoxxs</h1>
+                <h1 className="text-center">Reporte de Gastos</h1>
                 <Button as={Link} to='/expenses/new' className='mb-5'>Registrar Nuevo Gasto</Button>
             </Col>
             <Col sm={12}>
@@ -37,7 +37,7 @@ const Expenses = ({ getExpenses, list }) => {
                                     <td>{expense.bill_number}</td>
                                     <td>{expense.description}</td>
                                     <td>{expense.amount + ' ' + expense.currency}</td>
-                                    <td>{AccountsArray[expense.account]}</td>
+                                    <td>{expense.account_name}</td>
                                 </tr>
                             ))
                         }

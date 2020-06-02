@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, InputGroup } from 'react-bootstrap';
-import ReactDatePicker from 'react-datepicker';
+import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
-import { PaymentMethodOptions, AccountsOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
+import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
+import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
 export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
@@ -18,6 +18,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
     const [currency, setCurrency] = useState('')
+
 
     const customSetMethod = (value) => {
         if (value == 'cash_to_agency') {
@@ -60,11 +61,11 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                 <Form onSubmit={handleSubmit}>
                     <Row>
                         <Col sm={4}>
-                            <Select label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
-                            <Select label='Cuenta Receptora' value={account} onChange={({ target }) => setAccount(target.value)} options={<AccountsOptions />} />
-                            <Select label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
-                            <Select label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
-                            <DatePicker label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
+                            <Select required label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
+                            <Select required label="Cuenta Receptora" value={account} onChange={({target})=>setAccount(target.value)} options={<AccountsOptions/>}/>
+                            <Select required label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
+                            <Select required label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
+                            <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
                             <Input type='number' label='Descuento de Aseguradora' prepend='$' value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
@@ -76,7 +77,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                                 <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
                                 </Col>
                                 <Col sm={6}>
-                                <Input type='number' label='Monto Cancelado:' prepend='$' value={amount} onChange={({ target }) => setAmount(target.value)} required/>
+                                <Input type='number' label='Monto:' prepend='$' value={amount} onChange={({ target }) => setAmount(target.value)} required/>
                                 </Col>
                             </Row>
                         </Col>
@@ -84,7 +85,6 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                             <FormGroup>
                                 <label>Notas de Cobrador</label>
                                 <FormControl rows={5} as='textarea' value={comment} onChange={({ target }) => setComment(target.value)}>
-
                                 </FormControl>
                             </FormGroup>
                             <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border' /> : 'Registrar Cobranza'} </Button>
@@ -93,7 +93,6 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                 </Form>
             </Card.Body>
         </Card>
-
     )
 }
 

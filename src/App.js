@@ -24,6 +24,8 @@ import Expenses from './components/Screens/Expenses/Expenses';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import PaymentsReport from './components/Screens/Reports/Payments';
 import GeneralReport from './components/Screens/Reports/GeneralReport';
+import NewTransfer from './components/Screens/Transfers/New';
+import { ChecksCollection } from './components/Screens/Transfers/Checks';
 
 const store = createStore(rootReducer, 
   composeWithDevTools(
@@ -59,6 +61,8 @@ const AppRoutes = props => (
     <Route exact path='/payments/bulk' component={BulkPayments}/>
     <Route exact path='/expenses' component={Expenses}/>
     <Route exact path='/expenses/new' component={NewExpense}/>
+    <Route exact path='/transfers/new' component={NewTransfer}/>
+    <Route exact path='/checks/collect' component={ChecksCollection}/>
   </BasicLayout>
 
 )

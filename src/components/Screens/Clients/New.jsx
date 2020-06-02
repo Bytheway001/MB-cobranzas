@@ -28,7 +28,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [frequency, setFrequency] = useState('')
     const [prima, setPrima] = useState('')
     const [h_id, setHubspotId] = useState('');
-
+    const [email,setEmail]=useState('')
+  
     useEffect(() => {
         getAgents();
         getCollectors()
@@ -39,7 +40,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         let renovationDate = `${renovationDay}-${renovationMonth}-${renovationYear}`
         let effectiveDate = `${effectiveDay}-${effectiveMonth}-${effectiveYear}`
         let client = {
-            first_name,
+            first_name: first_name+' '+last_name,
             agent_id: agent[0].id,
             collector_id: collector[0].id,
             policy_number: policyNumber,
@@ -50,8 +51,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             renovation_date: renovationDate,
             effective_date: effectiveDate,
             frequency,
-            prima
+            prima,
+            email
         }
+        console.log(client)
         createClient(client)
     }
     
@@ -80,6 +83,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                             <Card.Header className='bg-primary text-light' >Datos del Usuario</Card.Header>
                             <Card.Body>
                                 <FormGroup as={Row}>
+                                <Col sm={6}>
+                                        <label>Email:</label>
+                                        <FormControl required value={email} size='sm' onChange={({ target }) => setEmail(target.value)} />
+                                    </Col>
                                     <Col sm={6}>
                                         <label>Nombre:</label>
                                         <FormControl required value={first_name} size='sm' onChange={({ target }) => setFirstName(target.value)} />
@@ -231,8 +238,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                         <FormGroup>
                                             <label>Frecuencia de Pago:</label>
                                             <FormControl required value={frequency} onChange={({ target }) => setFrequency(target.value)} as='select' size='sm'>
+                                                <option value=''>Seleccione...</option>
                                                 <option value='Anual'>Anual</option>
                                                 <option value='Semestral'>Semestral</option>
+                                                <option value='Trimestral'>Trimestral</option>
                                                 <option value='Mensual'>Mensual</option>
 
                                             </FormControl>

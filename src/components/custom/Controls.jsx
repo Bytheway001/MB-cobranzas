@@ -20,15 +20,18 @@ export const Input = ({ label, type, onChange, value, ...props }) => (
     </FormGroup>
 )
 
-export const Select = ({ label, onChange, value, controlOptions, options, ...props }) => (
-    <FormGroup >
-        <label>{label}</label>
-        <FormControl size='sm' value={value} onChange={onChange} as='select' {...controlOptions}>
-            <option value="">Seleccione...</option>
-            {options}
-        </FormControl>
-    </FormGroup>
-)
+export const Select = ({ label, onChange, value, options, except, only, ...props }) => {
+   
+    return (
+        <FormGroup >
+            <label>{label}</label>
+            <FormControl size='sm' value={value} onChange={onChange} as='select' {...props}>
+                <option value="">Seleccione...</option>
+                {options}
+            </FormControl>
+        </FormGroup>
+    )
+}
 
 export const DatePicker = ({ label, onChange, value, ...props }) => (
     <FormGroup>
