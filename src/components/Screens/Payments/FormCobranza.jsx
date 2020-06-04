@@ -43,14 +43,15 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
             agency_discount: agencyDiscount,
             agent_discount: agentDiscount,
             company_discount: companyDiscount,
-            payment_date: new Date(paymentDate).toLocaleDateString(),
+            payment_date: paymentDate,
             comment: comment,
             amount,
             city,
             currency,
             account
         }
-        createPayment(payment)
+        console.log(payment.payment_date)
+         createPayment(payment) 
     }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];

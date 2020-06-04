@@ -85,6 +85,10 @@ const UserData = ({ client }) => {
                     <p>Opcion</p>
                     <p>{client.option}</p>
                 </div>
+                <div className='w-100 d-flex flex-row justify-content-between'>
+                    <p>Estado de la Poliza</p>
+                    <p>{client.policy_status}</p>
+                </div>
             </Card.Body>
 
         </Card>

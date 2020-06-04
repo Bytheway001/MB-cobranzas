@@ -29,7 +29,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [prima, setPrima] = useState('')
     const [h_id, setHubspotId] = useState('');
     const [email,setEmail]=useState('')
-  
+    const [phone,setPhone]=useState('')
     useEffect(() => {
         getAgents();
         getCollectors()
@@ -52,7 +52,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             effective_date: effectiveDate,
             frequency,
             prima,
-            email
+            email,
+            phone
         }
         console.log(client)
         createClient(client)
@@ -94,6 +95,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                     <Col sm={6}>
                                         <label>Apellido:</label>
                                         <FormControl required value={last_name} size='sm' onChange={({ target }) => setLastName(target.value)} />
+                                    </Col>
+                                    <Col sm={6}>
+                                        <label>Telefono:</label>
+                                        <FormControl required value={phone} size='sm' onChange={({ target }) => setPhone(target.value)} />
                                     </Col>
                                 </FormGroup>
                                 <FormGroup as={Row}>

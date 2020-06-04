@@ -6,7 +6,7 @@ const Reports = (props)=>{
     return (
         <Row>
             <Col sm={12}>
-                <h1 className="text-center">Seleccione un reporte</h1>
+                <h1 className="text-left mb-3">Seleccione un reporte</h1>
             </Col>
             <Col sm={4}>
                 <Button as={Link} to='/reports/payments' block>Reporte General de Cobranzas</Button>

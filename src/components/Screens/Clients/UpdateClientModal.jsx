@@ -8,7 +8,7 @@ import { UpdateClientPolicy, getCollectors } from '../../../ducks/agents';
 export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getCollectorList }) => {
     useEffect(() => {
         getCollectorList()
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [])
     const initialState = {
         plan: [client.plan],
@@ -19,7 +19,8 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         collector: [{ id: client.collector_id, name: client.collector }],
         policyType: client.policy_type,
         policyNumber: client.policy_number,
-        phone:client.phone
+        phone: client.phone,
+        email: client.email
     }
 
 
@@ -32,7 +33,8 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
     const [collector, setCollector] = useState(initialState.collector)
     const [policyNumber, setPolicyNumber] = useState(initialState.policyNumber)
     const [policyType, setPolicyType] = useState(initialState.policyType)
-    const [phone,setPhone]=useState(initialState.phone)
+    const [phone, setPhone] = useState(initialState.phone)
+    const [email, setEmail] = useState(initialState.email)
     const handleClose = () => {
         setShow(false)
         setPlan(initialState.plan)
@@ -41,6 +43,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         setPrima(initialState.prima)
         setFrequency(initialState.frequency)
         setPhone(initialState.phone)
+        setEmail(initialState.email)
     };
     const handleShow = () => {
         setPlan(initialState.plan)
@@ -49,6 +52,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         setPrima(initialState.prima)
         setFrequency(initialState.frequency)
         setPhone(initialState.phone)
+        setEmail(initialState.email)
         setShow(true);
     }
 
@@ -58,16 +62,17 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
             id: client.id,
             plan: plan.length > 0 ? plan[0].name : '',
             option,
-            company:Companies.find(x=>x.slug===company).name,
+            company: Companies.find(x => x.slug === company).name,
             prima,
             frequency,
             collector_id: collector.length > 0 ? collector[0].id : '',
             policy_type: policyType,
             policy_number: policyNumber,
-            phone:phone
+            phone: phone,
+            email: email
         }
-    
-        updateClientPolicy(c.id,c)
+
+        updateClientPolicy(c.id, c)
         handleClose()
     }
 
@@ -81,11 +86,14 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
 
                 </Modal.Header>
                 <Modal.Body>
-                 
                     <Form id='clientModal' onSubmit={handleSubmit}>
                         <Row>
                             <Col sm={6}>
                             <FormGroup>
+                                    <label>Email</label>
+                                    <FormControl size='sm' value={email} onChange={({ target }) => setEmail(target.value)} />
+                                </FormGroup>
+                                <FormGroup>
                                     <label>Telefono</label>
                                     <FormControl size='sm' value={phone} onChange={({ target }) => setPhone(target.value)} />
                                 </FormGroup>

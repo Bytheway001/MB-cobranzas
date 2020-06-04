@@ -21,10 +21,7 @@ export const BulkModal = ({ keys, createBulkClients }) => {
     return (
         <Fragment>
             <Button size='lg' variant="primary" onClick={handleShow}>Cargar Via CSV</Button>
-
-
             <Modal dialogClassName="modal-90w" size='lg' show={show} onHide={handleClose}>
-
                 <Modal.Header closeButton>
                     <Modal.Title>Crear Clientes en Masa</Modal.Title>
                 </Modal.Header>

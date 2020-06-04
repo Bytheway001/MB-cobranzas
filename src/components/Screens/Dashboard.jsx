@@ -88,7 +88,7 @@ const Dashboard = ({ getClientList, clients }) => {
                 <Card>
                     <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
                     <Card.Body>
-                        <Table size='sm' style={{ fontSize: '0.8em' }}>
+                        <Table variant='bordered' size='sm' style={{ fontSize: '0.8em' }}>
                             <thead>
                                 <tr>
                                     <th>Numero</th>
@@ -101,6 +101,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <th>Fecha Renovacion</th>
                                     <th>Fecha Efectiva</th>
                                     <th>Frecuencia de Pago</th>
+                                    <th>Estado</th>
                                     <th>Ver</th>
                                 </tr>
                             </thead>
@@ -118,12 +119,11 @@ const Dashboard = ({ getClientList, clients }) => {
                                             <td>{client.effective_date}</td>
                                             <td>{client.renovation_date}</td>
                                             <td>{client.frequency}</td>
-                                            <td><Button as={Link} to={'/clients/profile/'+client.id} block size='sm'>Ver</Button></td>
+                                            <td>{client.status}</td>
+                                            <td><Button as={Link} to={'/clients/profile/'+client.id} block size='sm' style={{padding:2}}>Ver Poliza</Button></td>
                                         </tr>
                                     ))
                                 }
-
-
                             </tbody>
                         </Table>
                     </Card.Body>
