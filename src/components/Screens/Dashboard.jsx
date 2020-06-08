@@ -3,10 +3,10 @@ import { Row, Col, Card, FormCheck, Form, FormControl, Button, Table } from 'rea
 import { Link } from 'react-router-dom'
 import { getClientList } from '../../ducks/agents'
 import { connect } from 'react-redux';
+import { DashboardList } from '../custom/Lists/DashboardClients';
 const Dashboard = ({ getClientList, clients }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
-
     useState(() => {
         getClientList()
     }, [])
@@ -14,7 +14,6 @@ const Dashboard = ({ getClientList, clients }) => {
         setTerm('')
         setCriteria(value)
     }
-
     const handleSubmit=(e)=>{
         e.preventDefault()
         getClientList({criteria,term})
@@ -88,44 +87,7 @@ const Dashboard = ({ getClientList, clients }) => {
                 <Card>
                     <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
                     <Card.Body>
-                        <Table size='sm' style={{ fontSize: '0.8em' }}>
-                            <thead>
-                                <tr>
-                                    <th>Numero</th>
-                                    <th>Cliente</th>
-                                    <th>Agente</th>
-                                    <th>Cobrador</th>
-                                    <th>Aseguradora</th>
-                                    <th>Plan</th>
-                                    <th>Opcion</th>
-                                    <th>Fecha Renovacion</th>
-                                    <th>Fecha Efectiva</th>
-                                    <th>Frecuencia de Pago</th>
-                                    <th>Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    clients.list.map((client, key) => (
-                                        <tr>
-                                            <td>{client.id}</td>
-                                            <td>{client.name}</td>
-                                            <td>{client.agent}</td>
-                                            <td>{client.collector}</td>
-                                            <td>{client.company}</td>
-                                            <td>{client.plan}</td>
-                                            <td>{client.option}</td>
-                                            <td>{client.effective_date}</td>
-                                            <td>{client.renovation_date}</td>
-                                            <td>{client.frequency}</td>
-                                            <td><Button as={Link} to={'/clients/profile/'+client.id} block size='sm'>Ver</Button></td>
-                                        </tr>
-                                    ))
-                                }
-
-
-                            </tbody>
-                        </Table>
+                       <DashboardList list={clients.list}/>
                     </Card.Body>
                 </Card>
             </Col>

@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 
 import Navbar from '../Navbar';
 import { deleteNotification } from '../../ducks/notifications';
+import { getAccountList } from '../../ducks/accounts';
+import { useEffect } from 'react';
 
-const BasicLayout = ({ children, notifications, deleteNotification }) => {
+const BasicLayout = ({ children, notifications, deleteNotification,listAccounts }) => {
+    useEffect(()=>{
+        listAccounts()
+    },[])
     return (
         <Fragment>
             <Navbar />
@@ -39,6 +44,7 @@ const mapStateToProps = state => ({
     notifications: state.notifications
 })
 const mapDispatchToProps = dispatch => ({
-    deleteNotification: (index) => dispatch(deleteNotification(index))
+    deleteNotification: (index) => dispatch(deleteNotification(index)),
+    listAccounts:()=>dispatch(getAccountList())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout)

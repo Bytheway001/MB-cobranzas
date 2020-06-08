@@ -10,19 +10,23 @@ export const onExpensesListSucceeded = (data) => ({ type: EXPENSES_LIST_SUCCEEDE
 export const onExpensesListFailed = (err) => ({ type: EXPENSES_LIST_FAILED, payload: err })
 
 
+
+
 export const getExpenses = () => {
     return dispatch => {
+        dispatch(onExpensesListRequested())
         Axios.get(API + '/expenses').then(res => {
             dispatch(onExpensesListSucceeded(res.data.data))
         })
-            .catch(err => {
-                dispatch(onExpensesListFailed(err.response.data))
-            })
+            .catch(err => dispatch(onExpensesListFailed(err)))
     }
 }
 
+
 const initialState = {
-    list: []
+    list: [],
+    expenses:[],
+    payments:[]
 }
 
 export const expensesReducer = (state = initialState, action) => {
@@ -30,7 +34,13 @@ export const expensesReducer = (state = initialState, action) => {
         case EXPENSES_LIST_SUCCEEDED:
             return {
                 ...state,
-                list: action.payload
+                expenses:action.payload.expenses,
+                payments:action.payload.payments
+            }
+        case EXPENSES_LIST_REQUESTED:
+            return {
+                ...state,
+                list: []
             }
         default:
             return state

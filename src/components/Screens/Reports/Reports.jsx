@@ -6,17 +6,17 @@ const Reports = (props)=>{
     return (
         <Row>
             <Col sm={12}>
-                <h1 className="text-center">Seleccione un reporte</h1>
+                <h1 className="text-left mb-3">Seleccione un reporte</h1>
             </Col>
             <Col sm={4}>
-                <Button block>Reporte General</Button>
+                <Button as={Link} to='/reports/payments' block>Reporte General de Cobranzas</Button>
                 <Button as={Link} to='/reports/rcc' block>Reporte de Cobranza por compañias</Button>
-                <Button block>Reporte de Estado de Clientes</Button>
+                <Button as={Link} to='/reports/general' block>Reporte general de Estado</Button>
+                <Button as={Link} to='/reports/general' block>Cheques en Transito</Button>
+                <Button as={Link} to='/reports/finances' block>Estado Financiero</Button>
             </Col>
         </Row>
     )
 }
-
-
 
 export default Reports

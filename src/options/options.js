@@ -18,7 +18,7 @@ export const PaymentMethodOptions = () => {
                     { value: 'transfer_to_agency_local', label: 'Pago con transferencia bancaria a cuenta local de agencia' },
                     { value: 'transfer_to_agency_foreign', label: 'Pago con transferencia bancaria a cuenta extranjera a la agencia' },
                     { value: 'check_to_agency_local', label: 'Pago con cheque local a la agencia' },
-                    { value: 'check_to_agency_foreign', label: "Pago con cheque local a a la agencia" },
+                    { value: 'check_to_agency_foreign', label: "Pago con cheque extranjero a a la agencia" },
                     { value: 'cash_to_agency', label: 'Pago en efectivo a la agencia' }
                 ]
         }
@@ -50,18 +50,6 @@ export const CurrencyOptions = () => {
     )
 }
 
-export const AccountsOptions = () => {
-    return (
-        <Fragment>
-
-            <option value="2">Cuenta Bisa (USD)</option>
-            <option value='4'>Cuenta Bisa (BOB)</option>
-            <option value='3'>Bank of America (USD)</option>
-            <option value='1'>Caja</option>
-            <option value='5'>Cheques en transito</option>
-        </Fragment>
-    )
-}
 
 export const OfficeOptions = () => (
     <Fragment>
@@ -81,7 +69,7 @@ export const PaymentTypeOptions = () => (
 
 export const CategoryOptions = () => (
     <Fragment>
-      
+
         <option value='misc'>Diversos</option>
         <option value='cleaning'>Gastos de Limpieza</option>
         <option value='cattering'>Servicio de Te</option>
@@ -92,3 +80,16 @@ export const CategoryOptions = () => (
         <option value='transport'>Movilidad</option>
     </Fragment>
 )
+
+export const MethodsArray = {
+    tdc_to_company: 'Pago Directo en su portal de cliente con Tarjeta de Credito',
+    transfer_to_company: 'Pago con transferencia Bancaria a la Aseguradora',
+    check_to_foreign_company: 'Pago con cheque extranjero a la Aseguradora',
+    tdc_to_collector: 'Pago con Tarjeta de Credito para que cobradora pague la poliza',
+    claim_to_company: 'Pago con abono de reclamo',
+    transfer_to_agency_local: 'Pago con transferencia bancaria a cuenta local de agencia',
+    transfer_to_agency_foreign: 'Pago con transferencia bancaria a cuenta extranjera a la agencia',
+    check_to_agency_local: 'Pago con cheque local a la agencia',
+    check_to_agency_foreign: "Pago con cheque extranjero a a la agencia",
+    cash_to_agency: 'Pago en efectivo a la agencia',
+}
