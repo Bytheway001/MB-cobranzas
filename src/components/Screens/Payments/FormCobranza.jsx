@@ -17,8 +17,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [comment, setComment] = useState('')
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
-    const [currency, setCurrency] = useState('')
-
+    const [currency, setCurrency] = useState('USD')
 
     const customSetMethod = (value) => {
         if (value == 'cash_to_agency') {
@@ -69,16 +68,16 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                             <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
-                            <Input type='number' label='Descuento de Aseguradora' prepend='$' value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
-                            <Input type='number' label='Descuento de Agencia:' prepend='$' value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
-                            <Input type='number' label='Descuento de Agente:' prepend='$' value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
+                            <Input type='number' label='Descuento de Aseguradora' prepend={currency==='BOB'?'Bs':'$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
+                            <Input type='number' label='Descuento de Agencia:' prepend={currency==='BOB'?'Bs':'$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
+                            <Input type='number' label='Descuento de Agente:' prepend={currency==='BOB'?'Bs':'$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
                          
                             <Row>
                                 <Col sm={6}>
                                 <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
                                 </Col>
                                 <Col sm={6}>
-                                <Input type='number' label='Monto:' prepend='$' value={amount} onChange={({ target }) => setAmount(target.value)} required/>
+                                <Input type='number' label='Monto:' prepend={currency==='BOB'?'Bs':'$'} value={amount} onChange={({ target }) => setAmount(target.value)} required/>
                                 </Col>
                             </Row>
                         </Col>

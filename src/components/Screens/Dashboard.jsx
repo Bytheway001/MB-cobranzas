@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { Row, Col, Card, FormCheck, Form, FormControl, Button, Table } from 'react-bootstrap'
+import { Row, Col, Card, FormCheck, Form, FormControl, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { getClientList } from '../../ducks/clients'
 import { connect } from 'react-redux';
 import { DashboardList } from '../custom/Lists/DashboardClients';
 import { LoaderButton } from '../custom/LoaderButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faMoneyBill, faMoneyBillWaveAlt, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
+import {LoadingCard} from '../custom/LoadingCard';
 const Dashboard = ({ getClientList, clients }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
@@ -62,7 +63,7 @@ const Dashboard = ({ getClientList, clients }) => {
                     <Card.Body>
                         <Row className='h-100'>
                             <Col sm={3}>
-                                <Button style={{ color: 'black' }} as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='warning' block>
+                                <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
                                     <div className='d-flex flex-column justify-content-center align-items-center'>
                                         <FontAwesomeIcon icon={faMoneyBillWaveAlt} className='mr-2 d-block' size='2x' />
 
@@ -72,7 +73,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                 </Button>
                             </Col>
                             <Col sm={3}>
-                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='info' block>
+                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
                                     <div className='d-flex flex-column justify-content-center align-items-center'>
                                         <FontAwesomeIcon icon={faUser} className='mr-2 d-block' size='2x' />
                                         <span>Crear Cliente</span>
@@ -92,14 +93,22 @@ const Dashboard = ({ getClientList, clients }) => {
                     </Card.Body>
                 </Card>
             </Col>
-        <Col sm={12} className='mt-5'>
-            <Card>
-                <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
-                <Card.Body>
-                    <DashboardList list={clients.list} />
-                </Card.Body>
-            </Card>
-        </Col>
+            <Col sm={12} className='mt-5'>
+                <Card>
+                    <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
+                    <Card.Body style={{minHeight:'50vh'}}>
+                        {
+                            clients.loading ?
+                            
+                            <LoadingCard/>
+                        :
+                                <DashboardList list={clients.list} />
+
+                        }
+
+                    </Card.Body>
+                </Card>
+            </Col>
         </Row >
     )
 }

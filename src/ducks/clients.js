@@ -18,41 +18,12 @@ export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
 
 const onClientProfileSucceeded = (profile) => ({ type: CLIENT_PROFILE_SUCCEEDED, payload: profile })
 const onClientShowSucceeded = (data) => ({ type: CLIENT_SHOW_SUCCEEDED, payload: data })
+
+const onClientListRequested = (data)=>({type:CLIENT_LIST_REQUESTED})
 const onClientListSucceeded = (clientList) => ({ type: CLIENT_LIST_SUCCEEDED, payload: clientList })
 const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
+
 const onClientProfileUpdated = (client) => ({ type: CLIENT_PROFILE_UPDATED, payload: client })
-
-export const clientReducer = (state = clientInitialState, action) => {
-    switch (action.type) {
-        case CLIENT_LIST_SUCCEEDED:
-            return {
-                ...state,
-                list: action.payload,
-                loading: false
-            }
-        case CLIENT_PROFILE_SUCCEEDED:
-            return {
-                ...state,
-                editing: action.payload,
-                loading: false
-            }
-        case CLIENT_PROFILE_UPDATED:
-            return {
-                ...state,
-                editing: action.payload,
-                loading: false
-            }
-        case CLIENT_SHOW_SUCCEEDED:
-            return {
-                ...state,
-                loading: false,
-                showing: action.payload
-            }
-
-        default:
-            return state
-    }
-}
 
 export const createBulkClients = (clientList) => {
     return dispatch => {
@@ -81,12 +52,7 @@ export const createClient = (data) => {
 
 }
 
-const clientInitialState = {
-    list: [],
-    loading: false,
-    editing: null,
-    showing: null
-}
+
 
 export const getClientById = (id) => {
     return dispatch => {
@@ -115,11 +81,62 @@ export const getClientList = (search = null) => {
     }
 
     return dispatch => {
+        dispatch(onClientListRequested())
         Axios.get(string).then(res => {
             dispatch(onClientListSucceeded(res.data.data))
         })
             .catch(err => {
                 dispatch(onClientListFailed(err))
             })
+    }
+}
+
+const clientInitialState = {
+    list: [],
+    loading: false,
+    editing: null,
+    showing: null
+}
+
+export const clientReducer = (state = clientInitialState, action) => {
+    switch (action.type) {
+        case CLIENT_LIST_REQUESTED:
+            return{
+                ...state,
+                loading:true
+            }
+        case CLIENT_LIST_SUCCEEDED:
+            return {
+                ...state,
+                list: action.payload,
+                loading: false
+            }
+        case CLIENT_LIST_FAILED:
+            return{
+                ...state,
+                list:[],
+                loading:false
+            }
+        case CLIENT_PROFILE_SUCCEEDED:
+            return {
+                ...state,
+                editing: action.payload,
+                loading: false
+            }
+        case CLIENT_PROFILE_UPDATED:
+            return {
+                ...state,
+                editing: action.payload,
+                loading: false
+            }
+        case CLIENT_SHOW_SUCCEEDED:
+            return {
+                ...state,
+                loading: false,
+                showing: action.payload
+            }
+
+        default:
+            return state
     }
 }

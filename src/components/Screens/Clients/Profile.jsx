@@ -51,8 +51,6 @@ const Buttons = props => (
 const Note = props => (
     <Card className='mb-2' >
         <Card.Body>
-
-
             <div>{props.text}</div>
         </Card.Body>
     </Card>
