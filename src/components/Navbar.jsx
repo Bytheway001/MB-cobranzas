@@ -21,7 +21,13 @@ const Navbar = ({ user, logout, login }) => {
                         <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
                         <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link as={Link} to='/reports'>Reportes</Nav.Link>
+                    <NavDropdown title='Reportes'>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/payments'>Cobranzas</NavDropdown.Item>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/general'>General</NavDropdown.Item>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/rcc'>Cobranzas por Compañia</NavDropdown.Item>
+                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/finances'>Financiero</NavDropdown.Item>
+                       
+                    </NavDropdown>
                     <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>
                 </Nav>
                 <Nav className="ml-auto">

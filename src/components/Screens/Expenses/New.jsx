@@ -20,7 +20,7 @@ const NewExpense = props => {
     const [loading,setLoading]=useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
-        let data = { date, office, bill_number, description, amount, account, currency, category }
+        let data = { date, office, bill_number, description, amount, account_id:account, currency, category }
         setLoading(true)
         setError({})
         Axios.post(API + '/expenses', data).then(res => {

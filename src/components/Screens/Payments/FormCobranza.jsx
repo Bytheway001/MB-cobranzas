@@ -48,7 +48,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
             amount,
             city,
             currency,
-            account
+            account_id:account
         }
         console.log(payment.payment_date)
          createPayment(payment) 

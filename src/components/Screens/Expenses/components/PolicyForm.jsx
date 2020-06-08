@@ -17,7 +17,7 @@ export const PaymentPolicyForm = props => {
     const [comment, setComment] = useState("");
     const [policyStatus, setPolicyStatus] = useState('Pendiente')
     /* Esta es la data acomodada para enviar al servidor */
-    let payload = { client: client.length > 0 ? client[0].id : null, account, currency, amount, comment,policy_status:policyStatus }
+    let payload = { client_id: client.length > 0 ? client[0].id : null, account_id:account, currency, amount, comment,policy_status:policyStatus }
 
     const handleSubmit = (e) => {
         e.preventDefault()
