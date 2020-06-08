@@ -5,6 +5,8 @@ import { getClientList } from '../../ducks/clients'
 import { connect } from 'react-redux';
 import { DashboardList } from '../custom/Lists/DashboardClients';
 import { LoaderButton } from '../custom/LoaderButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faMoneyBill, faMoneyBillWaveAlt, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons'
 const Dashboard = ({ getClientList, clients }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
@@ -15,9 +17,9 @@ const Dashboard = ({ getClientList, clients }) => {
         setTerm('')
         setCriteria(value)
     }
-    const handleSubmit=(e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault()
-        getClientList({criteria,term})
+        getClientList({ criteria, term })
     }
     return (
         <Row>
@@ -33,7 +35,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <FormCheck value='client' name='criteria' type='radio' label='Cliente' onChange={({ target }) => changeCriteria(target.value)} />
                                 </Col>
                                 <Col sm={6}>
-                                    <FormControl value={criteria === 'client' ? term : ''} disabled={criteria !== 'client'} size='sm' onChange={({ target }) => setTerm(target.value)}/>
+                                    <FormControl value={criteria === 'client' ? term : ''} disabled={criteria !== 'client'} size='sm' onChange={({ target }) => setTerm(target.value)} />
                                 </Col>
                             </Row>
                             <Row className='mb-3'>
@@ -41,7 +43,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <FormCheck name='criteria' value='policy' type='radio' label='Numero de Poliza' onChange={({ target }) => changeCriteria(target.value)} />
                                 </Col>
                                 <Col sm={6}>
-                                    <FormControl value={criteria === 'policy' ? term : ''} disabled={criteria !== 'policy'} size='sm' onChange={({ target }) => setTerm(target.value)}/>
+                                    <FormControl value={criteria === 'policy' ? term : ''} disabled={criteria !== 'policy'} size='sm' onChange={({ target }) => setTerm(target.value)} />
                                 </Col>
                             </Row>
                             <Row>
@@ -60,10 +62,29 @@ const Dashboard = ({ getClientList, clients }) => {
                     <Card.Body>
                         <Row className='h-100'>
                             <Col sm={3}>
-                                <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='warning' block>Registrar Cobranza</Button>
+                                <Button style={{ color: 'black' }} as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='warning' block>
+                                    <div className='d-flex flex-column justify-content-center align-items-center'>
+                                        <FontAwesomeIcon icon={faMoneyBillWaveAlt} className='mr-2 d-block' size='2x' />
+
+                                        <span>Registrar Cobranza</span>
+
+                                    </div>
+                                </Button>
                             </Col>
                             <Col sm={3}>
-                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='info' block>Crear Cliente</Button>
+                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='info' block>
+                                    <div className='d-flex flex-column justify-content-center align-items-center'>
+                                        <FontAwesomeIcon icon={faUser} className='mr-2 d-block' size='2x' />
+                                        <span>Crear Cliente</span>
+                                    </div></Button>
+                            </Col>
+                            <Col sm={3}>
+                                <Button as={Link} to='/expenses/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='primary' block>
+                                    <div className='d-flex flex-column justify-content-center align-items-center'>
+                                        <FontAwesomeIcon icon={faExternalLinkSquareAlt} className='mr-2 d-block' size='2x' />
+                                        <span>Registrar Egreso</span>
+                                    </div>
+                                </Button>
                             </Col>
                         </Row>
 
@@ -71,15 +92,15 @@ const Dashboard = ({ getClientList, clients }) => {
                     </Card.Body>
                 </Card>
             </Col>
-            <Col sm={12} className='mt-5'>
-                <Card>
-                    <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
-                    <Card.Body>
-                       <DashboardList list={clients.list}/>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Row>
+        <Col sm={12} className='mt-5'>
+            <Card>
+                <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
+                <Card.Body>
+                    <DashboardList list={clients.list} />
+                </Card.Body>
+            </Card>
+        </Col>
+        </Row >
     )
 }
 
