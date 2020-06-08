@@ -3,7 +3,8 @@ import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup } from
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { getAgents, getCollectors, createClient, createBulkClients } from '../../../ducks/agents';
+import { getAgents, getCollectors } from '../../../ducks/agents';
+import {createClient,createBulkClients} from '../../../ducks/clients'
 import { connect } from 'react-redux';
 
 import { Companies } from '../../../utils/utils';

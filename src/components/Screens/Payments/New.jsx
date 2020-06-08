@@ -2,7 +2,7 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import { getClientList, getClientById } from '../../../ducks/agents'
+import { getClientList, getClientById } from '../../../ducks/clients'
 import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
 

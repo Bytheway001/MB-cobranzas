@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Row, Col, Card, FormCheck, Form, FormControl, Button, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { getClientList } from '../../ducks/agents'
+import { getClientList } from '../../ducks/clients'
 import { connect } from 'react-redux';
 import { DashboardList } from '../custom/Lists/DashboardClients';
+import { LoaderButton } from '../custom/LoaderButton';
 const Dashboard = ({ getClientList, clients }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
@@ -32,12 +33,7 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <FormCheck value='client' name='criteria' type='radio' label='Cliente' onChange={({ target }) => changeCriteria(target.value)} />
                                 </Col>
                                 <Col sm={6}>
-                                    <FormControl
-                                        value={criteria === 'client' ? term : ''}
-                                        disabled={criteria !== 'client'}
-                                        size='sm'
-                                        onChange={({ target }) => setTerm(target.value)}
-                                    />
+                                    <FormControl value={criteria === 'client' ? term : ''} disabled={criteria !== 'client'} size='sm' onChange={({ target }) => setTerm(target.value)}/>
                                 </Col>
                             </Row>
                             <Row className='mb-3'>
@@ -45,20 +41,12 @@ const Dashboard = ({ getClientList, clients }) => {
                                     <FormCheck name='criteria' value='policy' type='radio' label='Numero de Poliza' onChange={({ target }) => changeCriteria(target.value)} />
                                 </Col>
                                 <Col sm={6}>
-                                    <FormControl
-                                        value={criteria === 'policy' ? term : ''}
-                                        disabled={criteria !== 'policy'}
-                                        size='sm'
-                                        onChange={({ target }) => setTerm(target.value)}
-                                    />
+                                    <FormControl value={criteria === 'policy' ? term : ''} disabled={criteria !== 'policy'} size='sm' onChange={({ target }) => setTerm(target.value)}/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12} className='text-center'>
-                                    <Button
-                                        type='submit'
-                                        className='w-50'
-                                        style={{ borderRadius: 0 }}>Buscar</Button>
+                                    <LoaderButton type='submit' loading={false} className='w-50' style={{ borderRadius: 0 }}>Buscar</LoaderButton>
                                 </Col>
                             </Row>
 
