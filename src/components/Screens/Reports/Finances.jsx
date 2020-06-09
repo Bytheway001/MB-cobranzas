@@ -3,13 +3,17 @@ import { Row, Col, Table, Card } from 'react-bootstrap';
 import { useEffect } from 'react';
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
+import { ExpensesList } from './Lists';
 
 export const Finances = props => {
     const [accounts, setAccounts] = useState([]);
-
+    const [report, setReport] = useState(null);
     useEffect(() => {
         Axios.get(API + '/accounts').then(res => {
             setAccounts(res.data.data)
+        })
+        Axios.get(API + '/reports').then(res => {
+            setReport(res.data)
         })
     }, [])
 
@@ -75,7 +79,13 @@ export const Finances = props => {
                 </Card>
             </Col>
             <Col sm={4}>
-                <h3>Cheques en transito</h3>
+                <Card>
+                    <Card.Header className='bg-primary text-white'>Gastos Operativos</Card.Header>
+                    <Card.Body>
+                    {report && <ExpensesList expenses={report.expenses} />}
+                    </Card.Body>
+                </Card>
+               
             </Col>
         </Row>
     )

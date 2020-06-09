@@ -199,10 +199,21 @@ export const Companies = [
     },
     {
         id:10,
-        name:'BUPA OFF',
+        name:'Bupa Off',
         slug:'bupaoff',
         plans:[]
     },
+    {
+        id:11,
+        name:'Panamerican Life',
+        slug:'panam',
+        plans:[
+            {id:36,name:'Next GenUL Universal'},
+            {id:37,name:"Termino 95"},
+            {id:38,name:'Termino 100'},
+            {id:39,name:"Indexed"}
+        ]
+    }
    
 ]
 
