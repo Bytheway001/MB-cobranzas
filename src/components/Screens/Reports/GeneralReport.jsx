@@ -66,7 +66,7 @@ const GeneralReport = props => {
                                     Gastos Operativos
                             </Card.Header>
                                 <Card.Body>
-                                    <ExpensesList expenses={report.expenses} />
+                                   
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -79,8 +79,6 @@ const GeneralReport = props => {
                                     <PolicyPaymentsList payments={report.policy_payments} />
                                 </Card.Body>
                             </Card>
-
-
                         </Col>
                     </Fragment>
 
