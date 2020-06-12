@@ -4,6 +4,7 @@ import { login, logout } from '../ducks/session';
 import { connect } from 'react-redux'
 import { GoogleLogout } from 'react-google-login';
 import { Redirect, Link } from 'react-router-dom';
+import { roles, UserIs } from '../utils/utils';
 const Navbar = ({ user, logout, login }) => {
     if (!user) {
         return <Redirect to='/login' />
@@ -17,18 +18,20 @@ const Navbar = ({ user, logout, login }) => {
                     <Nav.Link as={Link} to='/'>Inicio</Nav.Link>
                     <Nav.Link as={Link} to='/clients/new'>Crear Cliente</Nav.Link>
                     <NavDropdown title='Operaciones'>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
+                        {UserIs(user, 224) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>}
+                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
+                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
                     </NavDropdown>
-                    <NavDropdown title='Reportes'>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/payments'>Cobranzas</NavDropdown.Item>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/general'>General</NavDropdown.Item>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/rcc'>Cobranzas por Compañia</NavDropdown.Item>
-                        <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/finances'>Financiero</NavDropdown.Item>
-                       
-                    </NavDropdown>
-                    <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>
+                    {
+                        UserIs(user, 248) &&
+                        <NavDropdown title='Reportes'>
+                            {UserIs(user, 248) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/reports/payments'>Cobranzas</NavDropdown.Item>}
+                            {UserIs(user, 255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/reports/general'>General</NavDropdown.Item>}
+                            { /* <NavDropdown.Item  style={{fontSize:'0.8em'}} as={Link} to='/reports/rcc'>Cobranzas por Compañia</NavDropdown.Item> */}
+                           <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/reports/finances'>Financiero</NavDropdown.Item>
+                        </NavDropdown>
+                    }
+                    {UserIs(user, 255) && <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>}
                 </Nav>
                 <Nav className="ml-auto">
 

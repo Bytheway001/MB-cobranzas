@@ -27,13 +27,16 @@ import GeneralReport from './components/Screens/Reports/GeneralReport';
 import NewTransfer from './components/Screens/Transfers/New';
 import { ChecksCollection } from './components/Screens/Transfers/Checks';
 import { Finances } from './components/Screens/Reports/Finances';
+import { setupInterceptors } from './utils/utils';
 
 const store = createStore(rootReducer, 
   composeWithDevTools(
   applyMiddleware(thunk))
   );
 if (localStorage.getItem('user')) {
-  store.dispatch({ type: 'LOGIN_SUCCEEDED', payload: JSON.parse(localStorage.getItem('user')) })
+  let parsed = JSON.parse(localStorage.getItem('user'))
+  setupInterceptors(parsed.id)
+  store.dispatch({ type: 'LOGIN_SUCCEEDED', payload:parsed  })
 }
 const App = props => {
 

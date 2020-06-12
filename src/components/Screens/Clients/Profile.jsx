@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
-import { Card, Row, Col, Table, Button } from 'react-bootstrap'
+import { Card, Row, Col, Table, Button, Alert, Badge } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { showClientProfile } from '../../../ducks/clients'
 import { UpdateClientModal } from './UpdateClientModal'
 import { Link } from 'react-router-dom'
+import { formatMoney } from '../../../utils/utils'
 
 
 const ClientProfile = ({ match, showing, showClientProfile }) => {
@@ -21,7 +22,7 @@ const ClientProfile = ({ match, showing, showClientProfile }) => {
                     </Col>
                     <Col sm={8}>
 
-                        <StaffNotes payments={showing.payments} />
+                        <StaffNotes payments={showing.payments} pp={showing.policy_payments} />
                         <Buttons />
                     </Col>
                 </Row>
@@ -33,12 +34,15 @@ const ClientProfile = ({ match, showing, showClientProfile }) => {
     )
 }
 
-const StaffNotes = ({ payments }) => (
+const StaffNotes = ({ payments, pp }) => (
     <Card className='h-100' style={{ overflowY: 'scroll' }}>
         <Card.Header className='bg-primary text-light'>Notas (Staff)</Card.Header>
         <Card.Body>
             {payments && payments.map(p => (
-                <Note text={p.comment} />
+                <Note text={p.comment} type='Cobranza' user={p.user} date={p.date} />
+            ))}
+            {pp && pp.map(p => (
+                <Note text={p.comment} type='Pago de Poliza' user={p.user} date={p.date} />
             ))}
         </Card.Body>
     </Card>
@@ -48,12 +52,16 @@ const Buttons = props => (
 )
 
 
-const Note = props => (
-    <Card className='mb-2' >
-        <Card.Body>
-            <div>{props.text}</div>
-        </Card.Body>
-    </Card>
+const Note = ({ type, text, user, date }) => (
+    <Alert style={{borderRadius:0}} variant={type === 'Cobranza' ? 'primary' : 'danger'}>
+        <Badge className='mr-2' size='sm' variant='secondary'>
+            {type}
+        </Badge>
+        <div className='bg-primary text-white' style={{ padding: 5, position: 'absolute', top: 0, right: 0 }}>
+            {user}
+        </div>
+        {date + ' ' + text}
+    </Alert>
 )
 
 const UserData = ({ client }) => {
@@ -64,7 +72,7 @@ const UserData = ({ client }) => {
         <Card className='mb-3'>
             <Card.Header className='bg-primary text-light d-flex'>
                 <span>Datos del Cliente</span>
-               
+
             </Card.Header>
             <Card.Body >
                 <div className='w-100 d-flex flex-row justify-content-between'>
@@ -86,6 +94,10 @@ const UserData = ({ client }) => {
                 <div className='w-100 d-flex flex-row justify-content-between'>
                     <p>Estado de la Poliza</p>
                     <p>{client.policy_status}</p>
+                </div>
+                <div className='w-100 d-flex flex-row justify-content-between'>
+                    <p>Notas Adicionales</p>
+                    <p>{client.comment?client.comment:'--'}</p>
                 </div>
             </Card.Body>
 
@@ -113,8 +125,8 @@ const UserPayments = ({ payments }) => (
                         payments.map(p => (
                             <tr>
                                 <td>{p.id}</td>
-                                <td>{p.payment_date}</td>
-                                <td>{p.amount}</td>
+                                <td>{p.date}</td>
+                                <td>{formatMoney(p.amount,'.',',') }</td>
 
                             </tr>
                         ))

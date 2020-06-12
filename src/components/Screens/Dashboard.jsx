@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { DashboardList } from '../custom/Lists/DashboardClients';
 import { LoaderButton } from '../custom/LoaderButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
-import {LoadingCard} from '../custom/LoadingCard';
-const Dashboard = ({ getClientList, clients }) => {
+import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { LoadingCard } from '../custom/LoadingCard';
+import { UserIs } from '../../utils/utils';
+const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
     useState(() => {
@@ -62,16 +63,19 @@ const Dashboard = ({ getClientList, clients }) => {
                     <Card.Header className='bg-primary text-light'>Acciones</Card.Header>
                     <Card.Body>
                         <Row className='h-100'>
-                            <Col sm={3}>
-                                <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
-                                    <div className='d-flex flex-column justify-content-center align-items-center'>
-                                        <FontAwesomeIcon icon={faMoneyBillWaveAlt} className='mr-2 d-block' size='2x' />
+                            {UserIs(user, 224) &&
+                                <Col sm={3}>
+                                    <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
+                                        <div className='d-flex flex-column justify-content-center align-items-center'>
+                                            <FontAwesomeIcon icon={faMoneyBillWaveAlt} className='mr-2 d-block' size='2x' />
 
-                                        <span>Registrar Cobranza</span>
+                                            <span>Registrar Cobranza</span>
 
-                                    </div>
-                                </Button>
-                            </Col>
+                                        </div>
+                                    </Button>
+                                </Col>
+                            }
+
                             <Col sm={3}>
                                 <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
                                     <div className='d-flex flex-column justify-content-center align-items-center'>
@@ -79,14 +83,19 @@ const Dashboard = ({ getClientList, clients }) => {
                                         <span>Crear Cliente</span>
                                     </div></Button>
                             </Col>
-                            <Col sm={3}>
-                                <Button as={Link} to='/expenses/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='primary' block>
-                                    <div className='d-flex flex-column justify-content-center align-items-center'>
-                                        <FontAwesomeIcon icon={faExternalLinkSquareAlt} className='mr-2 d-block' size='2x' />
-                                        <span>Registrar Egreso</span>
-                                    </div>
-                                </Button>
-                            </Col>
+                            {
+                                UserIs(user, 248) &&
+                                <Col sm={3}>
+                                    <Button as={Link} to='/expenses/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='primary' block>
+                                        <div className='d-flex flex-column justify-content-center align-items-center'>
+                                            <FontAwesomeIcon icon={faExternalLinkSquareAlt} className='mr-2 d-block' size='2x' />
+                                            <span>Registrar Egreso</span>
+                                        </div>
+                                    </Button>
+                                </Col>
+
+                            }
+
                         </Row>
 
 
@@ -96,12 +105,12 @@ const Dashboard = ({ getClientList, clients }) => {
             <Col sm={12} className='mt-5'>
                 <Card>
                     <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
-                    <Card.Body style={{minHeight:'50vh'}}>
+                    <Card.Body style={{ minHeight: '50vh' }}>
                         {
                             clients.loading ?
-                            
-                            <LoadingCard/>
-                        :
+
+                                <LoadingCard />
+                                :
                                 <DashboardList list={clients.list} />
 
                         }
@@ -114,7 +123,8 @@ const Dashboard = ({ getClientList, clients }) => {
 }
 
 const mapStateToProps = state => ({
-    clients: state.clients
+    clients: state.clients,
+    user: state.session.user
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 export const Companies = [
     {
         id: 1,
@@ -243,4 +245,23 @@ export function formatMoney(amount,decimalCount = 2,decimal = ".",thousands = ",
                 : "")
         );
     } catch (e) {}
+}
+
+export const setupInterceptors = (u)=>{
+    Axios.interceptors.request.use(config=>{
+        console.log('Intercepted')
+        config.headers.u = u;
+        return config
+    })
+}
+
+export const roles = {
+    
+}
+
+export const UserIs = (user,level)=>{
+    let roles = {staff:128,collector:224,admin:248,master:255}
+    let userRole = roles[user.role]
+    console.log(userRole>=level,userRole,level);
+    return userRole >= level
 }
