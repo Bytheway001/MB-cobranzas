@@ -125,12 +125,12 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                     <label>Comentario:</label>
                                     <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
                                 </FormGroup>
-                                <Button type='submit'>Crear</Button>
+                              
                             </Card.Body>
                         </Card>
                     </Col>
                     <Col md={6}>
-                        <Card className='h-100'>
+                        <Card className='h-100' style={{fontSize:'0.9em'}}>
                             <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
                             <Card.Body>
                                 <Row>
@@ -263,7 +263,9 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 <FormControl required value={prima} onChange={({ target }) => setPrima(target.value)} size='sm' />
                                             </InputGroup>
                                         </FormGroup>
+                                        <Button type='submit'>Crear</Button>
                                     </Col>
+                            
                                 </Row>
                             </Card.Body>
                         </Card>

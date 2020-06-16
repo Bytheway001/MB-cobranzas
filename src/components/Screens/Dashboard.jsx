@@ -12,6 +12,7 @@ import { UserIs } from '../../utils/utils';
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
+
     useState(() => {
         getClientList()
     }, [])
@@ -27,9 +28,7 @@ const Dashboard = ({ getClientList, clients, user }) => {
         <Row>
             <Col sm={4}>
                 <Card>
-                    <Card.Header className='bg-primary text-light text-center'>
-                        Buscar Poliza
-                    </Card.Header>
+                    <Card.Header className='bg-primary text-light text-center'>Buscar Poliza</Card.Header>
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
                             <Row className='mb-3'>

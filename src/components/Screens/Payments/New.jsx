@@ -86,7 +86,7 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
                                                 <td>{clients.editing.collector}</td>
                                             </tr>
                                             {
-                                                UserIs(user.role, 224) &&
+                                                UserIs(user, 224) &&
                                                 <tr>
                                                     <th colSpan={2}><UpdateClientModal /></th>
                                                 </tr>

@@ -19,7 +19,7 @@ export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
 const onClientProfileSucceeded = (profile) => ({ type: CLIENT_PROFILE_SUCCEEDED, payload: profile })
 const onClientShowSucceeded = (data) => ({ type: CLIENT_SHOW_SUCCEEDED, payload: data })
 
-const onClientListRequested = (data)=>({type:CLIENT_LIST_REQUESTED})
+const onClientListRequested = (data) => ({ type: CLIENT_LIST_REQUESTED })
 const onClientListSucceeded = (clientList) => ({ type: CLIENT_LIST_SUCCEEDED, payload: clientList })
 const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
 
@@ -70,8 +70,8 @@ export const showClientProfile = (id) => {
     }
 }
 
-export const getClientList = (search = null) => {
 
+export const getClientList = (search = null) => {
     let string = '';
     if (!search) {
         string = API + '/clients/list';
@@ -79,15 +79,20 @@ export const getClientList = (search = null) => {
     else {
         string = API + '/clients/list?criteria=' + search.criteria + '&term=' + search.term
     }
-
     return dispatch => {
         dispatch(onClientListRequested())
         Axios.get(string).then(res => {
             dispatch(onClientListSucceeded(res.data.data))
+        }).catch(err => {
+            
+            if(err.response.status===500){
+                dispatch(onSetNotification('danger','Error al procesar la llamada al servidor, presione F5 para actualizar'));
+                dispatch(onClientListFailed(err.response.data))
+            }
+            else{
+                dispatch(onClientListFailed(err.response.data))
+            }
         })
-            .catch(err => {
-                dispatch(onClientListFailed(err))
-            })
     }
 }
 
@@ -95,15 +100,16 @@ const clientInitialState = {
     list: [],
     loading: false,
     editing: null,
-    showing: null
+    showing: null,
+    errors: null
 }
 
 export const clientReducer = (state = clientInitialState, action) => {
     switch (action.type) {
         case CLIENT_LIST_REQUESTED:
-            return{
+            return {
                 ...state,
-                loading:true
+                loading: true
             }
         case CLIENT_LIST_SUCCEEDED:
             return {
@@ -112,10 +118,11 @@ export const clientReducer = (state = clientInitialState, action) => {
                 loading: false
             }
         case CLIENT_LIST_FAILED:
-            return{
+            return {
                 ...state,
-                list:[],
-                loading:false
+                list: [],
+                loading: false,
+                errors: action.payload
             }
         case CLIENT_PROFILE_SUCCEEDED:
             return {

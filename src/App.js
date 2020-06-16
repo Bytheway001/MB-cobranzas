@@ -13,31 +13,33 @@ import Dashboard from './components/Screens/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 
 import NewClient from './components/Screens/Clients/New';
-import  NewPayment  from './components/Screens/Payments/New';
+import NewPayment from './components/Screens/Payments/New';
 import ClientProfile from './components/Screens/Clients/Profile';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Reports from './components/Screens/Reports/Reports';
-import {BulkPayments} from './components/Screens/Payments/Bulk'
+import { BulkPayments } from './components/Screens/Payments/Bulk'
 import { RCC } from './components/Screens/Reports/components/RCC';
 import NewExpense from './components/Screens/Expenses/New';
 import Expenses from './components/Screens/Expenses/Expenses';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import PaymentsReport from './components/Screens/Reports/Payments';
 import GeneralReport from './components/Screens/Reports/GeneralReport';
 import NewTransfer from './components/Screens/Transfers/New';
 import { ChecksCollection } from './components/Screens/Transfers/Checks';
 import { Finances } from './components/Screens/Reports/Finances';
 import { setupInterceptors } from './utils/utils';
+import Axios from 'axios';
 
-const store = createStore(rootReducer, 
+const store = createStore(rootReducer,
   composeWithDevTools(
-  applyMiddleware(thunk))
-  );
+    applyMiddleware(thunk))
+);
 if (localStorage.getItem('user')) {
   let parsed = JSON.parse(localStorage.getItem('user'))
   setupInterceptors(parsed.id)
-  store.dispatch({ type: 'LOGIN_SUCCEEDED', payload:parsed  })
+  store.dispatch({ type: 'LOGIN_SUCCEEDED', payload: parsed })
 }
+
 const App = props => {
 
   return (
@@ -60,14 +62,14 @@ const AppRoutes = props => (
     <Route exact path='/payments/new' component={NewPayment} />
     <Route exact path='/reports' component={Reports} />
     <Route exact path='/reports/rcc' component={RCC} />
-    <Route exact path='/reports/general' component={GeneralReport}/>
-    <Route exact path='/reports/payments' component={PaymentsReport}/>
-    <Route exact path='/payments/bulk' component={BulkPayments}/>
-    <Route exact path='/expenses' component={Expenses}/>
-    <Route exact path='/expenses/new' component={NewExpense}/>
-    <Route exact path='/transfers/new' component={NewTransfer}/>
-    <Route exact path='/checks/collect' component={ChecksCollection}/>
-    <Route exact path='/reports/finances' component={Finances}/>
+    <Route exact path='/reports/general' component={GeneralReport} />
+    <Route exact path='/reports/payments' component={PaymentsReport} />
+    <Route exact path='/payments/bulk' component={BulkPayments} />
+    <Route exact path='/expenses' component={Expenses} />
+    <Route exact path='/expenses/new' component={NewExpense} />
+    <Route exact path='/transfers/new' component={NewTransfer} />
+    <Route exact path='/checks/collect' component={ChecksCollection} />
+    <Route exact path='/reports/finances' component={Finances} />
   </BasicLayout>
 
 )
