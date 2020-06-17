@@ -8,6 +8,7 @@ import { LoadingCard, LoaderButton, DashboardList } from '../../custom';
 import { getClientList } from '../../../ducks/clients';
 import { UserIs } from '../../../utils/utils';
 import { Criteria } from './Criteria';
+import { ActionBar } from './ActionBar';
 
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
@@ -25,63 +26,22 @@ const Dashboard = ({ getClientList, clients, user }) => {
         getClientList({ criteria, term })
     }
 
-    
+
     return (
         <Row>
             <Col sm={4}>
-                <Criteria 
-                    onSubmit={handleSubmit} 
+                <Criteria
+                    onSubmit={handleSubmit}
                     changeCriteria={changeCriteria}
                     term={term}
                     criteria={criteria}
                     setTerm={setTerm}
                     loading={clients.loading}
                 />
-                
+
             </Col>
             <Col sm={8} >
-                <Card className='h-100'>
-                    <Card.Header className='bg-primary text-light'>Acciones</Card.Header>
-                    <Card.Body>
-                        <Row className='h-100'>
-                            {UserIs(user, 224) &&
-                                <Col sm={3}>
-                                    <Button as={Link} to='/payments/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
-                                        <div className='d-flex flex-column justify-content-center align-items-center'>
-                                            <FontAwesomeIcon icon={faMoneyBillWaveAlt} className='mr-2 d-block' size='2x' />
-
-                                            <span>Registrar Cobranza</span>
-
-                                        </div>
-                                    </Button>
-                                </Col>
-                            }
-
-                            <Col sm={3}>
-                                <Button as={Link} to='/clients/new' size='lg' className='d-flex align-items-center justify-content-center h-100' block>
-                                    <div className='d-flex flex-column justify-content-center align-items-center'>
-                                        <FontAwesomeIcon icon={faUser} className='mr-2 d-block' size='2x' />
-                                        <span>Crear Cliente</span>
-                                    </div></Button>
-                            </Col>
-                            {
-                                UserIs(user, 248) &&
-                                <Col sm={3}>
-                                    <Button as={Link} to='/expenses/new' size='lg' className='d-flex align-items-center justify-content-center h-100' variant='primary' block>
-                                        <div className='d-flex flex-column justify-content-center align-items-center'>
-                                            <FontAwesomeIcon icon={faExternalLinkSquareAlt} className='mr-2 d-block' size='2x' />
-                                            <span>Registrar Egreso</span>
-                                        </div>
-                                    </Button>
-                                </Col>
-
-                            }
-
-                        </Row>
-
-
-                    </Card.Body>
-                </Card>
+                <ActionBar user={user} />
             </Col>
             <Col sm={12} className='mt-5'>
                 <Card>
