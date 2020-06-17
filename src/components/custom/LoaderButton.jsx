@@ -1,11 +1,11 @@
 import React from 'react';
 import { Spinner, Button } from 'react-bootstrap';
-export const LoaderButton = ({loading,children,...props})=>{
+export const LoaderButton = ({loading,children,size,...props})=>{
     return(
         <Button {...props}>
             {
                 loading?
-                <Spinner animation='border'/>
+                <Spinner animation='border' size={size}/>
                 :
                 children
             }

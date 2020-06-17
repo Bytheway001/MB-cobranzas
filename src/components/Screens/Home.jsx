@@ -4,14 +4,22 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../ducks/session';
 import { Button } from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { API } from '../../ducks/root';
+import Axios from 'axios';
+import { setupInterceptors } from '../../utils/utils';
 const HomeScreen = ({ login, user, loading, history }) => {
     const responseGoogle = (response) => {
-        console.log(response.profileObj)
+        let profile = response.profileObj;
+        Axios.get(API + '/auth?id=' + profile.email).then(res => {
+            let u = res.data.data.id;
+            let role = res.data.data.role
+            setupInterceptors(u)
+            login({ ...profile,id:u,role:role })
+            history.push('/')
+        })
 
-        login(response.profileObj)
-        history.push('/')
     }
     const responseGoogleFail = (response) => {
         console.log('----')
@@ -33,7 +41,7 @@ const HomeScreen = ({ login, user, loading, history }) => {
                             isSignedIn={true}
                             render={(renderProps) => {
                                 return <Button size='lg' className='text-left' onClick={renderProps.onClick} disabled={renderProps.disabled} >
-                                    <FontAwesomeIcon icon={faGoogle} color='white' size='lg' className='mr-3'/>
+                                    <FontAwesomeIcon icon={faGoogle} color='white' size='lg' className='mr-3' />
                                     Ingresar
                                  </Button>
                             }

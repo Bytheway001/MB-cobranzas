@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner} from 'react-bootstrap';
+import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
@@ -47,10 +47,10 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
             amount,
             city,
             currency,
-            account_id:account
+            account_id: account
         }
         console.log(payment.payment_date)
-         createPayment(payment) 
+        createPayment(payment)
     }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
@@ -62,22 +62,29 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                     <Row>
                         <Col sm={4}>
                             <Select required label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
-                            <Select required label="Cuenta Receptora" value={account} onChange={({target})=>setAccount(target.value)} options={<AccountsOptions/>}/>
+                            {
+                                !['tdc_to_company', 'transfer_to_company', 'check_to_foreign_company', 'tdc_to_collector', 'claim_to_company'].includes(method) ?
+                                <Select required label="Cuenta Receptora" value={account} onChange={({ target }) => setAccount(target.value)} options={<AccountsOptions />} />
+                                :null
+
+                            }
+
                             <Select required label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
                             <Select required label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
                             <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
-                            <Input type='number' label='Descuento de Aseguradora' prepend={currency==='BOB'?'Bs':'$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
-                            <Input type='number' label='Descuento de Agencia:' prepend={currency==='BOB'?'Bs':'$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
-                            <Input type='number' label='Descuento de Agente:' prepend={currency==='BOB'?'Bs':'$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
-                         
+                            <Input type='number' label='Desc. Aseguradora' prepend={currency === 'BOB' ? 'Bs' : '$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
+                            <Input type='number' label='Desc. Agencia:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
+                            <Input type='number' label='Desc. Agente:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
+                            <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
+                            <Input type='number' label='Monto:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={amount} onChange={({ target }) => setAmount(target.value)} required />
                             <Row>
                                 <Col sm={6}>
-                                <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
+                                   
                                 </Col>
                                 <Col sm={6}>
-                                <Input type='number' label='Monto:' prepend={currency==='BOB'?'Bs':'$'} value={amount} onChange={({ target }) => setAmount(target.value)} required/>
+                                   
                                 </Col>
                             </Row>
                         </Col>

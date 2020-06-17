@@ -10,23 +10,39 @@ const onAccountListFailed = (err) => ({ type: ACCOUNT_LIST_FAILED, payload: err 
 
 export const getAccountList = () => {
     return dispatch => {
+        dispatch(onAccountListRequested())
         Axios.get(API + '/accounts').then(res =>
             dispatch(onAccountListSucceeded(res.data.data))
         )
+        .catch(err=>{
+            dispatch(onAccountListFailed(err.response.data))
+        })
     }
 }
 
 const initialState = {
-    list: []
+    list: [],
+    loading:false
 }
-
 
 export const AccountsReducer = (state = initialState, action)=>{
     switch (action.type) {
+        case ACCOUNT_LIST_REQUESTED:
+            return {
+                ...state,
+                loading:true
+            }
         case ACCOUNT_LIST_SUCCEEDED:
             return {
                 ...state,
-                list: action.payload
+                list: action.payload,
+                loading:false
+            }
+        case ACCOUNT_LIST_FAILED:
+            return{
+                ...state,
+                list:[],
+                loading:false
             }
         default:
             return state

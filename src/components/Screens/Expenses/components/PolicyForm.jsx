@@ -16,13 +16,20 @@ export const PaymentPolicyForm = props => {
     const [amount, setAmount] = useState(0);
     const [comment, setComment] = useState("");
     const [policyStatus, setPolicyStatus] = useState('Pendiente')
+    const [loading,setLoading]=useState(false)
     /* Esta es la data acomodada para enviar al servidor */
     let payload = { client_id: client.length > 0 ? client[0].id : null, account_id:account, currency, amount, comment,policy_status:policyStatus }
 
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault()
         Axios.post(API + '/payments/policy', payload).then(res => {
+            setLoading(false)
             alert('Pago registrado con exito')
+        })
+        .catch(err=>{
+            setLoading(true)
+            alert(err.response.data.data)
         })
     }
     return (
