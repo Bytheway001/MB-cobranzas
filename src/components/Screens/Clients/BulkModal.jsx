@@ -1,21 +1,20 @@
 import React,{useState,Fragment} from 'react'
 import {Modal,FormGroup,Table,Button,FormControl} from 'react-bootstrap';
 import CsvParse from '@vtex/react-csv-parse'
+
 export const BulkModal = ({ keys, createBulkClients }) => {
-    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [show, setShow] = useState(false);
     const [data, setData] = useState([])
     const handleSubmit = (e) => {
         console.log(data)
-       
         createBulkClients(data)
         setShow(false)
         setData([])
     }
 
     const loadData=(data)=>{
-        console.log(data)
         setData(data)
     }
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getClientList } from '../../ducks/agents';
+import { getClientList } from '../../ducks/clients';
 import { useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { connect } from 'react-redux';

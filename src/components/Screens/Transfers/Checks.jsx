@@ -33,7 +33,7 @@ export const View = props => {
             </Col>
             <Col sm={12}>
                 <Form onSubmit={handleSubmit}>
-                    <Select value={checkId}  onChange={({target})=>setCheckId(target.value)} label='Cheque a cobrar' options={list.map(x => <option value={x.id}>{x.client} ({x.amount} {x.currency})</option>)} />
+                    <Select value={checkId}  onChange={({target})=>setCheckId(target.value)} label='Cheque a cobrar' options={list.filter(x=>x.status==='En Oficina').map(x => <option value={x.id}>{x.client} ({x.amount} {x.currency})</option>)} />
                     <Select value={accountId} onChange={({target})=>setAccountId(target.value)} label='Cuenta a abonar' options={<AccountsOptions except={[9]} />} />
                     <Button type='submit'>Cobrar Cheque</Button>
                 </Form>

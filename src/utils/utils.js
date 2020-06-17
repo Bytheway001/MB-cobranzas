@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 export const Companies = [
     {
         id: 1,
@@ -199,16 +201,28 @@ export const Companies = [
     },
     {
         id:10,
-        name:'BUPA OFF',
+        name:'Bupa Off',
         slug:'bupaoff',
         plans:[]
     },
+    {
+        id:11,
+        name:'Panamerican Life',
+        slug:'panam',
+        plans:[
+            {id:36,name:'Next GenUL Universal'},
+            {id:37,name:"Termino 95"},
+            {id:38,name:'Termino 100'},
+            {id:39,name:"Indexed"}
+        ]
+    }
    
 ]
 
 
 export function formatMoney(amount,decimalCount = 2,decimal = ".",thousands = ",",currency='$') {
     try {
+
         decimalCount = Math.abs(decimalCount);
         decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
@@ -232,4 +246,21 @@ export function formatMoney(amount,decimalCount = 2,decimal = ".",thousands = ",
                 : "")
         );
     } catch (e) {}
+}
+
+export const setupInterceptors = (u)=>{
+    Axios.interceptors.request.use(config=>{
+        config.headers.u = u;
+        return config
+    })
+}
+
+export const roles = {
+    
+}
+
+export const UserIs = (user,level)=>{
+    let roles = {staff:128,collector:224,admin:248,master:255}
+    let userRole = roles[user.role]
+    return userRole >= level
 }

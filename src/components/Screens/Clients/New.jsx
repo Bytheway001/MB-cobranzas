@@ -3,7 +3,8 @@ import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup } from
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { getAgents, getCollectors, createClient, createBulkClients } from '../../../ducks/agents';
+import { getAgents, getCollectors } from '../../../ducks/agents';
+import {createClient,createBulkClients} from '../../../ducks/clients'
 import { connect } from 'react-redux';
 
 import { Companies } from '../../../utils/utils';
@@ -53,7 +54,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             frequency,
             prima,
             email,
-            phone
+            phone,
+            comment
         }
         console.log(client)
         createClient(client)
@@ -124,12 +126,12 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                     <label>Comentario:</label>
                                     <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
                                 </FormGroup>
-                                <Button type='submit'>Crear</Button>
+                              
                             </Card.Body>
                         </Card>
                     </Col>
                     <Col md={6}>
-                        <Card className='h-100'>
+                        <Card className='h-100' style={{fontSize:'0.9em'}}>
                             <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
                             <Card.Body>
                                 <Row>
@@ -262,7 +264,9 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 <FormControl required value={prima} onChange={({ target }) => setPrima(target.value)} size='sm' />
                                             </InputGroup>
                                         </FormGroup>
+                                        <Button type='submit'>Crear</Button>
                                     </Col>
+                            
                                 </Row>
                             </Card.Body>
                         </Card>

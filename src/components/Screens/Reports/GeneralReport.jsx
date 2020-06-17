@@ -60,17 +60,8 @@ const GeneralReport = props => {
                 {
                     report &&
                     <Fragment>
-                        <Col sm={6} className='px-1'>
-                            <Card >
-                                <Card.Header className='bg-primary text-white' >
-                                    Gastos Operativos
-                            </Card.Header>
-                                <Card.Body>
-                                    <ExpensesList expenses={report.expenses} />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col sm={6}>
+                       
+                        <Col sm={12}>
                             <Card>
                                 <Card.Header className='bg-primary text-white'>
                                     Pago de Polizas
@@ -79,8 +70,6 @@ const GeneralReport = props => {
                                     <PolicyPaymentsList payments={report.policy_payments} />
                                 </Card.Body>
                             </Card>
-
-
                         </Col>
                     </Fragment>
 

@@ -3,13 +3,15 @@ import { Button, Modal, Form, Row, Col, FormGroup, FormControl } from 'react-boo
 import { Companies } from '../../../utils/utils';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { connect } from 'react-redux';
-import { UpdateClientPolicy, getCollectors } from '../../../ducks/agents';
+import { UpdateClientPolicy } from '../../../ducks/clients';
+import {getCollectors} from '../../../ducks/agents'
 
 export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getCollectorList }) => {
     useEffect(() => {
         getCollectorList()
         // eslint-disable-next-line
     }, [])
+
     const initialState = {
         plan: [client.plan],
         option: client.option,
@@ -45,6 +47,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
         setPhone(initialState.phone)
         setEmail(initialState.email)
     };
+    
     const handleShow = () => {
         setPlan(initialState.plan)
         setOption(initialState.option)
