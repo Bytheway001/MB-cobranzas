@@ -54,7 +54,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             frequency,
             prima,
             email,
-            phone
+            phone,
+            comment
         }
         console.log(client)
         createClient(client)

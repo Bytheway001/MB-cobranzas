@@ -85,7 +85,11 @@ const UserData = ({ client }) => {
                 </div>
                 <div className='w-100 d-flex flex-row justify-content-between'>
                     <p>Aseguradora/Plan</p>
-                    <p>{client.company} / {client.plan}</p>
+                    <p>{client.company}</p>
+                </div>
+                <div className='w-100 d-flex flex-row justify-content-between'>
+                    <p>Plan</p>
+                    <p>{client.plan}</p>
                 </div>
                 <div className='w-100 d-flex flex-row justify-content-between'>
                     <p>Opcion</p>

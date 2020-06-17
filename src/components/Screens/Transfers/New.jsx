@@ -5,7 +5,9 @@ import AccountsOptions from '../../../options/accounts';
 import { API } from '../../../ducks/root';
 import Axios from 'axios'
 import { CurrencyOptions } from '../../../options/options';
-const NewTransfer = props =>{
+import { connect } from 'react-redux';
+import { addNotification } from '../../../ducks/notifications';
+const NewTransfer = ({setNotification}) =>{
     const [from,setFrom]=useState('');
     const [to,setTo]=useState('');
     const [amount,setAmount]=useState("")
@@ -16,14 +18,13 @@ const NewTransfer = props =>{
         let payload = {from,to,amount,currency}
         e.preventDefault();
         Axios.post(API+'/transfers',payload).then(res=>{
-            console.log(res.data.data)
-            setError(res.data.data)
+            setNotification('success','Transferencia realizada con exito')
         })
         .catch(err=>{
-            setError(err.response.data.data)
-          
+            setNotification('danger',err.response.data.data)
         })
     }
+    
     return (
         <Row>
             <Col sm={12}>
@@ -52,4 +53,11 @@ const NewTransfer = props =>{
 }
 
 
-export default NewTransfer
+
+const mapDispatchToProps = dispatch =>(
+    {
+        setNotification:(type,text)=>dispatch(addNotification(type,text))
+    }
+)
+
+export default connect(null,mapDispatchToProps)(NewTransfer)

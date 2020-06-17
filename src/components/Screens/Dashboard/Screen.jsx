@@ -1,61 +1,43 @@
 import React, { useState } from 'react'
 import { Row, Col, Card, FormCheck, Form, FormControl, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { getClientList } from '../../ducks/clients'
 import { connect } from 'react-redux';
-import { DashboardList } from '../custom/Lists/DashboardClients';
-import { LoaderButton } from '../custom/LoaderButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { LoadingCard } from '../custom/LoadingCard';
-import { UserIs } from '../../utils/utils';
+import { LoadingCard, LoaderButton, DashboardList } from '../../custom';
+import { getClientList } from '../../../ducks/clients';
+import { UserIs } from '../../../utils/utils';
+import { Criteria } from './Criteria';
+
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
-
     useState(() => {
         getClientList()
     }, [])
+
     const changeCriteria = (value) => {
-        setTerm('')
+        setTerm('');
         setCriteria(value)
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         getClientList({ criteria, term })
     }
+
+    
     return (
         <Row>
             <Col sm={4}>
-                <Card>
-                    <Card.Header className='bg-primary text-light text-center'>Buscar Poliza</Card.Header>
-                    <Card.Body>
-                        <Form onSubmit={handleSubmit}>
-                            <Row className='mb-3'>
-                                <Col sm={6}>
-                                    <FormCheck value='client' name='criteria' type='radio' label='Cliente' onChange={({ target }) => changeCriteria(target.value)} />
-                                </Col>
-                                <Col sm={6}>
-                                    <FormControl value={criteria === 'client' ? term : ''} disabled={criteria !== 'client'} size='sm' onChange={({ target }) => setTerm(target.value)} />
-                                </Col>
-                            </Row>
-                            <Row className='mb-3'>
-                                <Col sm={6}>
-                                    <FormCheck name='criteria' value='policy' type='radio' label='Numero de Poliza' onChange={({ target }) => changeCriteria(target.value)} />
-                                </Col>
-                                <Col sm={6}>
-                                    <FormControl value={criteria === 'policy' ? term : ''} disabled={criteria !== 'policy'} size='sm' onChange={({ target }) => setTerm(target.value)} />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col sm={12} className='text-center'>
-                                    <LoaderButton type='submit' loading={false} className='w-50' style={{ borderRadius: 0 }}>Buscar</LoaderButton>
-                                </Col>
-                            </Row>
-
-                        </Form>
-                    </Card.Body>
-                </Card>
+                <Criteria 
+                    onSubmit={handleSubmit} 
+                    changeCriteria={changeCriteria}
+                    term={term}
+                    criteria={criteria}
+                    setTerm={setTerm}
+                    loading={clients.loading}
+                />
+                
             </Col>
             <Col sm={8} >
                 <Card className='h-100'>
@@ -120,6 +102,8 @@ const Dashboard = ({ getClientList, clients, user }) => {
         </Row >
     )
 }
+
+
 
 const mapStateToProps = state => ({
     clients: state.clients,

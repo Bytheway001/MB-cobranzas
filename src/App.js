@@ -9,9 +9,8 @@ import thunk from 'redux-thunk'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import BasicLayout from './components/Layouts/Basic';
 import Home from './components/Screens/Home';
-import Dashboard from './components/Screens/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
-
+import Dashboard from './components/Screens/Dashboard/Screen';
 import NewClient from './components/Screens/Clients/New';
 import NewPayment from './components/Screens/Payments/New';
 import ClientProfile from './components/Screens/Clients/Profile';
@@ -34,11 +33,16 @@ const store = createStore(rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk))
 );
+
+
 if (localStorage.getItem('user')) {
   let parsed = JSON.parse(localStorage.getItem('user'))
   setupInterceptors(parsed.id)
   store.dispatch({ type: 'LOGIN_SUCCEEDED', payload: parsed })
 }
+
+
+
 
 const App = props => {
 
