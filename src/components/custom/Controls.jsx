@@ -24,6 +24,7 @@ export const Select = ({ label, onChange, value, options, except, only, ...props
    
     return (
         <FormGroup >
+            
             <label>{label}</label>
             <FormControl size='sm' value={value} onChange={onChange} as='select' {...props}>
                 <option value="">Seleccione...</option>

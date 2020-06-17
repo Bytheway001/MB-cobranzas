@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { LoadingCard, LoaderButton, DashboardList } from '../../custom';
+import { LoadingCard, LoaderButton} from '../../custom';
+import {ClientList} from './ClientList';
 import { getClientList } from '../../../ducks/clients';
 import { UserIs } from '../../../utils/utils';
 import { Criteria } from './Criteria';
@@ -52,7 +53,7 @@ const Dashboard = ({ getClientList, clients, user }) => {
 
                                 <LoadingCard />
                                 :
-                                <DashboardList list={clients.list} />
+                                <ClientList list={clients.list} />
 
                         }
 
