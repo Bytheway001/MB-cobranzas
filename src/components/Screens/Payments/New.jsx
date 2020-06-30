@@ -106,7 +106,7 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
             <Col sm={8}>
                 {
                     clients.editing ?
-                        <FormCobranza id={clients.editing.id} />
+                        <FormCobranza id={clients.editing.id} prima={clients.editing.prima} />
                         :
                         null
                 }

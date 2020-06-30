@@ -57,6 +57,7 @@ export const PolicyPaymentsList = ({ payments }) => {
                         <th>Cta Pagadora</th>
                         <th>Moneda</th>
                         <th>Cantidad</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,7 @@ export const PolicyPaymentsList = ({ payments }) => {
                             <td>{e.account}</td>
                             <td>{e.currency}</td>
                             <td>{e.amount}</td>
+                            <td>{e.policy_status==='Pagada'?'Pago Total':'Pago Parcial'}</td>
                         </tr>
                     ))}
                 </tbody>

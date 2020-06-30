@@ -215,6 +215,16 @@ export const Companies = [
             {id:38,name:'Termino 100'},
             {id:39,name:"Indexed"}
         ]
+    },
+    {
+        id:12,
+        name:'Amedex',
+        slug:'amedex',
+        plans:[
+            {id:40,name:'Termino 20 Años'},
+            {id:41,name:'Termino 30 Años'},
+            {id:42,name:'Universal'}
+        ]
     }
    
 ]
