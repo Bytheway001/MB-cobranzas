@@ -33,7 +33,15 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
     }
 
     function validatePrima(){
-        return amount <= (prima-agencyDiscount-agentDiscount-companyDiscount)
+       
+        let p = parseFloat(prima)
+        let a = parseFloat(amount)
+        let agentD = parseFloat(agentDiscount)
+        let agencyD = parseFloat(agencyDiscount)
+        let companyD =parseFloat(companyDiscount);
+
+        return a <= (p-agencyD-agentD-companyD)
+       
     }
 
 
