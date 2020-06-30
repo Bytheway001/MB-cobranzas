@@ -31,6 +31,8 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                                     <th rowSpan={2}>Ciudad</th>
                                     <th rowSpan={2}>Fecha</th>
                                     <th rowSpan={2}>Cliente</th>
+                                    <th rowSpan={2}>Compañia</th>
+                                    <th rowSpan={2}>Plan/Opcion</th>
                                     <th rowSpan={2}>Monto Cancelado</th>
                                     <th colSpan={3}>Descuentos</th>
                                     <th rowSpan={2}>Procesado</th>
@@ -42,7 +44,6 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                                     <th>Agencia</th>
                                     <th>Agente</th>
                                     <th>Aseguradora</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +53,8 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                                             <td>{payment.city.toUpperCase()}</td>
                                             <td>{payment.payment_date}</td>
                                             <td>{payment.client}</td>
-
+                                            <td>{payment.company}</td>
+                                            <td>{payment.plan}</td>
                                             <td>{formatMoney(payment.amount, '2', ',', '.', payment.currency === 'USD' ? "$" : 'Bs.')}</td>
                                             <td>{formatMoney(payment.agency_discount, '2', ',', '.', payment.currency === 'USD' ? "$" : 'Bs.')}</td>
                                             <td>{formatMoney(payment.agent_discount, '2', ',', '.', payment.currency === 'USD' ? "$" : 'Bs.')}</td>
@@ -60,12 +62,12 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                                             <td className='text-center'>
                                                 {payment.processed ?
                                                     'Procesado' :
-                                                    <Button onClick={() => validatePayment(payment.id)} block variant='warning' size='sm'>Validar</Button>
+                                                    <Button style={{padding:2}} onClick={() => validatePayment(payment.id)} block variant='warning' size='sm'>Validar</Button>
                                                 }
                                             </td>
                                             <td>{payment.collector}</td>
                                             <td style={{ fontSize: '1em' }}>{MethodsArray[payment.payment_method]}</td>
-                                            <td>{accounts.length > 0 && accounts.find(x => x.id == payment.account_id).name}</td>
+                                            <td>{payment.account_id ?accounts.length > 0 && accounts.find(x => x.id == payment.account_id).name:'--'}</td>
                                         </tr>
                                     )
                                     )

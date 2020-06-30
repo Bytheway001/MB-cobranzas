@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
-import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner } from 'react-bootstrap';
+import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
-export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
+export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
     const [agencyDiscount, setAgencyDiscount] = useState(0)
@@ -18,7 +18,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
     const [currency, setCurrency] = useState('USD')
-
+    const [error,setError]=useState(null);
     const customSetMethod = (value) => {
         if (value == 'cash_to_agency') {
             setAccount(1);
@@ -32,25 +32,37 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
         setMethod(value)
     }
 
+    function validatePrima(){
+        return amount <= (prima-agencyDiscount-agentDiscount-companyDiscount)
+    }
+
 
     const handleSubmit = (e) => {
+        setError(null)
         e.preventDefault();
-        let payment = {
-            client_id: id,
-            payment_method: method,
-            payment_type,
-            agency_discount: agencyDiscount,
-            agent_discount: agentDiscount,
-            company_discount: companyDiscount,
-            payment_date: paymentDate,
-            comment: comment,
-            amount,
-            city,
-            currency,
-            account_id: account
+        if(!validatePrima()){
+            setError('El monto ingresado es mayor al monto total del cliente')
         }
-        console.log(payment.payment_date)
-        createPayment(payment)
+        else{
+            let payment = {
+                client_id: id,
+                payment_method: method,
+                payment_type,
+                agency_discount: agencyDiscount,
+                agent_discount: agentDiscount,
+                company_discount: companyDiscount,
+                payment_date: paymentDate,
+                comment: comment,
+                amount,
+                city,
+                currency,
+                account_id: account
+            }
+            createPayment(payment)
+        }
+
+       
+        
     }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
@@ -95,6 +107,7 @@ export const FormCobranza = ({ id, createPayment, creatingPayment }) => {
                                 </FormControl>
                             </FormGroup>
                             <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border' /> : 'Registrar Cobranza'} </Button>
+                            {error && <Alert variant='danger'>{error}</Alert>}
                         </Col>
                     </Row>
                 </Form>
