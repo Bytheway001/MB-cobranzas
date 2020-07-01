@@ -6,7 +6,7 @@ import { createPayment } from '../../../ducks/agents';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
-export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
+export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
     const [agencyDiscount, setAgencyDiscount] = useState(0)
@@ -18,7 +18,7 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
     const [currency, setCurrency] = useState('USD')
-    const [error,setError]=useState(null);
+    const [error, setError] = useState(null);
     const customSetMethod = (value) => {
         if (value == 'cash_to_agency') {
             setAccount(1);
@@ -32,26 +32,28 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
         setMethod(value)
     }
 
-    function validatePrima(){
-       
-        let p = parseFloat(prima)
-        let a = parseFloat(amount)
-        let agentD = parseFloat(agentDiscount)
-        let agencyD = parseFloat(agencyDiscount)
-        let companyD =parseFloat(companyDiscount);
+    function numerize(number) {
+        number = number.toString().replace(',', '.');
+        return Number(parseFloat(number.replace(',', '.')).toFixed(2))
+    }
 
-        return a <= (p-agencyD-agentD-companyD)
-       
+    function validatePrima() {
+        let p = numerize(prima)
+        let a = numerize(amount)
+        let agentD = numerize(agentDiscount)
+        let agencyD = numerize(agencyDiscount)
+        let companyD = numerize(companyDiscount);
+        return a <= (p - agencyD - agentD - companyD)
     }
 
 
     const handleSubmit = (e) => {
         setError(null)
         e.preventDefault();
-        if(!validatePrima()){
+        if (!validatePrima()) {
             setError('El monto ingresado es mayor al monto total del cliente')
         }
-        else{
+        else {
             let payment = {
                 client_id: id,
                 payment_method: method,
@@ -69,8 +71,8 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
             createPayment(payment)
         }
 
-       
-        
+
+
     }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
@@ -84,8 +86,8 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
                             <Select required label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
                             {
                                 !['tdc_to_company', 'transfer_to_company', 'check_to_foreign_company', 'tdc_to_collector', 'claim_to_company'].includes(method) ?
-                                <Select required label="Cuenta Receptora" value={account} onChange={({ target }) => setAccount(target.value)} options={<AccountsOptions />} />
-                                :null
+                                    <Select required label="Cuenta Receptora" value={account} onChange={({ target }) => setAccount(target.value)} options={<AccountsOptions />} />
+                                    : null
 
                             }
 
@@ -101,10 +103,10 @@ export const FormCobranza = ({ id,prima, createPayment, creatingPayment }) => {
                             <Input type='number' label='Monto:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={amount} onChange={({ target }) => setAmount(target.value)} required />
                             <Row>
                                 <Col sm={6}>
-                                   
+
                                 </Col>
                                 <Col sm={6}>
-                                   
+
                                 </Col>
                             </Row>
                         </Col>
