@@ -87,6 +87,8 @@ export const PaymentsList = ({ payments }) => {
                     <tr className='bg-info text-white'>
                         <th>Fecha</th>
                         <th>Cliente</th>
+                        <th>Aseguradora</th>
+                        <th>Plan</th>
                         <th>Cobrador</th>
                         <th>Metodo de Pago</th>
                         <th>Cuenta</th>
@@ -101,6 +103,8 @@ export const PaymentsList = ({ payments }) => {
                         <tr key={k}>
                             <td>{r.payment_date}</td>
                             <td>{r.client}</td>
+                            <td>{r.company}</td>
+                            <td>{r.plan}</td>
                             <td>{r.collector}</td>
                             <td>{r.payment_method}</td>
                             <td>{r.account}</td>

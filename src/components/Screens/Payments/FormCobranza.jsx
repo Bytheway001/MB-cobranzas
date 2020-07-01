@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
+import {numerize} from '../../../utils/utils';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
@@ -32,10 +33,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
         setMethod(value)
     }
 
-    function numerize(number) {
-        number = number.toString().replace(',', '.');
-        return Number(parseFloat(number.replace(',', '.')).toFixed(2))
-    }
+
 
     function validatePrima() {
         let p = numerize(prima)

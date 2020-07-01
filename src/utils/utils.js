@@ -274,3 +274,9 @@ export const UserIs = (user,level)=>{
     let userRole = roles[user.role]
     return userRole >= level
 }
+
+export function numerize(number) {
+    number = number.toString().replace(',', '.');
+    return Number(parseFloat(number.replace(',', '.')).toFixed(2))
+}
+
