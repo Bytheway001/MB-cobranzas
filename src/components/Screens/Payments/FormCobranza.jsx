@@ -43,7 +43,8 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
         let agentD = numerize(agentDiscount)
         let agencyD = numerize(agencyDiscount)
         let companyD = numerize(companyDiscount);
-        return a <= (p - agencyD - agentD - companyD)
+        //return a <= (p - agencyD - agentD - companyD)
+        return true
     }
 
 
