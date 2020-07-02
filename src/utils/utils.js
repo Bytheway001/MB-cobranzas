@@ -154,6 +154,10 @@ export const Companies = [
             {
                 id:32,
                 name:'Global Major Medical'
+            },
+            {
+                id:43,
+                name:'Premier 1'
             }
         ]
     },
