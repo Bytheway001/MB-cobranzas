@@ -42,10 +42,6 @@ export const PaymentPolicyForm = ({selectedClient}) => {
         <div>
 
             <Form onSubmit={handleSubmit}>
-                <FormGroup>
-                    <label>Cliente:</label>
-                    <ClientSelect selected={client} onChange={setClient} />
-                </FormGroup>
                 <Select label='Cuenta Pagadora:' options={<AccountsOptions except={[9]} />} onChange={(e) => setAccount(e.target.value)} selected={client} />
                 <Select label='Moneda:' onChange={({ target }) => setCurrency(target.value)} options={<CurrencyOptions />} value={currency} />
                 <Input label='Monto Cancelado' value={amount} onChange={({ target }) => setAmount(target.value)} />
