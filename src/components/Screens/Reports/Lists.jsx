@@ -107,7 +107,7 @@ export const PaymentsList = ({ payments }) => {
                             <td>{r.plan}</td>
                             <td>{r.collector}</td>
                             <td>{r.payment_method}</td>
-                            <td>{r.account}</td>
+                            <td>{r.account_name}</td>
                             <td>{r.currency}</td>
                             <td>{r.amount}</td>
                         </tr>

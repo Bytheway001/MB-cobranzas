@@ -22,9 +22,9 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [changeRate, setChangeRate] = useState('');
     const [error, setError] = useState(null);
 
-    const handleCurrencyChange = (value)=>{
-        if(value==='USD'){
-            
+    const handleCurrencyChange = (value) => {
+        if (value === 'USD') {
+
             setChangeRate('');
         }
         setCurrency(value);
@@ -78,7 +78,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                 city,
                 currency,
                 account_id: account,
-                change_rate:changeRate
+                change_rate: changeRate
             }
             createPayment(payment)
         }
@@ -86,7 +86,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
 
 
     }
-    
+
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
     return (
@@ -108,8 +108,16 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                             <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
-                            <Select label='Moneda' value={currency} onChange={({ target }) => handleCurrencyChange(target.value)} required options={<CurrencyOptions />} />
-                            {currency == 'BOB' && <Input type='number' label='Tipo de Cambio' value={changeRate} onChange={({ target }) => setChangeRate(target.value)} />}
+                            <Row>
+                                <Col sm={6}>
+                                    <Select label='Moneda' value={currency} onChange={({ target }) => handleCurrencyChange(target.value)} required options={<CurrencyOptions />} />
+                                </Col>
+                                <Col sm={6}>
+                                    {currency == 'BOB' && <Input type='number' label='Tipo de Cambio' value={changeRate} onChange={({ target }) => setChangeRate(target.value)} />}
+                                </Col>
+                            </Row>
+
+
                             <Input type='number' label='Desc. Aseguradora' prepend={currency === 'BOB' ? 'Bs' : '$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
                             <Input type='number' label='Desc. Agencia:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
                             <Input type='number' label='Desc. Agente:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
@@ -126,7 +134,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                             </FormGroup>
                             <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border' /> : 'Registrar Cobranza'} </Button>
                             {error && <Alert variant='danger'>{error}</Alert>}
-                          
+
                             {
                                 changeRate && (
                                     <div className='conversions'>
@@ -135,7 +143,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                                         <p>Desc. Agencia: {numerize(agencyDiscount / changeRate)}</p>
                                         <p>Desc. Asegura: {numerize(companyDiscount / changeRate)}</p>
                                         <p>Monto: {numerize(amount / changeRate)}</p>
-                                        </div>
+                                    </div>
                                 )
                             }
                         </Col>

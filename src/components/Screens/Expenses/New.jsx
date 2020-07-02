@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, FormGroup, FormControl, Button, Tabs, Tab, Alert } from 'react-bootstrap'
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
@@ -18,9 +18,16 @@ const NewExpense = props => {
     const [category, setCategory] = useState("");
     const [error,setError]=useState("");
     const [loading,setLoading]=useState(false);
+    const [categoryList,setCategoryList]=useState([]);
+    useEffect(()=>{
+        Axios.get(API+'/categories').then(res=>{
+            setCategoryList(res.data.data)
+        })
+    },[])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        let data = { date, office, bill_number, description, amount, account_id:account, currency, category }
+        let data = { date, office, bill_number, description, amount, account_id:account, currency, category_id:category }
         setLoading(true)
         setError({})
         Axios.post(API + '/expenses', data).then(res => {
@@ -57,7 +64,7 @@ const NewExpense = props => {
                             </Row>
                             <Row>
                                 <Col sm={6}>
-                                    <Select label='Categoria' options={<CategoryOptions />} onChange={({ target }) => setCategory(target.value)} />
+                                    <Select label='Categoria' options={categoryList.map(cat=><option value={cat.id}>{cat.name}</option>)} onChange={({ target }) => setCategory(target.value)} />
                                 </Col>
                                 <Col sm={6}>
                                     <Select label='Cuenta Pagadora' options={<AccountsOptions except={[9]}/>} value={account} onChange={({ target }) => setAccount(target.value)} />

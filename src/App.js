@@ -29,6 +29,7 @@ import { Finances } from './components/Screens/Reports/Finances';
 import { setupInterceptors } from './utils/utils';
 import Axios from 'axios';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
+import { Categories } from './components/Screens/Categories/Page';
 
 const store = createStore(rootReducer,
   composeWithDevTools(
@@ -76,6 +77,7 @@ const AppRoutes = props => (
     <Route exact path='/checks/collect' component={ChecksCollection} />
     <Route exact path='/reports/finances' component={Finances} />
     <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
+    <Route exact path='/categories' component={Categories}/>
   </BasicLayout>
 
 )
