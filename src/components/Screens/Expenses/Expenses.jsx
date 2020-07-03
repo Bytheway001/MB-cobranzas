@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getExpenses } from '../../../ducks/expenses';
 
-
 const Expenses = ({ getExpenses, list }) => {
     useEffect(() => {
         getExpenses()

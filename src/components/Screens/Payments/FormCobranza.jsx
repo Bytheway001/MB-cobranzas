@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
-import {numerize} from '../../../utils/utils';
+import { numerize } from '../../../utils/utils';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
@@ -19,7 +19,17 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [city, setCity] = useState('')
     const [account, setAccount] = useState('')
     const [currency, setCurrency] = useState('USD')
+    const [changeRate, setChangeRate] = useState('');
     const [error, setError] = useState(null);
+
+    const handleCurrencyChange = (value) => {
+        if (value === 'USD') {
+
+            setChangeRate('');
+        }
+        setCurrency(value);
+
+    }
     const customSetMethod = (value) => {
         if (value == 'cash_to_agency') {
             setAccount(1);
@@ -36,13 +46,15 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
 
 
     function validatePrima() {
-        let p = numerize(prima)
-        let a = numerize(amount)
-        let agentD = numerize(agentDiscount)
-        let agencyD = numerize(agencyDiscount)
-        let companyD = numerize(companyDiscount);
-        //return a <= (p - agencyD - agentD - companyD)
-        return true
+        let payingAmount = currency === 'BOB' ? numerize(amount / changeRate) : numerize(amount)
+        let aD = numerize(agentDiscount);
+        let agD = numerize(agencyDiscount);
+        let cd = numerize(companyDiscount)
+        let d = aD + agD + cd
+        let discounts = currency === 'BOB' ? numerize(d) / changeRate : numerize(d)
+        let premium = numerize(prima)
+        console.log(`El cliente esta pagando un total de $${payingAmount}, Su prima es de ${premium} con un descuento de ${discounts} por lo cual debe pagar ${premium - discounts}`);
+        return payingAmount < premium - discounts;
     }
 
 
@@ -65,7 +77,8 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                 amount,
                 city,
                 currency,
-                account_id: account
+                account_id: account,
+                change_rate: changeRate
             }
             createPayment(payment)
         }
@@ -73,6 +86,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
 
 
     }
+
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
     return (
@@ -89,25 +103,28 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                                     : null
 
                             }
-
                             <Select required label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
                             <Select required label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
                             <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                         </Col>
                         <Col sm={3}>
+                            <Row>
+                                <Col sm={6}>
+                                    <Select label='Moneda' value={currency} onChange={({ target }) => handleCurrencyChange(target.value)} required options={<CurrencyOptions />} />
+                                </Col>
+                                <Col sm={6}>
+                                    {currency == 'BOB' && <Input type='number' label='Tipo de Cambio' value={changeRate} onChange={({ target }) => setChangeRate(target.value)} />}
+                                </Col>
+                            </Row>
+
+
                             <Input type='number' label='Desc. Aseguradora' prepend={currency === 'BOB' ? 'Bs' : '$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
                             <Input type='number' label='Desc. Agencia:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
                             <Input type='number' label='Desc. Agente:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
-                            <Select label='Moneda' value={currency} onChange={({ target }) => setCurrency(target.value)} required options={<CurrencyOptions />} />
+
+
+
                             <Input type='number' label='Monto:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={amount} onChange={({ target }) => setAmount(target.value)} required />
-                            <Row>
-                                <Col sm={6}>
-
-                                </Col>
-                                <Col sm={6}>
-
-                                </Col>
-                            </Row>
                         </Col>
                         <Col sm={5}>
                             <FormGroup>
@@ -117,6 +134,18 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                             </FormGroup>
                             <Button disabled={creatingPayment} block type='submit' variant='success' size='lg'>{creatingPayment ? <Spinner animation='border' /> : 'Registrar Cobranza'} </Button>
                             {error && <Alert variant='danger'>{error}</Alert>}
+
+                            {
+                                changeRate && (
+                                    <div className='conversions'>
+                                        <p className='text-center'>Cantidades Convertidas</p>
+                                        <p>Desc. Agente: {numerize(agentDiscount / changeRate)}</p>
+                                        <p>Desc. Agencia: {numerize(agencyDiscount / changeRate)}</p>
+                                        <p>Desc. Asegura: {numerize(companyDiscount / changeRate)}</p>
+                                        <p>Monto: {numerize(amount / changeRate)}</p>
+                                    </div>
+                                )
+                            }
                         </Col>
                     </Row>
                 </Form>
