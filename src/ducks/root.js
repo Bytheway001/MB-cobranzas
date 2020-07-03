@@ -7,7 +7,7 @@ import { expensesReducer } from "./expenses";
 import { paymentsReducer } from "./payments";
 import { AccountsReducer } from "./accounts";
 //export const API = 'https://capi.megabrokerslatam.com'
-export const API = 'http://localhost:400'
+export const API = process.env.REACT_APP_API_URL;
 export const rootReducer = combineReducers(
     {
         session: sessionReducer,
