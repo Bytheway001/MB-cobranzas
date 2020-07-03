@@ -50,7 +50,7 @@ const NewExpense = props => {
             </Col>
             <Col sm={4}>
                 <Card>
-                    <Card.Header>Registro de Gasto</Card.Header>
+                    <Card.Header className='bg-primary text-white'>Registro de Gasto</Card.Header>
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
                             <Select label='Oficina' options={<OfficeOptions />} value={office} onChange={({ target }) => setOffice(target.value)} />
@@ -81,7 +81,7 @@ const NewExpense = props => {
             </Col>
             <Col sm={4}>
                 <Card>
-                    <Card.Header>Cambio de Divisas</Card.Header>
+                    <Card.Header className='bg-primary text-white'>Cambio de Divisas</Card.Header>
                     <Card.Body>
                        <CurrencyChange/>
                     </Card.Body>
@@ -90,7 +90,7 @@ const NewExpense = props => {
             </Col>
             <Col sm={4}>
             <Card>
-                    <Card.Header>Estado de Cuentas</Card.Header>
+                    <Card.Header className='bg-primary text-white'>Estado de Cuentas</Card.Header>
                     <Card.Body>
                       <AccountsView/>
                     </Card.Body>
