@@ -51,10 +51,12 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
         let agD = numerize(agencyDiscount);
         let cd = numerize(companyDiscount)
         let d = aD + agD + cd
-        let discounts = currency === 'BOB' ? numerize(d) / changeRate : numerize(d)
+        let discounts = currency === 'BOB' ? numerize(d / changeRate) : numerize(d)
         let premium = numerize(prima)
         console.log(`El cliente esta pagando un total de $${payingAmount}, Su prima es de ${premium} con un descuento de ${discounts} por lo cual debe pagar ${premium - discounts}`);
-        return payingAmount < premium - discounts;
+        console.log(payingAmount,premium,discounts);
+        console.log(payingAmount < premium - discounts)
+        return payingAmount <= premium - discounts;
     }
 
 
