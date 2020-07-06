@@ -4,9 +4,9 @@ import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { getAgents, getCollectors } from '../../../ducks/agents';
-import {createClient,createBulkClients} from '../../../ducks/clients'
+import { createClient, createBulkClients } from '../../../ducks/clients'
 import { connect } from 'react-redux';
-
+import { CustomCard } from '../../custom/CustomCard';
 import { Companies } from '../../../utils/utils';
 import { BulkModal } from './BulkModal';
 const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
@@ -29,8 +29,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [frequency, setFrequency] = useState('')
     const [prima, setPrima] = useState('')
     const [h_id, setHubspotId] = useState('');
-    const [email,setEmail]=useState('')
-    const [phone,setPhone]=useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
     useEffect(() => {
         getAgents();
         getCollectors()
@@ -41,7 +41,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         let renovationDate = `${renovationDay}-${renovationMonth}-${renovationYear}`
         let effectiveDate = `${effectiveDay}-${effectiveMonth}-${effectiveYear}`
         let client = {
-            first_name: first_name+' '+last_name,
+            first_name: first_name + ' ' + last_name,
             agent_id: agent[0].id,
             collector_id: collector[0].id,
             policy_number: policyNumber,
@@ -60,7 +60,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         console.log(client)
         createClient(client)
     }
-    
+
     const year = new Date().getFullYear()
     const keys = [
         'company',
@@ -82,58 +82,56 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             <Form onSubmit={handleSubmit}>
                 <Row>
                     <Col md={6}>
-                        <Card>
-                            <Card.Header className='bg-primary text-light' >Datos del Usuario</Card.Header>
-                            <Card.Body>
-                                <FormGroup as={Row}>
+                        <CustomCard title='Datos del Usuario'>
+
+                            <FormGroup as={Row}>
                                 <Col sm={6}>
-                                        <label>Email:</label>
-                                        <FormControl required value={email} size='sm' onChange={({ target }) => setEmail(target.value)} />
-                                    </Col>
-                                    <Col sm={6}>
-                                        <label>Nombre:</label>
-                                        <FormControl required value={first_name} size='sm' onChange={({ target }) => setFirstName(target.value)} />
-                                    </Col>
-                                    <Col sm={6}>
-                                        <label>Apellido:</label>
-                                        <FormControl required value={last_name} size='sm' onChange={({ target }) => setLastName(target.value)} />
-                                    </Col>
-                                    <Col sm={6}>
-                                        <label>Telefono:</label>
-                                        <FormControl required value={phone} size='sm' onChange={({ target }) => setPhone(target.value)} />
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup as={Row}>
-                                    <Col sm={6}>
-                                        <label>ID en Hubspot</label>
-                                        <FormControl value={h_id} size='sm' onChange={({ target }) => setHubspotId(target.value)} />
-                                    </Col>
-                                    <Col sm={6}>
-                                        <label>Cobrador:</label>
-                                        <Typeahead inputProps={{ required: true }} id='cobrador' clearButton={true} size='sm' selected={collector} labelKey='name' onChange={setCollector} options={collectors} />
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Agente:</label>
-                                    <Typeahead inputProps={{ required: true }} id='agent' clearButton={true} size='sm' selected={agent} onChange={setAgent} labelKey='name' options={agents} />
+                                    <label>Email:</label>
+                                    <FormControl required value={email} size='sm' onChange={({ target }) => setEmail(target.value)} />
+                                </Col>
+                                <Col sm={6}>
+                                    <label>Nombre:</label>
+                                    <FormControl required value={first_name} size='sm' onChange={({ target }) => setFirstName(target.value)} />
+                                </Col>
+                                <Col sm={6}>
+                                    <label>Apellido:</label>
+                                    <FormControl required value={last_name} size='sm' onChange={({ target }) => setLastName(target.value)} />
+                                </Col>
+                                <Col sm={6}>
+                                    <label>Telefono:</label>
+                                    <FormControl required value={phone} size='sm' onChange={({ target }) => setPhone(target.value)} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup as={Row}>
+                                <Col sm={6}>
+                                    <label>ID en Hubspot</label>
+                                    <FormControl value={h_id} size='sm' onChange={({ target }) => setHubspotId(target.value)} />
+                                </Col>
+                                <Col sm={6}>
+                                    <label>Cobrador:</label>
+                                    <Typeahead inputProps={{ required: true }} id='cobrador' clearButton={true} size='sm' selected={collector} labelKey='name' onChange={setCollector} options={collectors} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <label>Agente:</label>
+                                <Typeahead inputProps={{ required: true }} id='agent' clearButton={true} size='sm' selected={agent} onChange={setAgent} labelKey='name' options={agents} />
 
-                                </FormGroup>
-                                <FormGroup>
+                            </FormGroup>
+                            <FormGroup>
 
-                                </FormGroup>
+                            </FormGroup>
 
-                                <FormGroup>
-                                    <label>Comentario:</label>
-                                    <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
-                                </FormGroup>
-                              
-                            </Card.Body>
-                        </Card>
+                            <FormGroup>
+                                <label>Comentario:</label>
+                                <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
+                            </FormGroup>
+
+                        </CustomCard>
                     </Col>
                     <Col md={6}>
-                        <Card className='h-100' style={{fontSize:'0.9em'}}>
-                            <Card.Header className='bg-primary text-light' >Datos de la Poliza</Card.Header>
-                            <Card.Body>
+                        <CustomCard title="Datos de la poliza">
+  
+                         
                                 <Row>
                                     <Col sm={6}>
                                         <FormGroup>
@@ -266,10 +264,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                         </FormGroup>
                                         <Button type='submit'>Crear</Button>
                                     </Col>
-                            
+
                                 </Row>
-                            </Card.Body>
-                        </Card>
+                           
+                        </CustomCard>
                     </Col>
                 </Row>
 

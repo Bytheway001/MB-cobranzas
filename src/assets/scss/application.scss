@@ -21,7 +21,7 @@ $blue: #0747a6;
 html,
 body {
     height: 100%;
-    background: #ffffff !important;
+    background: #f8f9fc !important;
 }
 .login {
     background: #0747a6;
@@ -119,10 +119,10 @@ body {
 }
 /* Refactored components */
 .custom-card {
-    border-radius: 0px;
-    border: yellow 2px solid;
+    border:none;
+    box-shadow: 2px 2px 5px lightgray;
     .card-header {
-        border-radius: 0px;
+       
     }
 }
 

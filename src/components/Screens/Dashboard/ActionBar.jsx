@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faExternalLinkSquareAlt, faUser, faMoneyBillAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { CustomCard } from '../../custom/CustomCard';
-
 export const ActionBar = ({ user }) => (
     <CustomCard title='Acciones'>
         <Row className='h-100'>
