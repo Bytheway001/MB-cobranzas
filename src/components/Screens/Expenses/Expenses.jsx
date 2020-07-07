@@ -3,6 +3,7 @@ import { Row, Col, Button, Table, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getExpenses } from '../../../ducks/expenses';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const Expenses = ({ getExpenses, list }) => {
     useEffect(() => {
@@ -22,7 +23,8 @@ const Expenses = ({ getExpenses, list }) => {
                         <Button variant='info' size='sm' as={Link} to='/expenses/new'>Registrar Nuevo Gasto</Button>
                     </Card.Header>
                     <Card.Body>
-                        <Table variant='striped' size='sm'>
+                    <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
+                        <Table id='expenses_list' variant='striped' size='sm'>
                             <thead className='bg-info text-white'>
                                 <tr>
                                     <th>Fecha</th>
