@@ -9,6 +9,7 @@ import UpdateClientModal from '../Clients/UpdateClientModal';
 import FormCobranza from './FormCobranza';
 import ClientSelect from '../../custom/ClientSelect';
 import { UserIs } from '../../../utils/utils';
+import { CustomCard } from '../../custom/CustomCard';
 const NewPayment = ({ clients, getClientList, getClientById,user }) => {
     const [client, setClient] = useState([]);
     useEffect(() => {
@@ -22,10 +23,8 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
     return (
         <Row>
             <Col sm={4} className='mb-5'>
-                <Card className='h-100'>
-                    <Card.Header className='bg-primary text-light' >Paso: 1.- Seleccion de Cliente</Card.Header>
-                    <Card.Body>
-                        <Form>
+                <CustomCard title='Seleccion de cliente'>
+                <Form>
                             <FormGroup>
                                 <label>Cliente:</label>
                                 <ClientSelect onChange={setClient} selected={client} />
@@ -99,9 +98,7 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
                                 :
                                 null
                         }
-
-                    </Card.Body>
-                </Card>
+                </CustomCard>
             </Col>
             <Col sm={8}>
                 {
