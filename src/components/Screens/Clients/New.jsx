@@ -64,17 +64,20 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const year = new Date().getFullYear()
     const keys = [
         'company',
-        'comment',
         'policy_number',
         'h_id',
         'collector',
         'name',
         'plan',
         'option',
-        'renovation_date',
         'effective_date',
+        'renovation_date',
+        'prima',
         'frequency',
         'agent',
+        'email',
+        'phone',
+        'comment',
     ]
 
     return (
