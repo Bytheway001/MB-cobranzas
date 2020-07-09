@@ -223,7 +223,7 @@ export const Companies = [
     },
     {
         id:10,
-        name:'Bupa OFF',
+        name:'BUPA OFF',
         slug:'bupaoff',
         plans:[
             {id:43,name:'Exclusive Care'},
