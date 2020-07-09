@@ -3,22 +3,7 @@ import { Table, Button, Pagination, FormControl, Row, Col, FormGroup } from 'rea
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Select } from '../../custom/Controls';
-const Paginator = ({ pages, setPage }) => (
-    <Pagination>
-        <Pagination.First onClick={() => setPage(1)} />
-        <Pagination.Prev />
-        {pages.map((x, index) => {
-            return (
-                <Pagination.Item onClick={() => setPage(x)}>{x}</Pagination.Item>
-            )
-
-        })}
-        <Pagination.Next />
-        <Pagination.Last onClick={() => setPage(pages.length)} />
-    </Pagination>
-)
-
-
+/*
 
 
 export const ClientList = ({ list }) => {
@@ -32,7 +17,6 @@ export const ClientList = ({ list }) => {
     }
     
     const handleRowsPerPage=(value)=>{
-       
         setPage(1)
         setRowsPerPage(value);
     }
@@ -118,3 +102,4 @@ export const ClientList = ({ list }) => {
         </div>
     )
 }
+*/

@@ -1,12 +1,13 @@
 import React,{useState,Fragment} from 'react'
-import {Modal,FormGroup,Table,Button,FormControl} from 'react-bootstrap';
+import {Modal,FormGroup,Table,Button,FormControl, Alert} from 'react-bootstrap';
 import CsvParse from '@vtex/react-csv-parse'
 
 export const BulkModal = ({ keys, createBulkClients }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [show, setShow] = useState(false);
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+    const [errors,setErrors]=useState('');
     const handleSubmit = (e) => {
         console.log(data)
         createBulkClients(data)
@@ -14,7 +15,17 @@ export const BulkModal = ({ keys, createBulkClients }) => {
         setData([])
     }
 
+
+
     const loadData=(data)=>{
+        console.log(data)
+        let badRows = data.filter(x=>x.h_id=='')
+        if(badRows.length>0){
+            setErrors("Hay "+badRows.length+' Registros con problemas')
+        }
+        else{
+            setErrors("");
+        }
         setData(data)
     }
     return (
@@ -28,8 +39,10 @@ export const BulkModal = ({ keys, createBulkClients }) => {
                     <FormGroup>
                         <CsvParse
                             keys={keys}
-                            onDataUploaded={(data) => setData(data)}
+                            onDataUploaded={(data) => loadData(data)}
                             render={onChange => <FormControl type='file' onChange={onChange} />} />
+                        {data && <p>{data.length} Registros a cargar</p>}
+                        {errors && <Alert variant='danger'>{errors}</Alert>}
                     </FormGroup>
                     {
                         data.length > 0 &&
@@ -37,7 +50,7 @@ export const BulkModal = ({ keys, createBulkClients }) => {
                             <thead>
 
                                 <tr>
-                                    {Object.keys(data[0]).map((header, index) => (
+                                    {keys.map((header, index) => (
                                         <th>{header}</th>
                                     ))}
                                 </tr>
@@ -46,9 +59,11 @@ export const BulkModal = ({ keys, createBulkClients }) => {
                                 {
                                     data.map(client => (
 
-                                        <tr>
+                                        
+                                        <tr className={client.h_id!=''?'white':'bg-danger'}>
                                             {keys.map((h, k) => {
                                                 if (!client[h]) {
+
                                                     return <td style={{ color: 'red' }}><b>--</b></td>
                                                 }
                                                 return <td>{client[h]}</td>
