@@ -1,10 +1,11 @@
 import React, { Fragment,useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Paginator } from './Paginator';
+import { Link } from 'react-router-dom';
 
 export const CustomTable = ({ list, headers, rows, paginated }) => {
     const [page,setPage]=useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
     
     const paginationData={
         totalPages:Math.ceil(list.length / rowsPerPage),
@@ -46,6 +47,7 @@ export const CustomTable = ({ list, headers, rows, paginated }) => {
             <thead>
                 <tr className='bg-info text-white'>
                     {headerCells}
+                    <td>Acciones</td>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +57,7 @@ export const CustomTable = ({ list, headers, rows, paginated }) => {
                             {rows.map((h, k) => {
                                 return <td key={k}>{item[h]}</td>
                             })}
+                            <td><Button as={Link} to={'/clients/profile/' + item.id} block size='sm' style={{ padding: 2 }}>Ver Poliza</Button></td>
                         </tr>
                     ))
                 }
