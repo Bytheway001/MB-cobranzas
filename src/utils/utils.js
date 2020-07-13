@@ -177,12 +177,30 @@ export const Companies = [
             {
                 id:35,
                 name:'Azure Guarantee'
-            }
+            },
+            {id:55,name:'Term 95'},
+            {id:56,name:'Termino 10 años'},
+            {id:57,name:'Termino 15 años'},
+            {id:58,name:'Termino 20 años'},
+            {id:59,name:"Termino 30 años"},
+            {id:60,name:'Nova II'},
+            {id:61,name:'Best Indexed BMII Nasdaq'},
+            {id:62,name:'Best Indexed 100 BMII Nasdaq'},
+            {id:63,name:'Best Indexed 100 S&P 500 Index'},
+            {id:64,name:'Best Indexed BMI Nasdaq'},
+            {id:65,name:'Best Indexed BMI 100 Nasdaq'}
         ]
     },{
         id:6,
         name:'American Fidelity',
-        plans:[],
+        plans:[
+            {id:49,name:'Termino 10 años'},
+            {id:50,name:'Termino 15 años'},
+            {id:51,name:'Termino 20 años'},
+            {id:52,name:'Termino 30 años'},
+            {id:53,name:'Optima'},
+            {id:54,name:'Platinum Ultra III'}
+        ],
         slug:'American Fidelity'
     },
     {
@@ -205,9 +223,16 @@ export const Companies = [
     },
     {
         id:10,
-        name:'Bupa Off',
+        name:'BUPA OFF',
         slug:'bupaoff',
-        plans:[]
+        plans:[
+            {id:43,name:'Exclusive Care'},
+            {id:44,name:'Privilege Care'},
+            {id:45,name:'Advantage Care'},
+            {id:46,name:'Secure Care'},
+            {id:47,name:'Essential Care'},
+            {id:48,name:'Critical Care'}
+        ]
     },
     {
         id:11,
@@ -217,7 +242,12 @@ export const Companies = [
             {id:36,name:'Next GenUL Universal'},
             {id:37,name:"Termino 95"},
             {id:38,name:'Termino 100'},
-            {id:39,name:"Indexed"}
+            {id:39,name:"Indexed"},
+            {id:66,name:'Termino 20 años'},
+            {id:67,name:'Termino 30 años'},
+            {id:68,name:'Nex Gen'},
+            {id:69,name:'Tradition Plus'},
+            {id:70,name:'Global Assets IUL'}
         ]
     },
     {

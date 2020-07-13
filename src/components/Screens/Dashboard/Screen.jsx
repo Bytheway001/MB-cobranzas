@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
-import { Row, Col, Card, FormCheck, Form, FormControl, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faMoneyBillWaveAlt, faExternalLinkSquareAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { LoadingCard, LoaderButton} from '../../custom';
-import {ClientList} from './ClientList';
+import { LoadingCard} from '../../custom';
 import { getClientList } from '../../../ducks/clients';
-import { UserIs } from '../../../utils/utils';
 import { Criteria } from './Criteria';
 import { ActionBar } from './ActionBar';
+import { CustomCard } from '../../custom/CustomCard';
+import { CustomTable } from '../../custom/CustomTable';
 
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
@@ -22,16 +19,19 @@ const Dashboard = ({ getClientList, clients, user }) => {
         setTerm('');
         setCriteria(value)
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = (e,term,criteria) => {
         e.preventDefault()
+        console.log(term,criteria)
         getClientList({ criteria, term })
     }
 
-
+    const rows=['id','first_name','agent','collector','company','plan','option','renovation_date','effective_date','frequency','status']
+   
     return (
         <Row>
             <Col sm={4}>
                 <Criteria
+                    title='Buscar Cliente'
                     onSubmit={handleSubmit}
                     changeCriteria={changeCriteria}
                     term={term}
@@ -45,20 +45,24 @@ const Dashboard = ({ getClientList, clients, user }) => {
                 <ActionBar user={user} />
             </Col>
             <Col sm={12} className='mt-5'>
-                <Card>
-                    <Card.Header className='bg-primary text-light'>Listado de Clientes</Card.Header>
-                    <Card.Body style={{ minHeight: '50vh' }}>
+                <CustomCard title='Listado de clientes'>
+
                         {
                             clients.loading ?
 
                                 <LoadingCard />
                                 :
-                                <ClientList list={clients.list} />
+                                <CustomTable 
+                                    list={clients.list} 
+                                    headers={['ID','Nombre','Agente','Cobrador','Aseguradora','Plan','Opcion','Fecha Renovacion','Fecha Efectiva','Frecuencia','Estado']}
+                                    rows={rows}
+                                    paginated={true}
+                                />
+                     
 
                         }
 
-                    </Card.Body>
-                </Card>
+                  </CustomCard>
             </Col>
         </Row >
     )

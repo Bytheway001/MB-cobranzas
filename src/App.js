@@ -25,7 +25,7 @@ import PaymentsReport from './components/Screens/Reports/Payments';
 import GeneralReport from './components/Screens/Reports/GeneralReport';
 import NewTransfer from './components/Screens/Transfers/New';
 import { ChecksCollection } from './components/Screens/Transfers/Checks';
-import { Finances } from './components/Screens/Reports/Finances';
+import  Finances  from './components/Screens/Reports/Finances';
 import { setupInterceptors } from './utils/utils';
 import Axios from 'axios';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
