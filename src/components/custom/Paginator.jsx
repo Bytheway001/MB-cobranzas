@@ -1,19 +1,20 @@
-import React from 'react';
-import { Pagination, Row, Col,FormGroup,FormControl } from 'react-bootstrap';
+import React, { Fragment } from 'react';
+import { Pagination, Row, Col, FormGroup, FormControl } from 'react-bootstrap';
+import {faBan} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 /* Refactored */
-export const Paginator = ({ pages, setPage, activePage, paginationData,setRows }) => {
-    const {offset,rowsPerPage} = paginationData;
+export const Paginator = ({ pages, setPage, activePage, paginationData, setRows }) => {
+    const { offset, rowsPerPage } = paginationData;
+    // Initial active Page =0;
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Pagination >
+
                 <Pagination.First onClick={() => setPage(1)} />
                 <Pagination.Prev />
-                {pages.map((x, index) => {
-                    return (
-                        <Pagination.Item active={index === activePage} onClick={() => setPage(x)}>{x}</Pagination.Item>
-                    )
 
-                })}
+                <PaginationLinks setPage={setPage} active={activePage} length={pages.length} />
+
                 <Pagination.Next className='bg-primary text-white' />
                 <Pagination.Last onClick={() => setPage(pages.length)} />
             </Pagination>
@@ -37,3 +38,16 @@ export const Paginator = ({ pages, setPage, activePage, paginationData,setRows }
     )
 }
 
+
+const PaginationLinks = ({ active, length,setPage }) => {
+    return (
+        <Fragment>
+
+            {active > 2 ? <Pagination.Item onClick={()=>setPage(active-1)}>{active - 1}</Pagination.Item> : <Pagination.Item> <FontAwesomeIcon color='red' icon={faBan}/></Pagination.Item>}
+            {active > 0 ? <Pagination.Item onClick={()=>setPage(active)}>{active}</Pagination.Item> : <Pagination.Item><FontAwesomeIcon color='red' icon={faBan}/></Pagination.Item>}
+            <Pagination.Item active>{active + 1}</Pagination.Item>
+            {active < length - 1 ? <Pagination.Item onClick={()=>setPage(active+2)}>{active + 2}</Pagination.Item > : <Pagination.Item disabled><FontAwesomeIcon color='red' icon={faBan}/></Pagination.Item>}
+            {active < length -2 ? <Pagination.Item onClick={()=>setPage(active+3)}>{active + 3}</Pagination.Item> : <Pagination.Item disabled><FontAwesomeIcon color='red' icon={faBan}/></Pagination.Item>}
+        </Fragment>
+    )
+}
