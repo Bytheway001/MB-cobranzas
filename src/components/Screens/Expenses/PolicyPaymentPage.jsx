@@ -9,16 +9,18 @@ import Axios from 'axios';
 
 export const PolicyPaymentsPage = () => {
     const [client, setClient] = useState([]);
-    const[payments,setPayments]=useState([]);
-    const getClient = (client)=>{
-        console.log(client)
-        Axios.get(API+'/payments/'+client[0].id).then(res=>{
-            
-            console.log(res.data.data)
-            setPayments(res.data.data)
-            setClient(client)
-        })
-       
+    const [payments, setPayments] = useState([]);
+    
+    const getClient = (client) => {
+        if (client.length>0) {
+            Axios.get(API + '/payments/' + client[0].id).then(res => {
+                console.log(res.data.data)
+                setPayments(res.data.data)
+                setClient(client)
+            })
+        }
+
+
     }
     return (
         <Row>
@@ -45,14 +47,14 @@ export const PolicyPaymentsPage = () => {
                     {client[0] && (
                         <Table>
                             <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Monto</th>
-                                <th>Moneda</th>
-                            </tr>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>Moneda</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                {payments.map(p=>(
+                                {payments.map(p => (
                                     <tr>
                                         <td>{p.payment_date}</td>
                                         <td>{p.amount}</td>
@@ -60,7 +62,7 @@ export const PolicyPaymentsPage = () => {
                                     </tr>
                                 ))}
                             </tbody>
-                            
+
                         </Table>
                     )}
                 </CustomCard>
