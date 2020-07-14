@@ -44,7 +44,7 @@ const GeneralReport = props => {
                 </Col>
                 <Col sm={9}>
                     {report &&
-                        <Card>
+                        <Card style={{maxHeight:500,overflowY:'scroll'}}>
                             <Card.Header className='bg-primary text-white'>
                                 Cobranzas Realizadas
                          </Card.Header>
