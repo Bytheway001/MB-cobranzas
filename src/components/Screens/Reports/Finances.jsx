@@ -163,11 +163,11 @@ const Extracto = ({ show, setShow, data }) => {
                             {data.map((row, index) => (
                                 <tr key={index}>
                                     <td>{row.fecha}</td>
-
-                                    <td>{row.type}</td>
-                                    <td>{row.moneda}</td>
-                                    <td>{formatMoney(row.debe, '.', ',', ' ')} </td>
-                                    <td>{formatMoney(row.haber, 2, '.', ',', ' ')}</td>
+                                    <td>{row.description}</td>
+                                    <td>{row.currency}</td>
+                                  
+                                    <td style={{color:row.type==='IN'?'green':'black'}}>{formatMoney(row.type==='IN'?row.amount:0, '.', ',', ' ')} </td>
+                                    <td style={{color:row.type==='IN'?'black':'red'}}>{formatMoney(row.type==='OUT'?row.amount:0, 2, '.', ',', ' ')}</td>
                                 </tr>
                             ))}
                         </tbody>

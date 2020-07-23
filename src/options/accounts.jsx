@@ -10,7 +10,6 @@ const AccountsOptions = ({except,only,list}) => {
     if(only){
         options = options.filter(x=>only.findIndex(e=>x.id==e)!==-1);
     }
-
     return (
         <Fragment>
             {

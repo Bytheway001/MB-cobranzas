@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
 import './assets/scss/overrides.scss'
@@ -25,11 +25,12 @@ import PaymentsReport from './components/Screens/Reports/Payments';
 import GeneralReport from './components/Screens/Reports/GeneralReport';
 import NewTransfer from './components/Screens/Transfers/New';
 import { ChecksCollection } from './components/Screens/Transfers/Checks';
-import  Finances  from './components/Screens/Reports/Finances';
+import Finances from './components/Screens/Reports/Finances';
 import { setupInterceptors } from './utils/utils';
 import Axios from 'axios';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
 import { Categories } from './components/Screens/Categories/Page';
+import { OtherPayment } from './components/Screens/Payments/Other';
 
 const store = createStore(rootReducer,
   composeWithDevTools(
@@ -59,27 +60,41 @@ const App = props => {
     </Provider>
   );
 }
+const maintenance = false;
 
 const AppRoutes = props => (
   <BasicLayout>
-    <PrivateRoute exact path='/' comp={Dashboard} />
-    <Route exact path='/clients/new' component={NewClient} />
-    <Route exact path='/clients/profile/:id' component={ClientProfile} />
-    <Route exact path='/payments/new' component={NewPayment} />
-    <Route exact path='/reports' component={Reports} />
-    <Route exact path='/reports/rcc' component={RCC} />
-    <Route exact path='/reports/general' component={GeneralReport} />
-    <Route exact path='/reports/payments' component={PaymentsReport} />
-    <Route exact path='/payments/bulk' component={BulkPayments} />
-    <Route exact path='/expenses' component={Expenses} />
-    <Route exact path='/expenses/new' component={NewExpense} />
-    <Route exact path='/transfers/new' component={NewTransfer} />
-    <Route exact path='/checks/collect' component={ChecksCollection} />
-    <Route exact path='/reports/finances' component={Finances} />
-    <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
-    <Route exact path='/categories' component={Categories}/>
+    {
+      !maintenance ?
+      <Fragment>
+        <PrivateRoute exact path='/' comp={Dashboard} />
+        <Route exact path='/clients/new' component={NewClient} />
+        <Route exact path='/clients/profile/:id' component={ClientProfile} />
+        <Route exact path='/payments/new' component={NewPayment} />
+        <Route exact path='/reports' component={Reports} />
+        <Route exact path='/reports/rcc' component={RCC} />
+        <Route exact path='/reports/general' component={GeneralReport} />
+        <Route exact path='/reports/payments' component={PaymentsReport} />
+        <Route exact path='/payments/bulk' component={BulkPayments} />
+        <Route exact path='/expenses' component={Expenses} />
+        <Route exact path='/expenses/new' component={NewExpense} />
+        <Route exact path='/transfers/new' component={NewTransfer} />
+        <Route exact path='/checks/collect' component={ChecksCollection} />
+        <Route exact path='/reports/finances' component={Finances} />
+        <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
+        <Route exact path='/categories' component={Categories} />
+        <Route exact path='/other_incomes' component={OtherPayment} />
+        </Fragment>
+      :
+      <Route path='/' component={Maintenance}/>
+    }
+
   </BasicLayout>
 
 )
+
+const Maintenance = ()=>{
+  return <div>EN MANTENIMIENTO</div>
+}
 
 export default App;

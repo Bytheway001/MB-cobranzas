@@ -31,7 +31,11 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [h_id, setHubspotId] = useState('');
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
+    
+
+
     useEffect(() => {
+      
         getAgents();
         getCollectors()
     }, [])
