@@ -85,6 +85,7 @@ export const PaymentsList = ({ payments }) => {
             <Table id='payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
                 <thead>
                     <tr className='bg-info text-white'>
+                        <th>ID</th>
                         <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Aseguradora</th>
@@ -101,6 +102,7 @@ export const PaymentsList = ({ payments }) => {
                 <tbody>
                     {payments.map((r, k) => (
                         <tr key={k}>
+                            <th>{r.id}</th>
                             <td>{r.payment_date}</td>
                             <td>{r.client}</td>
                             <td>{r.company}</td>

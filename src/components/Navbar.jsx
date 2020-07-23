@@ -23,6 +23,7 @@ const Navbar = ({ user, logout, login }) => {
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/policy/pay'>Pago de Polizas</NavDropdown.Item>
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/categories'>Categorias</NavDropdown.Item>
+                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/other_incomes'>Otros Ingresos</NavDropdown.Item>
                     </NavDropdown>
                     {
                         UserIs(user, 248) &&

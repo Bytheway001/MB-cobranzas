@@ -264,7 +264,7 @@ export const Companies = [
 ]
 
 
-export function formatMoney(amount,decimalCount = 2,decimal = ".",thousands = ",",currency='$') {
+export function formatMoney(amount,decimalCount = 2,decimal = ".",thousands = ",",currency=' ') {
     try {
 
         decimalCount = Math.abs(decimalCount);
