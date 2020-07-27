@@ -3,7 +3,7 @@ import { Table, Button } from 'react-bootstrap';
 import { Paginator } from './Paginator';
 import { Link } from 'react-router-dom';
 
-export const CustomTable = ({ list, headers, rows, paginated }) => {
+export const CustomTable = ({ list, headers, rows, paginated,actions,...props }) => {
     const [page,setPage]=useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     
@@ -43,11 +43,11 @@ export const CustomTable = ({ list, headers, rows, paginated }) => {
 
     const headerCells = headers.map((h, k) => <th key={k}>{h}</th>)
     const tableElement = (
-        <Table size='sm' variant='bordered' style={{ fontSize: '0.8em' }}>
+        <Table size='sm' {...props} variant='bordered' style={{ fontSize: '0.8em' }}>
             <thead>
                 <tr className='bg-info text-white'>
                     {headerCells}
-                    <td>Acciones</td>
+                    {actions && <td>Acciones</td>}
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +57,7 @@ export const CustomTable = ({ list, headers, rows, paginated }) => {
                             {rows.map((h, k) => {
                                 return <td key={k}>{item[h]}</td>
                             })}
-                            <td><Button as={Link} to={'/clients/profile/' + item.id} block size='sm' style={{ padding: 2 }}>Ver Poliza</Button></td>
+                            {actions && <td><Button as={Link} to={'/clients/profile/' + item.id} block size='sm' style={{ padding: 2 }}>Ver Poliza</Button></td>}
                         </tr>
                     ))
                 }

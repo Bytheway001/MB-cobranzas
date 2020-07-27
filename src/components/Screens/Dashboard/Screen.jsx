@@ -57,6 +57,7 @@ const Dashboard = ({ getClientList, clients, user }) => {
                                     headers={['ID','Nombre','Agente','Cobrador','Aseguradora','Plan','Opcion','Fecha Renovacion','Fecha Efectiva','Frecuencia','Estado']}
                                     rows={rows}
                                     paginated={true}
+                                    actions={true}
                                 />
                      
 
