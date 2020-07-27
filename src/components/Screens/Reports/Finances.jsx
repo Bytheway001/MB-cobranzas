@@ -6,6 +6,7 @@ import { API } from '../../../ducks/root';
 import { ExpensesList } from './Lists';
 import { UserIs, formatMoney } from '../../../utils/utils';
 import { connect } from 'react-redux';
+import { Extracto } from './components/Extracto';
 
 const Finances = ({ user }) => {
     const [accounts, setAccounts] = useState([]);
@@ -64,7 +65,7 @@ const Finances = ({ user }) => {
                     <Card className='h-100'>
                         <Card.Header className='bg-primary text-white'>Efectivo</Card.Header>
                         <Card.Body>
-                            <Extracto show={true} show={modalshow} setShow={setModalShow} data={modalData} />
+                            <Extracto show={modalshow} setShow={setModalShow} data={modalData} />
                             <Table variant='striped' size='sm'>
                                 <thead>
                                     <tr className='bg-info text-white'>
@@ -139,52 +140,7 @@ const Finances = ({ user }) => {
     )
 }
 
-const Currencies = { USD: '$', BOB: 'Bs. ' }
 
-const Extracto = ({ show, setShow, data }) => {
-    return (
-        <>
-            <Modal size='xl' show={show} onHide={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Movimientos De Cuenta</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Table size='sm'>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Desc.</th>
-                                <th>Moneda</th>
-                                <th>Debe</th>
-                                <th>Haber</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((row, index) => (
-                                <tr key={index}>
-                                    <td>{row.fecha}</td>
-                                    <td>{row.description}</td>
-                                    <td>{row.currency}</td>
-                                  
-                                    <td style={{color:row.type==='IN'?'green':'black'}}>{formatMoney(row.type==='IN'?row.amount:0, '.', ',', ' ')} </td>
-                                    <td style={{color:row.type==='IN'?'black':'red'}}>{formatMoney(row.type==='OUT'?row.amount:0, 2, '.', ',', ' ')}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShow(false)}>
-                        Close
-          </Button>
-                    <Button variant="primary" onClick={() => setShow(false)}>
-                        Save Changes
-          </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    )
-}
 
 
 const mapStateToProps = state => (

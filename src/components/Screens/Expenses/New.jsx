@@ -7,7 +7,7 @@ import { OfficeOptions, CurrencyOptions, CategoryOptions } from '../../../option
 import { PaymentPolicyForm } from './components/PolicyForm';
 import AccountsOptions from '../../../options/accounts';
 import { CurrencyChange } from '../../Forms/CurrencyChange';
-import { AccountsView } from '../../Views/Accounts';
+import  AccountsView  from '../../Views/Accounts';
 
 const NewExpense = props => {
     const [date, setDate] = useState('');
