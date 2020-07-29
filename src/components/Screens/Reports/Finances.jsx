@@ -7,6 +7,7 @@ import { ExpensesList } from './Lists';
 import { UserIs, formatMoney } from '../../../utils/utils';
 import { connect } from 'react-redux';
 import { Extracto } from './components/Extracto';
+import { CustomTable } from '../../custom/CustomTable';
 
 const Finances = ({ user }) => {
     const [accounts, setAccounts] = useState([]);
@@ -93,6 +94,7 @@ const Finances = ({ user }) => {
                 <Col sm={6}>
                     <Card>
                         <Card.Header className='bg-primary text-white'>Gastos</Card.Header>
+                       
                         <Card.Body>
                             {report && <ExpensesList expenses={report.expenses} />}
                         </Card.Body>

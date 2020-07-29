@@ -3,6 +3,13 @@ import { Table, Button } from 'react-bootstrap';
 import { Paginator } from './Paginator';
 import { Link } from 'react-router-dom';
 
+/**
+ * 
+ * @param {list} array of items
+ * @param {headers} array of header names
+ * @param {row} array of property names
+ * @param {actions} boolean of show action buttons (To do refactoring)
+ */
 export const CustomTable = ({ list, headers, rows, paginated,actions,...props }) => {
     const [page,setPage]=useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
