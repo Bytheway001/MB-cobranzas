@@ -1,41 +1,15 @@
 import React, { Fragment } from 'react'
 import { Tabs, Tab, Table } from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { CustomTable } from '../../custom/CustomTable';
 export const ExpensesList = ({ expenses }) => {
+
+    const rows = ['date','account','description','category','bill_number','amount','currency','office'];
+    const headers=['Fecha','Cuenta','Desc',"Categoria",'# Factura',"Cantidad","Moneda",'Oficina']
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <Table id='expenses_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
-                <thead>
-                    <tr className='bg-info text-white'>
-
-                        <th>Fecha</th>
-                        <th>Oficina</th>
-                        <th>Cta Pagadora</th>
-                        <th>Cantidad</th>
-                        <th>Descripcion</th>
-                        <th>Categoria</th>
-                        <th># Factura</th>
-
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {expenses.map((e, k) => (
-                        <tr key={k}>
-                            <td>{e.date}</td>
-                            <td>{e.office}</td>
-                            <td>{e.account}</td>
-                            <td>{e.amount}</td>
-                            <td>{e.description}</td>
-                            <td>{e.category}</td>
-                            <td>{e.bill_number}</td>
-                        </tr>
-                    ))}
-
-
-                </tbody>
-            </Table>
+            <CustomTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows}/>
         </Fragment>
 
     )

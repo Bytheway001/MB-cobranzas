@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { CustomCard } from '../../custom/CustomCard';
 import { Companies } from '../../../utils/utils';
 import { BulkModal } from './BulkModal';
+import Axios from 'axios';
+import { API } from '../../../ducks/root';
 const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
     const [first_name, setFirstName] = useState('');
     const [comment, setComment] = useState('');
@@ -31,14 +33,28 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
     const [h_id, setHubspotId] = useState('');
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
-    
-
+    const [companies,setCompanies]=useState([]);
+    const [plans,setPlans]=useState([]);
+    function listPlansByCompany(company_id){
+        Axios.get(API+'/plans/'+company_id).then(res=>{
+            setPlans(res.data.data)
+        })
+    }
 
     useEffect(() => {
-      
+        Axios.get(API+'/companies').then(res=>{
+           setCompanies(res.data.data)
+        })
         getAgents();
         getCollectors()
     }, [])
+
+    const handleCompanyChange=(value)=>{
+        setCompany(value)
+        listPlansByCompany(value)
+    }
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -50,7 +66,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             collector_id: collector[0].id,
             policy_number: policyNumber,
             policy_type: policyType,
-            company: Companies.find(x => x.slug === company).name,
+            company: company,
             plan: plan[0].name,
             option,
             renovation_date: renovationDate,
@@ -149,11 +165,11 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                     <Col sm={6}>
                                         <FormGroup>
                                             <label>Aseguradora:</label>
-                                            <FormControl required size='sm' as='select' value={company} onChange={({ target }) => { setPlan([]); setCompany(target.value) }}>
+                                            <FormControl required size='sm' as='select' value={company} onChange={({ target }) => { setPlan([]); handleCompanyChange(target.value) }}>
                                                 <option value="">Seleccione...</option>
                                                 {
-                                                    Companies.map(company => (
-                                                        <option value={company.slug}>{company.name}</option>
+                                                    companies.map(company => (
+                                                        <option value={company.id}>{company.name}</option>
                                                     ))
                                                 }
                                             </FormControl>
@@ -171,7 +187,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                                 id='plan'
                                                 clearButton={true} size='sm'
                                                 selected={plan}
-                                                options={(Companies.find(x => x.slug === company) && Companies.find(x => x.slug === company).plans.map(plan => plan)) || ([])}
+                                                options={(plans && plans.map(plan => plan)) || ([])}
                                                 onChange={setPlan}
                                                 labelKey='name'
                                             />
