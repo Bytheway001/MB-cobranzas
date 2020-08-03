@@ -7,7 +7,8 @@ import Axios from 'axios'
 import { CurrencyOptions } from '../../../options/options';
 import { connect } from 'react-redux';
 import { addNotification } from '../../../ducks/notifications';
-import { CustomCard } from '../../custom/CustomCard';
+
+import { SmartCard } from '../../library/SmartCard';
 const NewTransfer = ({ setNotification }) => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
@@ -30,7 +31,7 @@ const NewTransfer = ({ setNotification }) => {
         <Row>
 
             <Col sm={{ span: 4, offset: 4 }}>
-                <CustomCard title='Transferencias entre cuentas'>
+                <SmartCard title='Transferencias entre cuentas'>
                     <Form onSubmit={handleSubmit}>
                         <Select value={from} onChange={({ target }) => setFrom(target.value)} label='Cuenta a Debitar:' options={<AccountsOptions except={[9]} />}></Select>
                         <Select value={to} onChange={({ target }) => setTo(target.value)} label='Cuenta a Abonar:' options={<AccountsOptions except={[9]} />}></Select>
@@ -46,7 +47,7 @@ const NewTransfer = ({ setNotification }) => {
                         <Button type='submit' block>Completar Transferencia</Button>
                         {error && <p className='text-danger text-center mt-5'>{error}</p>}
                     </Form>
-                </CustomCard>
+                </SmartCard>
 
             </Col>
         </Row>

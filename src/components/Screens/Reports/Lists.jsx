@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import { Tabs, Tab, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { CustomTable } from '../../custom/CustomTable';
+import { SmartTable } from '../../library/SmartTable';
 export const ExpensesList = ({ expenses }) => {
 
     const rows = ['date','account','description','category','bill_number','amount','currency','office'];
@@ -9,7 +9,7 @@ export const ExpensesList = ({ expenses }) => {
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <CustomTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows}/>
+            <SmartTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows}/>
         </Fragment>
 
     )
@@ -19,7 +19,6 @@ export const PolicyPaymentsList = ({ payments }) => {
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="policy_payments_list" filename="tablexls" buttonText='Descargar (xls)' />
-
             <Table id='policy_payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
                 <thead>
 

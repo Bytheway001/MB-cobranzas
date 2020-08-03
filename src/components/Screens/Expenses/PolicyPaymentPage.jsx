@@ -3,9 +3,9 @@ import { Row, Card, Col, Table } from 'react-bootstrap';
 import { PaymentPolicyForm } from './components/PolicyForm';
 import ClientSelect from '../../custom/ClientSelect';
 import { PolicyView } from '../Clients/PolicyView';
-import { CustomCard } from '../../custom/CustomCard';
 import { API } from '../../../ducks/root';
 import Axios from 'axios';
+import { SmartCard } from '../../library/SmartCard';
 
 export const PolicyPaymentsPage = () => {
     const [client, setClient] = useState([]);
@@ -43,7 +43,7 @@ export const PolicyPaymentsPage = () => {
                 </Card>
             </Col>
             <Col sm={4}>
-                <CustomCard title='Cobranzas realizadas'>
+                <SmartCard title='Cobranzas realizadas'>
                     {client[0] && (
                         <Table>
                             <thead>
@@ -65,7 +65,7 @@ export const PolicyPaymentsPage = () => {
 
                         </Table>
                     )}
-                </CustomCard>
+                </SmartCard>
             </Col>
         </Row>
     )

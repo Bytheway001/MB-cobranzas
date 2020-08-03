@@ -6,11 +6,10 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { getAgents, getCollectors } from '../../../ducks/agents';
 import { createClient, createBulkClients } from '../../../ducks/clients'
 import { connect } from 'react-redux';
-import { CustomCard } from '../../custom/CustomCard';
-import { Companies } from '../../../utils/utils';
 import { BulkModal } from './BulkModal';
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
+import { SmartCard } from '../../library/SmartCard';
 const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
     const [first_name, setFirstName] = useState('');
     const [comment, setComment] = useState('');
@@ -105,7 +104,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
             <Form onSubmit={handleSubmit}>
                 <Row>
                     <Col md={6}>
-                        <CustomCard title='Datos del Usuario'>
+                        <SmartCard title='Datos del Usuario'>
 
                             <FormGroup as={Row}>
                                 <Col sm={6}>
@@ -149,10 +148,10 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                 <FormControl as='textarea' value={comment} size='sm' onChange={({ target }) => setComment(target.value)} />
                             </FormGroup>
 
-                        </CustomCard>
+                        </SmartCard>
                     </Col>
                     <Col md={6}>
-                        <CustomCard title="Datos de la poliza">
+                        <SmartCard title="Datos de la poliza">
   
                          
                                 <Row>
@@ -290,7 +289,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
 
                                 </Row>
                            
-                        </CustomCard>
+                        </SmartCard>
                     </Col>
                 </Row>
 

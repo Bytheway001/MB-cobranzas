@@ -5,8 +5,8 @@ import { LoadingCard} from '../../custom';
 import { getClientList } from '../../../ducks/clients';
 import { Criteria } from './Criteria';
 import { ActionBar } from './ActionBar';
-import { CustomCard } from '../../custom/CustomCard';
-import { CustomTable } from '../../custom/CustomTable';
+import { SmartTable } from '../../library/SmartTable';
+import { SmartCard } from '../../library/SmartCard';
 
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
@@ -45,14 +45,14 @@ const Dashboard = ({ getClientList, clients, user }) => {
                 <ActionBar user={user} />
             </Col>
             <Col sm={12} className='mt-5'>
-                <CustomCard title='Listado de clientes'>
+                <SmartCard title='Listado de clientes'>
 
                         {
                             clients.loading ?
 
                                 <LoadingCard />
                                 :
-                                <CustomTable 
+                                <SmartTable 
                                     list={clients.list} 
                                     headers={['ID','Nombre','Agente','Cobrador','Aseguradora','Plan','Opcion','Fecha Renovacion','Fecha Efectiva','Frecuencia','Estado']}
                                     rows={rows}
@@ -63,7 +63,7 @@ const Dashboard = ({ getClientList, clients, user }) => {
 
                         }
 
-                  </CustomCard>
+                  </SmartCard>
             </Col>
         </Row >
     )

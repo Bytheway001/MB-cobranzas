@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Form, FormControl, FormCheck } from 'react-bootstrap';
+import {  Row, Col, Form, FormControl, FormCheck } from 'react-bootstrap';
 import { LoaderButton } from '../../custom';
-import { CustomCard } from '../../custom/CustomCard';
+import { SmartCard } from '../../library/SmartCard';
 /* Refactored */
 export const Criteria = ({ onSubmit, loading, title }) => {
     const [term, setTerm] = useState('');
@@ -13,7 +13,7 @@ export const Criteria = ({ onSubmit, loading, title }) => {
     const isPolicyDisabled = criteria !== 'policy';
 
     return (
-        <CustomCard title={title}>
+        <SmartCard title={title}>
             <Form onSubmit={(evt) => onSubmit(evt, term, criteria)}>
                 <Row className='mb-3'>
                     <Col sm={6}>
@@ -37,7 +37,7 @@ export const Criteria = ({ onSubmit, loading, title }) => {
                     </Col>
                 </Row>
             </Form>
-        </CustomCard>
+        </SmartCard>
 
     )
 }

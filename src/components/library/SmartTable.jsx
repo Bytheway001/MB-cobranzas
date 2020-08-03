@@ -10,23 +10,24 @@ import { Link } from 'react-router-dom';
  * @param {row} array of property names
  * @param {actions} boolean of show action buttons (To do refactoring)
  */
-export const CustomTable = ({ list, headers, rows, paginated,actions,...props }) => {
+
+export const SmartTable = ({ list, headers, rows, paginated,actions,...props }) => {
     const [page,setPage]=useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    
+    const pages = []
+
     const paginationData={
         totalPages:Math.ceil(list.length / rowsPerPage),
         offset:(page-1) * parseInt(rowsPerPage),
         rowsPerPage
-
     }
 
-    const pages = []
-
     
+
     for (let i = 1; i <= paginationData.totalPages; i++) {
         pages.push(i)
     }
+
     const handleRowsPerPage=(value)=>{
         setPage(1)
         setRowsPerPage(value);
@@ -44,11 +45,9 @@ export const CustomTable = ({ list, headers, rows, paginated,actions,...props })
         }
     })
 
-    const options = [5, 10, 20, 50].map((p, key) => {
-        return <option value={p}>{p}</option>
-    })
-
     const headerCells = headers.map((h, k) => <th key={k}>{h}</th>)
+
+    /* This is the actual JSX for the table */
     const tableElement = (
         <Table size='sm' {...props} variant='bordered' style={{ fontSize: '0.8em' }}>
             <thead>
