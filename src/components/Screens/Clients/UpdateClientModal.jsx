@@ -15,7 +15,7 @@ export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getC
     const initialState = {
         plan: [client.plan],
         option: client.option,
-        company: Companies.find(x => x.name === client.company).slug,
+        company: client.company,
         prima: client.prima,
         frequency: client.frequency,
         collector: [{ id: client.collector_id, name: client.collector }],

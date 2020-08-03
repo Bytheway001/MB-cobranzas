@@ -3,7 +3,8 @@ import React from 'react'
 import { Modal, Table, Button } from 'react-bootstrap'
 import { formatMoney } from '../../../../utils/utils'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
-import { CustomTable } from '../../../custom/CustomTable'
+
+import { SmartTable } from '../../../library/SmartTable'
 export const Extracto = ({ show, setShow, data }) => {
     const headers = ['Fecha', 'Descripcion', 'Moneda','Debe','Haber']
 
@@ -31,7 +32,7 @@ export const Extracto = ({ show, setShow, data }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="caja-list" filename="tablexls" buttonText='Descargar (xls)' />
-                        {finalData && <CustomTable id='caja-list' actions={false} list={finalData} rows={rows} headers={headers} paginated={true} />}
+                        {finalData && <SmartTable id='caja-list' actions={false} list={finalData} rows={rows} headers={headers} paginated={true} />}
                         
                     </Modal.Body>
                     <Modal.Footer>

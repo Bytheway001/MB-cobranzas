@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 import Axios from 'axios';
 import { Select } from '../../custom/Controls';
 import AccountsOptions from '../../../options/accounts';
-import { CustomCard } from '../../custom/CustomCard';
+
+import { SmartCard } from '../../library/SmartCard';
 export const View = props => {
     const [list, setList] = useState([]);
     const [checkId,setCheckId]=useState('');
@@ -31,13 +32,13 @@ export const View = props => {
         <Row>
            
             <Col sm={12}>
-                <CustomCard title="Cobro de Cheques">
+                <SmartCard title="Cobro de Cheques">
                 <Form onSubmit={handleSubmit}>
                     <Select value={checkId}  onChange={({target})=>setCheckId(target.value)} label='Cheque a cobrar' options={list.filter(x=>x.status==='En Oficina').map(x => <option value={x.id}>{x.client} ({x.amount} {x.currency})</option>)} />
                     <Select value={accountId} onChange={({target})=>setAccountId(target.value)} label='Cuenta a abonar' options={<AccountsOptions except={[9]} />} />
                     <Button type='submit'>Cobrar Cheque</Button>
                 </Form>
-                </CustomCard>
+                </SmartCard>
             </Col>
         </Row>
     )

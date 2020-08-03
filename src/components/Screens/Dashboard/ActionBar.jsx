@@ -4,9 +4,9 @@ import { Col, Row, Button, Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faExternalLinkSquareAlt, faUser, faMoneyBillAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
-import { CustomCard } from '../../custom/CustomCard';
+import { SmartCard } from '../../library/SmartCard';
 export const ActionBar = ({ user }) => (
-    <CustomCard title='Acciones'>
+    <SmartCard title='Acciones'>
         <Row className='h-100'>
             {UserIs(user, 224) &&
                 <Col sm={3}>
@@ -53,5 +53,5 @@ export const ActionBar = ({ user }) => (
 
             }
         </Row>
-    </CustomCard>
+    </SmartCard>
 )

@@ -5,11 +5,10 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import { getClientList, getClientById } from '../../../ducks/clients'
 import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
-
 import FormCobranza from './FormCobranza';
 import ClientSelect from '../../custom/ClientSelect';
 import { UserIs } from '../../../utils/utils';
-import { CustomCard } from '../../custom/CustomCard';
+import { SmartCard } from '../../library/SmartCard';
 const NewPayment = ({ clients, getClientList, getClientById,user }) => {
     const [client, setClient] = useState([]);
     useEffect(() => {
@@ -23,7 +22,7 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
     return (
         <Row>
             <Col sm={4} className='mb-5'>
-                <CustomCard title='Seleccion de cliente'>
+                <SmartCard title='Seleccion de cliente'>
                 <Form>
                             <FormGroup>
                                 <label>Cliente:</label>
@@ -98,7 +97,7 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
                                 :
                                 null
                         }
-                </CustomCard>
+                </SmartCard>
             </Col>
             <Col sm={8}>
                 {

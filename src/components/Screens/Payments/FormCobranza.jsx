@@ -7,7 +7,7 @@ import { numerize } from '../../../utils/utils';
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
-import { CustomCard } from '../../custom/CustomCard';
+import { SmartCard } from '../../library/SmartCard';
 export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
@@ -93,7 +93,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
     return (
-        <CustomCard title='Registrar Cobranza'>
+        <SmartCard title='Registrar Cobranza'>
             <Form onSubmit={handleSubmit}>
                 <Row>
                     <Col sm={4}>
@@ -150,7 +150,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                     </Col>
                 </Row>
             </Form>
-        </CustomCard>
+        </SmartCard>
       
     )
 }
