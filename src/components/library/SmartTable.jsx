@@ -1,7 +1,9 @@
-import React, { Fragment,useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { Paginator } from './Paginator';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowDown, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * 
@@ -11,32 +13,70 @@ import { Link } from 'react-router-dom';
  * @param {actions} boolean of show action buttons (To do refactoring)
  */
 
-export const SmartTable = ({ list, headers, rows, paginated,actions,...props }) => {
-    const [page,setPage]=useState(1);
+export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }) => {
+    const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [sortBy, setSortBy] = useState({criteria:null,direction:'UP'});
+
+
+    
+    /* Pagination logic */
+
     const pages = []
 
-    const paginationData={
-        totalPages:Math.ceil(list.length / rowsPerPage),
-        offset:(page-1) * parseInt(rowsPerPage),
+    const paginationData = {
+        totalPages: Math.ceil(list.length / rowsPerPage),
+        offset: (page - 1) * parseInt(rowsPerPage),
         rowsPerPage
     }
 
-    
+
 
     for (let i = 1; i <= paginationData.totalPages; i++) {
         pages.push(i)
     }
 
-    const handleRowsPerPage=(value)=>{
+    const handleRowsPerPage = (value) => {
         setPage(1)
         setRowsPerPage(value);
     }
+    var sortedList = []
+    if (sortBy.criteria) {
+        
+        sortedList = list.sort((a, b) => {
+            let Asort = a[sortBy.criteria];
+            let Bsort = b[sortBy.criteria];
 
-    const filteredList = list.filter((x, index) => {
+            if(sortBy.direction==='UP'){
+                if (Asort > Bsort) {
+                    return 1
+                }
+                else {
+                    return -1
+                }
+            }
+            else{
+                if (Asort > Bsort) {
+                    return -1
+                }
+                else {
+                    return 1
+                }
+            }
+            
+           
+        })
+    }
+    else {
+        sortedList = list;
+    }
+
+
+    /* Devuelve la tabla con los filtros aplicados */
+    const filteredList = sortedList.filter((x, index) => {
         if (index >= paginationData.offset && index < (paginationData.offset + parseInt(rowsPerPage))) {
             console.log(index, paginationData.offset)
-            console.log(paginationData.offset+parseInt(rowsPerPage))
+            console.log(paginationData.offset + parseInt(rowsPerPage))
             console.log('***')
             return true;
         }
@@ -45,7 +85,18 @@ export const SmartTable = ({ list, headers, rows, paginated,actions,...props }) 
         }
     })
 
-    const headerCells = headers.map((h, k) => <th key={k}>{h}</th>)
+
+
+
+    const headerCells = headers.map((h, k) => <th key={k}>{h}<FontAwesomeIcon onClick={()=>setSortBy({criteria:rows[k],direction:sortBy.direction==='UP'?"DOWN":"UP"})} style={{float:'right'}} 
+        icon={(sortBy.criteria===rows[k] && sortBy.direction==='UP')?faAngleDown:faAngleUp} 
+        color={sortBy.criteria===rows[k]?'purple':'white'}
+        size='lg'/> 
+    </th>)
+
+
+
+
 
     /* This is the actual JSX for the table */
     const tableElement = (
@@ -53,6 +104,7 @@ export const SmartTable = ({ list, headers, rows, paginated,actions,...props }) 
             <thead>
                 <tr className='bg-info text-white'>
                     {headerCells}
+                   
                     {actions && <td>Acciones</td>}
                 </tr>
             </thead>
@@ -75,7 +127,8 @@ export const SmartTable = ({ list, headers, rows, paginated,actions,...props }) 
 
     return (
         <Fragment>
-            {paginated && <Paginator paginationData={paginationData} activePage={page-1} pages={pages} setPage={setPage} setRows={handleRowsPerPage}/>}
+            {JSON.stringify(sortBy)}
+            {paginated && <Paginator paginationData={paginationData} activePage={page - 1} pages={pages} setPage={setPage} setRows={handleRowsPerPage} />}
             {tableElement}
         </Fragment>
     )
