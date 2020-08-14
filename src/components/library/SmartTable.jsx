@@ -75,9 +75,7 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
     /* Devuelve la tabla con los filtros aplicados */
     const filteredList = sortedList.filter((x, index) => {
         if (index >= paginationData.offset && index < (paginationData.offset + parseInt(rowsPerPage))) {
-            console.log(index, paginationData.offset)
-            console.log(paginationData.offset + parseInt(rowsPerPage))
-            console.log('***')
+          
             return true;
         }
         else {

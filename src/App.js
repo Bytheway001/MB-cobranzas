@@ -31,6 +31,7 @@ import Axios from 'axios';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
 import { Categories } from './components/Screens/Categories/Page';
 import { OtherPayment } from './components/Screens/Payments/Other';
+import { Collector } from './components/Screens/Dashboard/Collector';
 
 const store = createStore(rootReducer,
   composeWithDevTools(
@@ -47,14 +48,24 @@ if (localStorage.getItem('user')) {
 
 
 
-const App = props => {
 
+
+const App = props => {
+  const user=store.getState().session.user;
+  const role=user?user.role:null
   return (
     <Provider store={store}>
       <Router>
         <Switch>
           <Route path='/login' component={Home} />
-          <PrivateRoute path='/' comp={AppRoutes} />
+          {
+            role && role === 'admin'?
+            <PrivateRoute path='/' comp={AppRoutes} />
+            :
+            <PrivateRoute path='/' comp={CollectorRoutes} />
+
+          }
+         
         </Switch>
       </Router>
     </Provider>
@@ -93,8 +104,14 @@ const AppRoutes = props => (
 
 )
 
-const Maintenance = ()=>{
-  return <div>EN MANTENIMIENTO</div>
-}
+const CollectorRoutes = props => (
+  <BasicLayout>
+      <Route path="/" component={Collector}/>
+  </BasicLayout>
+)
+
+const Maintenance = ()=>(
+  <div>EN MANTENIMIENTO</div>
+)
 
 export default App;
