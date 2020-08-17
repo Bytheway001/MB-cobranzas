@@ -13,13 +13,24 @@ import { faArrowDown, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg
  * @param {actions} boolean of show action buttons (To do refactoring)
  */
 
+function convertToDate(string) {
+    let regex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    if (regex.test(string)) {
+        let arrDate = string.split('-');
+     
+       return arrDate[2]+arrDate[1]+arrDate[0];
+    }
+    else {
+        return string;
+    }
+}
 export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }) => {
     const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [sortBy, setSortBy] = useState({criteria:null,direction:'UP'});
+    const [sortBy, setSortBy] = useState({ criteria: null, direction: 'UP' });
 
 
-    
+
     /* Pagination logic */
 
     const pages = []
@@ -42,29 +53,27 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
     }
     var sortedList = []
     if (sortBy.criteria) {
-        
-        sortedList = list.sort((a, b) => {
-            let Asort = a[sortBy.criteria];
-            let Bsort = b[sortBy.criteria];
 
-            if(sortBy.direction==='UP'){
-                if (Asort > Bsort) {
-                    return 1
-                }
-                else {
-                    return -1
-                }
-            }
-            else{
-                if (Asort > Bsort) {
-                    return -1
-                }
-                else {
-                    return 1
-                }
-            }
-            
+        sortedList = list.sort((a, b) => {
+            let Asort = convertToDate(a[sortBy.criteria]);
+            let Bsort = convertToDate(b[sortBy.criteria]);
            
+            if (sortBy.direction === 'UP') {
+                if (Asort > Bsort) {
+                    return 1
+                }
+                else {
+                    return -1
+                }
+            }
+            else {
+                if (Asort > Bsort) {
+                    return -1
+                }
+                else {
+                    return 1
+                }
+            }
         })
     }
     else {
@@ -75,7 +84,7 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
     /* Devuelve la tabla con los filtros aplicados */
     const filteredList = sortedList.filter((x, index) => {
         if (index >= paginationData.offset && index < (paginationData.offset + parseInt(rowsPerPage))) {
-          
+
             return true;
         }
         else {
@@ -86,10 +95,10 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
 
 
 
-    const headerCells = headers.map((h, k) => <th key={k}>{h}<FontAwesomeIcon onClick={()=>setSortBy({criteria:rows[k],direction:sortBy.direction==='UP'?"DOWN":"UP"})} style={{float:'right'}} 
-        icon={(sortBy.criteria===rows[k] && sortBy.direction==='UP')?faAngleDown:faAngleUp} 
-        color={sortBy.criteria===rows[k]?'purple':'white'}
-        size='lg'/> 
+    const headerCells = headers.map((h, k) => <th key={k}>{h}<FontAwesomeIcon onClick={() => setSortBy({ criteria: rows[k], direction: sortBy.direction === 'UP' ? "DOWN" : "UP" })} style={{ float: 'right' }}
+        icon={(sortBy.criteria === rows[k] && sortBy.direction === 'UP') ? faAngleDown : faAngleUp}
+        color={sortBy.criteria === rows[k] ? 'purple' : 'white'}
+        size='lg' />
     </th>)
 
 
@@ -102,7 +111,7 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
             <thead>
                 <tr className='bg-info text-white'>
                     {headerCells}
-                   
+
                     {actions && <td>Acciones</td>}
                 </tr>
             </thead>
@@ -125,7 +134,6 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
 
     return (
         <Fragment>
-            {JSON.stringify(sortBy)}
             {paginated && <Paginator paginationData={paginationData} activePage={page - 1} pages={pages} setPage={setPage} setRows={handleRowsPerPage} />}
             {tableElement}
         </Fragment>

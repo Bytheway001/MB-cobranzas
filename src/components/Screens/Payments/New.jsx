@@ -9,7 +9,7 @@ import FormCobranza from './FormCobranza';
 import ClientSelect from '../../custom/ClientSelect';
 import { UserIs } from '../../../utils/utils';
 import { SmartCard } from '../../library/SmartCard';
-const NewPayment = ({ clients, getClientList, getClientById,user }) => {
+const NewPayment = ({ clients, getClientList, getClientById, user }) => {
     const [client, setClient] = useState([]);
     useEffect(() => {
         if (client.length > 0) {
@@ -17,17 +17,16 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
         }
         // eslint-disable-next-line
     }, [client])
-
-
+    
     return (
         <Row>
-            <Col sm={4} className='mb-5'>
-                <SmartCard title='Seleccion de cliente'>
-                <Form>
+            <Fragment>
+                <Col sm={4} className='mb-5'>
+                    <SmartCard title='Seleccion de cliente'>
+                        <Form>
                             <FormGroup>
                                 <label>Cliente:</label>
-                                <ClientSelect onChange={setClient} selected={client} />
-
+                                <ClientSelect onChange={setClient} selected={clients.editing ? [clients.editing] : []} />
                             </FormGroup>
                         </Form>
                         {
@@ -97,16 +96,19 @@ const NewPayment = ({ clients, getClientList, getClientById,user }) => {
                                 :
                                 null
                         }
-                </SmartCard>
-            </Col>
-            <Col sm={8}>
-                {
-                    clients.editing ?
-                        <FormCobranza id={clients.editing.id} prima={clients.editing.prima} />
-                        :
-                        null
-                }
-            </Col>
+                    </SmartCard>
+                </Col>
+                <Col sm={8}>
+                    {
+                        clients.editing ?
+                            <FormCobranza id={clients.editing.id} prima={clients.editing.prima} />
+                            :
+                            null
+                    }
+                </Col>
+            </Fragment>
+
+
         </Row>
 
     )
@@ -125,7 +127,7 @@ const TextGroup = ({ label, text }) => (
 
 const mapStateToProps = state => ({
     clients: state.clients,
-    user:state.session.user
+    user: state.session.user
 })
 
 const mapDispatchToProps = dispatch => ({

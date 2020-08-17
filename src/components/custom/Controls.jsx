@@ -3,7 +3,7 @@ import { FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import ReactDatePicker from 'react-datepicker';
 
 export const Input = ({ label, type, onChange, value, ...props }) => (
-    <FormGroup>
+    <FormGroup >
         <label>{label}</label>
         {
             props.prepend ?
@@ -37,7 +37,7 @@ export const Select = ({ label, onChange, value, options, except, only, ...props
 export const DatePicker = ({ label, onChange, value, ...props }) => (
     <FormGroup>
         <label>{label}</label>
-        <ReactDatePicker {...props} className='form-control form-control-sm' onChange={onChange} dateFormat='dd/MM/yyyy' selected={value} />
+        <ReactDatePicker {...props} className='form-control form-control-sm' onChange={onChange} dateFormat='dd-MM-yyyy' selected={value} />
     </FormGroup>
 )
 

@@ -21,8 +21,8 @@ const Navbar = ({ user, logout, login }) => {
                         {UserIs(user, 224) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>}
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/policy/pay'>Pago de Polizas</NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/categories'>Categorias</NavDropdown.Item>
+                        {UserIs(user,255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/policy/pay'>Pago de Polizas</NavDropdown.Item>}
+                        {UserIs(user,255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/categories'>Categorias</NavDropdown.Item>}
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/other_incomes'>Otros Ingresos</NavDropdown.Item>
                     </NavDropdown>
                     {
@@ -35,7 +35,7 @@ const Navbar = ({ user, logout, login }) => {
                          
                         </NavDropdown>
                     }
-                    {UserIs(user, 224) && <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>}
+                    {UserIs(user, 255) && <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>}
 
                 </Nav>
                 <Nav className="ml-auto">

@@ -79,23 +79,6 @@ const NewExpense = props => {
                     </Card.Body>
                 </Card>
             </Col>
-            <Col sm={4}>
-                <Card>
-                    <Card.Header className='bg-primary text-white'>Cambio de Divisas</Card.Header>
-                    <Card.Body>
-                       <CurrencyChange/>
-                    </Card.Body>
-                </Card>
-
-            </Col>
-            <Col sm={4}>
-            <Card>
-                    <Card.Header className='bg-primary text-white'>Estado de Cuentas</Card.Header>
-                    <Card.Body>
-                      <AccountsView/>
-                    </Card.Body>
-                </Card>
-            </Col>
         </Row>
     )
 }

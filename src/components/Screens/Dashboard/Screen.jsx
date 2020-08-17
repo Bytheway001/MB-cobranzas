@@ -21,32 +21,23 @@ const Dashboard = ({ getClientList, clients, user }) => {
     }
     const handleSubmit = (e,term,criteria) => {
         e.preventDefault()
-        console.log(term,criteria)
         getClientList({ criteria, term })
     }
 
-    const rows=['id','first_name','agent','collector','company','plan','option','renovation_date','effective_date','frequency','status']
+    const rows=['id','first_name','agent','collector','company','plan','option','renovation_date','effective_date','frequency','status','balance']
    
     return (
         <Row>
             <Col sm={4}>
-                <Criteria
-                    title='Buscar Cliente'
-                    onSubmit={handleSubmit}
-                    changeCriteria={changeCriteria}
-                    term={term}
-                    criteria={criteria}
-                    setTerm={setTerm}
-                    loading={clients.loading}
-                />
-
+                <Criteria title='Buscar Cliente' onSubmit={handleSubmit} changeCriteria={changeCriteria} term={term} criteria={criteria} setTerm={setTerm} loading={clients.loading}/>
             </Col>
+
             <Col sm={8} >
                 <ActionBar user={user} />
             </Col>
+            
             <Col sm={12} className='mt-5'>
                 <SmartCard title='Listado de clientes'>
-
                         {
                             clients.loading ?
 
@@ -54,7 +45,7 @@ const Dashboard = ({ getClientList, clients, user }) => {
                                 :
                                 <SmartTable 
                                     list={clients.list} 
-                                    headers={['ID','Nombre','Agente','Cobrador','Aseguradora','Plan','Opcion','Fecha Renovacion','Fecha Efectiva','Frecuencia','Estado']}
+                                    headers={['ID','Nombre','Agente','Cobrador','Aseguradora','Plan','Opcion','Fecha Renovacion','Fecha Efectiva','Frecuencia','Estado','Balance']}
                                     rows={rows}
                                     paginated={true}
                                     actions={true}
@@ -62,7 +53,6 @@ const Dashboard = ({ getClientList, clients, user }) => {
                      
 
                         }
-
                   </SmartCard>
             </Col>
         </Row >

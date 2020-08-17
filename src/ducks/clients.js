@@ -16,6 +16,8 @@ export const CLIENT_LIST_FAILED = "CLIENT_LIST_FAILED";
 
 export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
 
+export const CLIENT_SELECTED = "CLIENT_SELECTED";
+
 const onClientProfileSucceeded = (profile) => ({ type: CLIENT_PROFILE_SUCCEEDED, payload: profile })
 const onClientShowSucceeded = (data) => ({ type: CLIENT_SHOW_SUCCEEDED, payload: data })
 
@@ -25,11 +27,18 @@ const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
 
 const onClientProfileUpdated = (client) => ({ type: CLIENT_PROFILE_UPDATED, payload: client })
 
+const onClientSelected = (client)=>({ type: CLIENT_SELECTED, payload: client })
 export const createBulkClients = (clientList) => {
     return dispatch => {
         Axios.post(API + '/clients/bulk', clientList).then(res => {
             dispatch(onSetNotification('success', res.data.data))
         })
+    }
+}
+
+export const selectClient =(id)=>{
+    return dispatch =>{
+        dispatch(onClientSelected(id)) 
     }
 }
 
@@ -51,8 +60,6 @@ export const createClient = (data) => {
     }
 
 }
-
-
 
 export const getClientById = (id) => {
     return dispatch => {
@@ -106,6 +113,21 @@ const clientInitialState = {
 
 export const clientReducer = (state = clientInitialState, action) => {
     switch (action.type) {
+
+        case CLIENT_SELECTED:
+            if(action.payload){
+                return{
+                    ...state,
+                    editing:state.list.find(x=>x.id==action.payload.id)
+                }
+            }
+            else{
+                return{
+                    ...state,
+                    editing:null
+                }
+            }
+           
         case CLIENT_LIST_REQUESTED:
             return {
                 ...state,
