@@ -11,6 +11,7 @@ import { SmartCard } from '../../library/SmartCard';
 const Dashboard = ({ getClientList, clients, user }) => {
     const [criteria, setCriteria] = useState('')
     const [term, setTerm] = useState('')
+
     useState(() => {
         getClientList()
     }, [])
@@ -69,4 +70,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getClientList: (search) => dispatch(getClientList(search))
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

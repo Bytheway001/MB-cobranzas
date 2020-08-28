@@ -78,6 +78,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         }
         console.log(client)
         createClient(client)
+        
     }
 
     const year = new Date().getFullYear()

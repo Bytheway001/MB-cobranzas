@@ -1,15 +1,9 @@
-import React, { Fragment } from 'react';
-import { Row, Col, Button, FormGroup, Table, Modal } from 'react-bootstrap';
+import React from 'react';
+import { Row, Col, Button, Table } from 'react-bootstrap';
 import { SmartCard } from '../../library/SmartCard';
-import ClientSelect from '../../custom/ClientSelect';
-import { useState } from 'react';
-import { Input } from '../../custom/Controls';
 import { getClientById, selectClient } from '../../../ducks/clients';
 import { connect } from 'react-redux';
-import UpdateClientModal from '../Clients/UpdateClientModal';
-import { useEffect } from 'react';
-import Axios from 'axios';
-import { API } from '../../../ducks/root';
+
 import { Link } from 'react-router-dom';
 import { formatMoney, UserIs } from '../../../utils/utils';
 import { Extracto } from '../Reports/components/Extracto';
@@ -19,6 +13,10 @@ import { faCoffee, faExpandAlt, faShareSquare, faDollarSign, faMoneyBillWave } f
 import { UserPayments } from '../Clients/Profile';
 import { CashBox } from './components/Cashbox';
 import { UserPaymentsModal } from './components/UserPaymentsModal';
+import ClientForm, { NewClientForm } from '../../Forms/Client';
+import { ClientProfileTable } from '../../Tables/ClientProfileTable';
+import { ClientSelect, ClientSelector } from '../../custom/Controls';
+import TransferForm from '../../Forms/Transfer';
 
 const buttonStyle = {
     height: 120,
@@ -26,7 +24,7 @@ const buttonStyle = {
 }
 
 
-const Thumbnail = ({ title, as, to, icon }) => {
+export const Thumbnail = ({ title, as, to, icon, onClick }) => {
     if (as) {
         return (
             <Button as={as} to={to} className='my-1 d-flex flex-column justify-content-center' block style={buttonStyle}>
@@ -37,7 +35,8 @@ const Thumbnail = ({ title, as, to, icon }) => {
     }
     else {
         return (
-            <Button className='my-1' block style={buttonStyle}>
+            <Button onClick={onClick} to={to} className='my-1 d-flex flex-column justify-content-center align-items-center' block style={buttonStyle}>
+                <p><FontAwesomeIcon size='3x' icon={icon} /></p>
                 {title}
             </Button>
         )
@@ -60,83 +59,30 @@ export const Collector = ({ clients, getClientById, selectClient, user, accounts
     return (
         <Row>
             <Col sm={6}>
-                <SmartCard title="Cobranzas">
+                <SmartCard title="Clientes">
                     <Row className='mb-2'>
                         <Col sm={1}>
                             <label>Cliente</label>
                         </Col>
-                        <Col sm={4}>
-                            <ClientSelect title='Cliente' selected={editing ? [editing] : []} onChange={(val) => testValue(val)} />
+                        <Col sm={6}>
+                            <ClientSelector title='Cliente' selected={editing ? [editing] : []} onChange={(val) => testValue(val)} />
                         </Col>
-                        <Col sm={7}>
-                            <Button size='sm' block as={Link} to='/clients/new'>Crear Cliente</Button>
+                        <Col sm={5}>
+                            <NewClientForm modal={true} />
                         </Col>
                     </Row>
                     <Row>
                         {
                             editing &&
                             <Col xs={12}>
-                                <Table size='sm' variant='bordered'>
-                                    <thead>
-                                        <tr>
-                                            <th className='bg-primary text-white' colSpan={4}>Datos del Cliente</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th className='bg-info text-white'>Poliza</th>
-                                            <td>{editing.policy_number}</td>
-                                            <th className='bg-info text-white'>F. Renovacion</th>
-                                            <td>{editing.renovation_date}</td>
-                                        </tr>
-                                        <tr>
-                                            <th className='bg-info text-white'>Nombre</th>
-                                            <td>{editing.first_name}</td>
-                                            <th className='bg-info text-white'>F. Efectiva</th>
-                                            <td>{editing.effective_date}</td>
-                                        </tr>
-                                        <tr>
-                                            <th className='bg-info text-white'>Telefono</th>
-                                            <td>{editing.phone}</td>
-                                            <th className='bg-info text-white'>Frecuencia</th>
-                                            <td>{editing.frequency}</td>
-                                        </tr>
-
-
-                                        <tr>
-                                            <th className='bg-info text-white'>Aseguradora</th>
-                                            <td>{editing.company}</td>
-                                            <th className='bg-info text-white'>Agente</th>
-                                            <td>{editing.agent}</td>
-
-
-                                        </tr>
-                                        <tr>
-
-                                            <th className='bg-info text-white'>Plan/Opcion</th>
-                                            <td>{editing.plan} - {editing.option}</td>
-                                            <th className='bg-info text-white'>Cobrador</th>
-                                            <td>{editing.collector}</td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <th className='bg-info text-white'>Prima</th>
-                                            <td>{formatMoney(editing.prima, 2, '.', ',', '$')}</td>
-                                            <th className='bg-info text-white'>Estado de Poliza</th>
-                                            <td>{editing.policy_status}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    </tfoot>
-                                </Table>
+                                <ClientProfileTable editing={editing} />
                                 <Table className='mt-1' variant='bordered' size='sm'>
                                     <tbody>
                                         <tr>
                                             <th colSpan={4} className='bg-primary text-white'>Acciones:</th>
                                         </tr>
                                         <tr>
-                                            <th><UpdateClientModal /></th>
+                                            <th><ClientForm modal={true} /></th>
                                             <th><Button variant='success' as={Link} to='/payments/new' block size='sm'>Registrar Cobranza</Button></th>
                                             <th><UserPaymentsModal client={editing} /></th>
                                         </tr>
@@ -160,7 +106,7 @@ export const Collector = ({ clients, getClientById, selectClient, user, accounts
                         </Row>
                         <Row>
                             <Col sm={6}>
-                                <Thumbnail as={Link} to='/transfers/new' title='Transferencias Internas' icon={faExpandAlt} />
+                                <TransferForm modal={true} />
                             </Col>
                             <Col sm={6}>
                                 <Thumbnail as={Link} to='/expenses/new' title='Registrar Gasto' icon={faShareSquare} />

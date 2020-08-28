@@ -6,9 +6,10 @@ import { getClientList, getClientById } from '../../../ducks/clients'
 import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
 import FormCobranza from './FormCobranza';
-import ClientSelect from '../../custom/ClientSelect';
+
 import { UserIs } from '../../../utils/utils';
 import { SmartCard } from '../../library/SmartCard';
+import { ClientSelector } from '../../custom/Controls';
 const NewPayment = ({ clients, getClientList, getClientById, user }) => {
     const [client, setClient] = useState([]);
     useEffect(() => {
@@ -26,7 +27,7 @@ const NewPayment = ({ clients, getClientList, getClientById, user }) => {
                         <Form>
                             <FormGroup>
                                 <label>Cliente:</label>
-                                <ClientSelect onChange={setClient} selected={clients.editing ? [clients.editing] : []} />
+                                <ClientSelector onChange={setClient} selected={clients.editing ? [clients.editing] : []} />
                             </FormGroup>
                         </Form>
                         {

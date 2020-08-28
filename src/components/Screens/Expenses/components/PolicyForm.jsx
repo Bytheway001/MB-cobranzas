@@ -1,7 +1,7 @@
 // Formulario para pagos de poliza
 import React, { useState, useEffect } from 'react';
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
-import ClientSelect from '../../../custom/ClientSelect';
+
 import { Select, Input } from '../../../custom/Controls';
 import AccountsOptions from '../../../../options/accounts';
 import { CurrencyOptions } from '../../../../options/options';

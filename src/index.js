@@ -9,10 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { rootReducer } from './ducks/root';
 import { setupInterceptors } from './utils/utils';
-const store = createStore(rootReducer,
-    composeWithDevTools(
-        applyMiddleware(thunk))
-);
+const store = createStore(rootReducer,composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.getItem('user')) {
     let parsed = JSON.parse(localStorage.getItem('user'))
