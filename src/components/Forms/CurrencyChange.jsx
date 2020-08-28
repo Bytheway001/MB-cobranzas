@@ -15,7 +15,6 @@ export const CurrencyChange = () => {
 
     const refreshAccounts = ()=>{
         Axios.get(API + '/accounts').then(res => {
-            
             setAccounts(res.data.data);
         })
     }

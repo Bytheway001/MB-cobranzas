@@ -1,6 +1,6 @@
 import { API } from "./root";
 import Axios from "axios";
-import { onSetNotification } from "./notifications";
+import { onSetNotification, addNotification } from "./notifications";
 
 export const CLIENT_PROFILE_REQUESTED = "CLIENT_PROFILE_REQUESTED";
 export const CLIENT_PROFILE_SUCCEEDED = "CLIENT_PROFILE_SUCCEEDED";
@@ -16,6 +16,8 @@ export const CLIENT_LIST_FAILED = "CLIENT_LIST_FAILED";
 
 export const CLIENT_PROFILE_UPDATED = "CLIENT_PROFILE_UPDATED";
 
+export const CLIENT_SELECTED = "CLIENT_SELECTED";
+
 const onClientProfileSucceeded = (profile) => ({ type: CLIENT_PROFILE_SUCCEEDED, payload: profile })
 const onClientShowSucceeded = (data) => ({ type: CLIENT_SHOW_SUCCEEDED, payload: data })
 
@@ -25,6 +27,7 @@ const onClientListFailed = (err) => ({ type: CLIENT_LIST_FAILED, payload: err })
 
 const onClientProfileUpdated = (client) => ({ type: CLIENT_PROFILE_UPDATED, payload: client })
 
+const onClientSelected = (client)=>({ type: CLIENT_SELECTED, payload: client })
 export const createBulkClients = (clientList) => {
     return dispatch => {
         Axios.post(API + '/clients/bulk', clientList).then(res => {
@@ -33,11 +36,27 @@ export const createBulkClients = (clientList) => {
     }
 }
 
+export const selectClient =(id)=>{
+    return dispatch =>{
+        dispatch(onClientSelected(id)) 
+    }
+}
+
+export const clearClient=()=>{
+    return dispatch=>{
+        dispatch({type:"CLEAR_CLIENT"})
+    }
+}
+
 export const UpdateClientPolicy = (id, data) => {
     return dispatch => {
         Axios.put(API + '/clients/' + id + '/update', data).then(res => {
             dispatch(onClientProfileUpdated(res.data.data))
-            dispatch(onSetNotification('success', "El perfil del cliente ha sido actualizado"))
+            dispatch(addNotification('success', "El perfil del cliente ha sido actualizado"))
+
+        })
+        .catch(err=>{
+            dispatch(onSetNotification('danger',"El cliente no fue actualizado"))
         })
 
     }
@@ -47,12 +66,11 @@ export const createClient = (data) => {
     return dispatch => {
         Axios.post(API + '/clients/create', data).then(res => {
             dispatch(onSetNotification('success', 'Cliente Creado Correctamente'))
+            window.location.href='/'
         })
     }
 
 }
-
-
 
 export const getClientById = (id) => {
     return dispatch => {
@@ -84,14 +102,12 @@ export const getClientList = (search = null) => {
         Axios.get(string).then(res => {
             dispatch(onClientListSucceeded(res.data.data))
         }).catch(err => {
-            
-            if(err.response.status===500){
+           
                 dispatch(onSetNotification('danger','Error al procesar la llamada al servidor, presione F5 para actualizar'));
-                dispatch(onClientListFailed(err.response.data))
-            }
-            else{
-                dispatch(onClientListFailed(err.response.data))
-            }
+             
+         
+                dispatch(onClientListFailed('Error de servidor'))
+            
         })
     }
 }
@@ -106,6 +122,25 @@ const clientInitialState = {
 
 export const clientReducer = (state = clientInitialState, action) => {
     switch (action.type) {
+        case 'CLEAR_CLIENT':
+            return{
+                ...state,
+                editing:null
+            }
+        case CLIENT_SELECTED:
+            if(action.payload){
+                return{
+                    ...state,
+                    editing:state.list.find(x=>x.id==action.payload.id)
+                }
+            }
+            else{
+                return{
+                    ...state,
+                    editing:null
+                }
+            }
+           
         case CLIENT_LIST_REQUESTED:
             return {
                 ...state,

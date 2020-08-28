@@ -16,17 +16,16 @@ const Navbar = ({ user, logout, login }) => {
             <Bar.Collapse id="basic-navbar-nav">
                 <Nav className='mr-auto'>
                     <Nav.Link as={Link} to='/'>Inicio</Nav.Link>
-                    <Nav.Link as={Link} to='/clients/new'>Crear Cliente</Nav.Link>
                     <NavDropdown title='Operaciones'>
                         {UserIs(user, 224) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>}
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/checks/collect'>Cobro de Cheques en transito</NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/policy/pay'>Pago de Polizas</NavDropdown.Item>
-                        <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/categories'>Categorias</NavDropdown.Item>
+                        {UserIs(user,255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/policy/pay'>Pago de Polizas</NavDropdown.Item>}
+                        {UserIs(user,255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/categories'>Categorias</NavDropdown.Item>}
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/other_incomes'>Otros Ingresos</NavDropdown.Item>
                     </NavDropdown>
                     {
-                        UserIs(user, 248) &&
+                        UserIs(user, 255) &&
                         <NavDropdown title='Reportes'>
                             {UserIs(user, 248) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/reports/payments'>Cobranzas</NavDropdown.Item>}
                             {UserIs(user, 255) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/reports/general'>General</NavDropdown.Item>}
@@ -35,8 +34,6 @@ const Navbar = ({ user, logout, login }) => {
                          
                         </NavDropdown>
                     }
-                    {UserIs(user, 224) && <Nav.Link as={Link} to='/expenses'>Gastos</Nav.Link>}
-
                 </Nav>
                 <Nav className="ml-auto">
 

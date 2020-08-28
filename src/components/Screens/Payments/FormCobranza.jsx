@@ -8,7 +8,9 @@ import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOption
 import AccountsOptions from '../../../options/accounts';
 import { Input, Select, DatePicker } from '../../custom/Controls';
 import { SmartCard } from '../../library/SmartCard';
-export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
+import { Multiselect } from 'react-widgets';
+import 'react-widgets/dist/css/react-widgets.css';
+export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
     const [agencyDiscount, setAgencyDiscount] = useState(0)
@@ -22,6 +24,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [currency, setCurrency] = useState('USD')
     const [changeRate, setChangeRate] = useState('');
     const [error, setError] = useState(null);
+    const [tags, setTags] = useState([]);
 
     const handleCurrencyChange = (value) => {
         if (value === 'USD') {
@@ -90,12 +93,22 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
 
     }
 
+    const data = [
+        "Felisa Quispe", "Sofia Aruquipa", "Narda Canelas", "Norah Guzman", "Marcelo De Rada Ocampo", "Ana Hamachi"
+    ]
+
+    const handleTags = (val) => {
+        console.log(val)
+    }
 
     const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
     return (
         <SmartCard title='Registrar Cobranza'>
+
             <Form onSubmit={handleSubmit}>
+
                 <Row>
+
                     <Col sm={4}>
                         <Select required label='Metodo de Pago' value={method} onChange={({ target }) => customSetMethod(target.value)} options={<PaymentMethodOptions />} />
                         {
@@ -122,10 +135,8 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                         <Input type='number' label='Desc. Aseguradora' prepend={currency === 'BOB' ? 'Bs' : '$'} value={companyDiscount} onChange={({ target }) => setCompanyDiscount(target.value)} />
                         <Input type='number' label='Desc. Agencia:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agencyDiscount} onChange={({ target }) => setAgencyDiscount(target.value)} />
                         <Input type='number' label='Desc. Agente:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={agentDiscount} onChange={({ target }) => setAgentDiscount(target.value)} />
-
-
-
                         <Input type='number' label='Monto:' prepend={currency === 'BOB' ? 'Bs' : '$'} value={amount} onChange={({ target }) => setAmount(target.value)} required />
+
                     </Col>
                     <Col sm={5}>
                         <FormGroup>
@@ -148,16 +159,21 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                             )
                         }
                     </Col>
+                    <Col sm={7}>
+                        <label>Notificar esta cobranza a:</label>
+                        <Multiselect data={data} value={tags} onChange={(e) => setTags(e)} />
+                    </Col>
                 </Row>
             </Form>
         </SmartCard>
-      
+
     )
 }
 
 const mapStateToProps = state => (
     {
-        creatingPayment: state.agents.creatingPayment
+        creatingPayment: state.agents.creatingPayment,
+        agents: state.agents.collectors,
     }
 )
 

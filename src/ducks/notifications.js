@@ -11,7 +11,11 @@ const initialState = [
 export const addNotification = (type, text) => {
     return dispatch => {
         dispatch(onSetNotification(type, text))
+        setTimeout(()=>{
+            dispatch(deleteNotification(0))
+        },3000)
     }
+
 }
 
 export const deleteNotification = (index) => {

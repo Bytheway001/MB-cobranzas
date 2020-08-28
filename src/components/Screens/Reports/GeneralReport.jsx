@@ -1,14 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Row, Col, Card, Table, Button, FormGroup, Tabs, Tab } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
-import { formatMoney } from '../../../utils/utils';
-import ReactDatePicker from 'react-datepicker';
-import { AccountsArray } from '../../../options/options';
-import { connect } from 'react-redux';
-import { getExpenses } from '../../../ducks/expenses';
-import { ExpensesList, PaymentsList, PolicyPaymentsList } from './Lists';
+import { PaymentsList, PolicyPaymentsList } from './Lists';
 import { DateSearch } from '../../custom/DateSearch';
+import { SmartCard } from '../../library/SmartCard';
+import { SmartTable } from '../../library/SmartTable';
 
 const GeneralReport = props => {
     const defaultFrom = new Date();
@@ -16,7 +13,6 @@ const GeneralReport = props => {
     const [report, setReport] = useState(null);
     const [from, setFrom] = useState(defaultFrom)
     const [to, setTo] = useState(defaultTo)
-
     useEffect(() => {
         Axios.get(API + '/reports').then(res => {
             setReport(res.data)
@@ -44,24 +40,26 @@ const GeneralReport = props => {
                 </Col>
                 <Col sm={9}>
                     {report &&
-                        <Card style={{maxHeight:500,overflowY:'scroll'}}>
+                        <Card style={{ maxHeight: 500, overflowY: 'scroll' }}>
                             <Card.Header className='bg-primary text-white'>
                                 Cobranzas Realizadas
                          </Card.Header>
                             <Card.Body>
                                 <PaymentsList payments={report.payments} />
                             </Card.Body>
+                          
                         </Card>
                     }
 
                 </Col>
+               
             </Row>
-            <Row noGutters className='mt-5'>
+            <Row className='mt-5'>
                 {
                     report &&
                     <Fragment>
-                       
-                        <Col sm={12}>
+
+                        <Col sm={6}>
                             <Card>
                                 <Card.Header className='bg-primary text-white'>
                                     Pago de Polizas
@@ -70,6 +68,13 @@ const GeneralReport = props => {
                                     <PolicyPaymentsList payments={report.policy_payments} />
                                 </Card.Body>
                             </Card>
+                        </Col>
+                        <Col sm={6}>
+                            <SmartCard title='Polizas Pendientes de Pago'>
+                                <SmartTable
+                                 paginated={true}
+                                 list={report.pending} rows={['policy_number','first_name','company','prima','status']} headers={['# Poliza','Nombre','Compañia','Prima','status']}/>
+                            </SmartCard>
                         </Col>
                     </Fragment>
 

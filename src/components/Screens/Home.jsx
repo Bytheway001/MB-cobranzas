@@ -16,7 +16,7 @@ const HomeScreen = ({ login, user, loading, history }) => {
             let u = res.data.data.id;
             let role = res.data.data.role
             setupInterceptors(u)
-            login({ ...profile,id:u,role:role })
+            login({ ...profile,id:u,account:res.data.data.account,role:role })
             history.push('/')
         })
 
