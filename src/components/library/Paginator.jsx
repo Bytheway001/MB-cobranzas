@@ -11,13 +11,13 @@ export const Paginator = ({ pages, setPage, activePage, paginationData, setRows 
                 <Pagination.First onClick={() => setPage(1)} />
                 <Pagination.Prev />
                 <PaginationLinks setPage={setPage} active={activePage} length={pages.length} />
-                <Pagination.Next className='bg-primary text-white' />
+                <Pagination.Next  />
                 <Pagination.Last onClick={() => setPage(pages.length)} />
             </Pagination>
             <Col>Mostrando desde {offset} hasta {offset + parseInt(rowsPerPage)}</Col>
             <FormGroup as={Row}>
                 <Col sm={8}>
-                    <label>Resultados Por Pagina</label>
+                    <label style={{fontWeight:'initial'}}>Resultados Por Pagina</label>
                 </Col>
                 <Col>
                     <FormControl size='sm' as='select' onChange={({ target }) => setRows(target.value)}>

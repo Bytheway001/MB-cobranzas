@@ -15,9 +15,10 @@ const NewTransfer = ({ setNotification }) => {
     const [amount, setAmount] = useState("")
     const [currency, setCurrency] = useState("");
     const [error, setError] = useState("");
+    const [comment,setComment]=useState("");
     const handleSubmit = (e) => {
         setError("")
-        let payload = { from, to, amount, currency }
+        let payload = { from, to, amount, currency,comment }
         e.preventDefault();
         Axios.post(API + '/transfers', payload).then(res => {
             setNotification('success', 'Transferencia realizada con exito')
@@ -29,7 +30,6 @@ const NewTransfer = ({ setNotification }) => {
 
     return (
         <Row>
-
             <Col sm={{ span: 4, offset: 4 }}>
                 <SmartCard title='Transferencias entre cuentas'>
                     <Form onSubmit={handleSubmit}>
@@ -41,6 +41,9 @@ const NewTransfer = ({ setNotification }) => {
                             </Col>
                             <Col sm={6}>
                                 <Input value={amount} onChange={({ target }) => setAmount(target.value)} label='Monto a transferir:' />
+                            </Col>
+                            <Col sm={12}>
+                                <Input value={comment} onChange={({ target }) => setComment(target.value)} label='Comentario:' />
                             </Col>
                         </Row>
 

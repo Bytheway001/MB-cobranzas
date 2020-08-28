@@ -3,188 +3,119 @@ import { Button, Modal, Form, Row, Col, FormGroup, FormControl } from 'react-boo
 import { Companies } from '../../../utils/utils';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { connect } from 'react-redux';
-import { UpdateClientPolicy } from '../../../ducks/clients';
-import {getCollectors} from '../../../ducks/agents'
+import { UpdateClientPolicy, getClientById } from '../../../ducks/clients';
+import { getCollectors, getAgents } from '../../../ducks/agents'
+import { Input, Select, DatePicker } from '../../custom/Controls';
+import Axios from 'axios';
+import { API } from '../../../ducks/root';
 
-export const UpdateClientModal = ({ client, updateClientPolicy, collectors, getCollectorList }) => {
+export const UpdateClientModal = ({ client, collectors, getCollectors, updateClientPolicy }) => {
+    const [companies, setCompanies] = useState([]);
+    const [plans, setPlans] = useState([]);
+    const [show, setShow] = useState();
+    const [selectedClient, setSelectedClient] = useState(client);
     useEffect(() => {
-        getCollectorList()
-        // eslint-disable-next-line
+        Axios.get(API + '/companies').then(res => {
+            setCompanies(res.data.data)
+        })
+        getCollectors()
     }, [])
 
-    const initialState = {
-        plan: [client.plan],
-        option: client.option,
-        company: client.company,
-        prima: client.prima,
-        frequency: client.frequency,
-        collector: [{ id: client.collector_id, name: client.collector }],
-        policyType: client.policy_type,
-        policyNumber: client.policy_number,
-        phone: client.phone,
-        email: client.email
+
+    function setValue(prop, value) {
+        selectedClient[prop] = value;
+        setSelectedClient({ ...selectedClient });
     }
 
+    function listPlansByCompany(company_id) {
+        Axios.get(API + '/plans/' + company_id).then(res => {
+            setPlans(res.data.data)
+        })
+    }
 
-    const [show, setShow] = useState(false);
-    const [plan, setPlan] = useState(initialState.plan);
-    const [option, setOption] = useState(initialState.option);
-    const [company, setCompany] = useState(initialState.company)
-    const [prima, setPrima] = useState(initialState.prima)
-    const [frequency, setFrequency] = useState(initialState.frequency)
-    const [collector, setCollector] = useState(initialState.collector)
-    const [policyNumber, setPolicyNumber] = useState(initialState.policyNumber)
-    const [policyType, setPolicyType] = useState(initialState.policyType)
-    const [phone, setPhone] = useState(initialState.phone)
-    const [email, setEmail] = useState(initialState.email)
-    const handleClose = () => {
-        setShow(false)
-        setPlan(initialState.plan)
-        setOption(initialState.option)
-        setCompany(initialState.company)
-        setPrima(initialState.prima)
-        setFrequency(initialState.frequency)
-        setPhone(initialState.phone)
-        setEmail(initialState.email)
-    };
-    
-    const handleShow = () => {
-        setPlan(initialState.plan)
-        setOption(initialState.option)
-        setCompany(initialState.company)
-        setPrima(initialState.prima)
-        setFrequency(initialState.frequency)
-        setPhone(initialState.phone)
-        setEmail(initialState.email)
-        setShow(true);
+    const handleCompanyChange = (value) => {
+        setValue('company', value)
+        listPlansByCompany(companies.find(x => x.name === value).id)
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        let c = {
-            id: client.id,
-            plan: plan.length > 0 ? plan[0].name : '',
-            option,
-            company: Companies.find(x => x.slug === company).name,
-            prima,
-            frequency,
-            collector_id: collector.length > 0 ? collector[0].id : '',
-            policy_type: policyType,
-            policy_number: policyNumber,
-            phone: phone,
-            email: email
+        e.preventDefault();
+        let sc = {
+            email: selectedClient.email,
+            phone: selectedClient.phone,
+            company: selectedClient.company,
+            plan: selectedClient.plan,
+            option: selectedClient.option,
+            collector_id: selectedClient.collector_id,
+            frequency: selectedClient.frequency,
+            prima: selectedClient.prima,
+            policy_number: selectedClient.policy_number,
         }
 
-        updateClientPolicy(c.id, c)
-        handleClose()
+        updateClientPolicy(selectedClient.id, sc)
+        setShow(false)
+    }
+
+    const optionize = (arr) => {
+        return arr.map((r, k) => <option key={k} value={r.id}>{r.name}</option>)
+    }
+
+    const showVariable = (o) => {
+        console.log(o)
     }
 
     return (
         <>
-            <Button size='sm' onClick={handleShow} block>Actualizar Poliza</Button>
+            <Button size='sm' onClick={() => setShow(true)} block>Actualizar Poliza</Button>
 
-            <Modal size='lg' show={show} onHide={handleClose} animation={false}>
+            <Modal size='lg' show={show} onHide={() => setShow(false)} animation={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Actualizar Poliza de cliente</Modal.Title>
-
+                    <Modal.Title>{selectedClient.first_name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+
                     <Form id='clientModal' onSubmit={handleSubmit}>
                         <Row>
                             <Col sm={6}>
-                            <FormGroup>
-                                    <label>Email</label>
-                                    <FormControl size='sm' value={email} onChange={({ target }) => setEmail(target.value)} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Telefono</label>
-                                    <FormControl size='sm' value={phone} onChange={({ target }) => setPhone(target.value)} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Numero de Poliza</label>
-                                    <FormControl size='sm' value={policyNumber} onChange={({ target }) => setPolicyNumber(target.value)} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Aseguradora</label>
-                                    <FormControl size='sm' as='select' value={company} onChange={({ target }) => setCompany(target.value)}>
-                                        <option value="">Seleccione...</option>
-                                        {
-                                            Companies.map((c, index) => (
-                                                <option value={c.slug} key={index}>{c.name}</option>
-                                            ))
-                                        }
-                                    </FormControl>
+                                <Input value={selectedClient.email} onChange={({ target }) => setValue('email', target.value)} label='E-mail' />
+                                <Input value={selectedClient.phone} onChange={({ target }) => setValue('phone', target.value)} label='Telefono' />
 
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Plan</label>
-                                    <Typeahead
-                                        inputProps={{ required: true }}
-                                        defaultInputValue=""
-                                        id='plan'
-                                        clearButton={true} size='sm'
-                                        selected={plan}
-                                        options={(Companies.find(x => x.slug === company.id) && Companies.find(x => x.slug === company).plans.map(plan => plan)) || []}
-                                        allowNew={true}
-                                        onChange={setPlan}
-                                        labelKey='name'
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Opcion</label>
-                                    <FormControl size='sm' value={option} onChange={({ target }) => setOption(target.value)} />
+                                <Select
+                                    value={selectedClient.company}
+                                    onChange={({ target }) => handleCompanyChange(target.value)}
+                                    options={optionize(companies.map(x => ({ id: x.name, name: x.name })))}
+                                    label="Aseguradora"
+                                />
+                                <Select
+                                    value={selectedClient.plan}
+                                    onChange={({ target }) => setValue('plan', target.value)}
+                                    options={optionize(plans.map(x => ({ id: x.name, name: x.name })))}
+                                    label="Plan"
+                                />
+                                <Input value={selectedClient.option} onChange={({ target }) => setValue('option', target.value)} label='Opcion' />
 
-                                </FormGroup>
+
+
                             </Col>
-
                             <Col sm={6}>
+                                <Input value={selectedClient.policy_number} onChange={({ target }) => setValue('policy_number', target.value)} label='Numero de Poliza' />
                                 <FormGroup>
-                                    <label>Prima</label>
-                                    <FormControl size='sm' value={prima} onChange={({ target }) => setPrima(target.value)} />
+                                    <label>Cobrador:</label>
+                                    <Typeahead bsSize='sm' options={collectors} selected={collectors.filter(x => x.id == selectedClient.collector_id)} labelKey='name' id='cobrador' clearButton={true} onChange={(o) => setValue('collector_id', o[0] ? o[0].id : null)} />
                                 </FormGroup>
-                                <FormGroup>
-                                    <label>Frecuencia de Pago</label>
-                                    <FormControl as='select' size='sm' value={frequency} onChange={({ target }) => setFrequency(target.value)}>
-                                        <option value='Anual'>Anual</option>
-                                        <option value='Semestral'>Semestral</option>
-                                        <option value='Quincenal'>Quincenal</option>
-                                        <option value='Mensual'>Mensual</option>
-                                    </FormControl>
-
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Tipo de Poliza</label>
-                                    <FormControl as='select' size='sm' value={policyType} onChange={({ target }) => setPolicyType(target.value)}>
-                                        <option value='Personal'>Personal</option>
-                                        <option value='Familiar'>Famliiar</option>
-                                        <option value='Corporativa'>Corporativa</option>
-
-                                    </FormControl>
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Cobrador</label>
-                                    <Typeahead
-                                        inputProps={{ required: true }}
-                                        defaultInputValue=""
-                                        id='collector'
-                                        clearButton={true} size='sm'
-                                        selected={collector}
-                                        options={collectors || []}
-                                        onChange={setCollector}
-                                        labelKey='name'
-                                    />
-
-                                </FormGroup>
+                                <Select value={selectedClient.frequency} onChange={({ target }) => setValue('frequency', target.value)} options={optionize([
+                                    { id: 'Annual', name: 'Anual' },
+                                    { id: 'Semiannual', name: 'Semestral' },
+                                    { id: 'Montly', name: 'Mensual' },
+                                    { id: 'Quarterly', name: 'Trimestral' }
+                                ])} label='Frecuencia de pago' />
+                                <Input value={selectedClient.prima} onChange={({ target }) => setValue('prima', target.value)} label='Prima' />
                             </Col>
-
                         </Row>
                     </Form>
-
-
-
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={() => setShow(false)}>
                         Close
             </Button>
                     <Button form='clientModal' type='submit' variant="primary">
@@ -206,7 +137,9 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
     {
         updateClientPolicy: (id, data) => dispatch(UpdateClientPolicy(id, data)),
-        getCollectorList: () => dispatch(getCollectors())
+
+        getAgents: () => dispatch(getAgents()),
+        getCollectors: () => dispatch(getCollectors())
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateClientModal)

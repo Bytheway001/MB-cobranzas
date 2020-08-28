@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Row, Card, Col, Table } from 'react-bootstrap';
 import { PaymentPolicyForm } from './components/PolicyForm';
-import ClientSelect from '../../custom/ClientSelect';
+
 import { PolicyView } from '../Clients/PolicyView';
 import { API } from '../../../ducks/root';
 import Axios from 'axios';
 import { SmartCard } from '../../library/SmartCard';
+import { ClientSelector } from '../../custom/Controls';
 
 export const PolicyPaymentsPage = () => {
     const [client, setClient] = useState([]);
@@ -28,7 +29,7 @@ export const PolicyPaymentsPage = () => {
                 <Card className='h-100'>
                     <Card.Header className='bg-primary text-white'>Seleccion de Cliente</Card.Header>
                     <Card.Body>
-                        <ClientSelect onChange={getClient} selected={client} />
+                        <ClientSelector onChange={getClient} selected={client} />
                         {client[0] && <PolicyView client={client[0]} />}
 
                     </Card.Body>

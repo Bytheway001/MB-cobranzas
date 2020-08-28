@@ -109,16 +109,16 @@ const UserData = ({ client }) => {
     )
 }
 
-const UserPayments = ({ payments }) => (
+export const UserPayments = ({ payments }) => (
     <Card>
         <Card.Header className='bg-primary text-light d-flex'>
             <span>Historial de Pagos (Ultimos 10)</span>
             <Button as={Link} variant='secondary' className='ml-auto' size='sm' to='/payments/new'>Registrar Pago</Button>
         </Card.Header>
         <Card.Body >
-            <Table>
+            <Table variant='bordered' size='sm'>
                 <thead>
-                    <tr>
+                    <tr className='bg-info text-white'>
                         <th>ID</th>
                         <th>Fecha de Pago</th>
                         <th>Cantidad</th>

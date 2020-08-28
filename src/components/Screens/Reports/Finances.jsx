@@ -91,7 +91,7 @@ const Finances = ({ user }) => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col sm={6}>
+                <Col sm={8}>
                     <Card>
                         <Card.Header className='bg-primary text-white'>Gastos</Card.Header>
                        
@@ -101,7 +101,7 @@ const Finances = ({ user }) => {
                     </Card>
 
                 </Col>
-                <Col sm={6}>
+                <Col sm={4}>
                     <Card>
                         <Card.Header className='bg-primary text-white'>Cheques</Card.Header>
                         <Card.Body>

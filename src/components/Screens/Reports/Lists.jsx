@@ -5,7 +5,7 @@ import { SmartTable } from '../../library/SmartTable';
 export const ExpensesList = ({ expenses }) => {
 
     const rows = ['date','account','description','category','bill_number','amount','currency','office'];
-    const headers=['Fecha','Cuenta','Desc',"Categoria",'# Factura',"Cantidad","Moneda",'Oficina']
+    const headers=['Fecha','Cta','Desc',"Categoria",'# Fact',"Cant.","Moneda",'Oficina']
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />

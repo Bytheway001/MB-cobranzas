@@ -49,7 +49,7 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                             <tbody>
                                 {
                                     list.map((payment, index) => (
-                                        <tr>
+                                        <tr key={index}>
                                             <td>{payment.city.toUpperCase()}</td>
                                             <td>{payment.payment_date}</td>
                                             <td>{payment.client}</td>
