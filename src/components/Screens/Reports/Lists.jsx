@@ -24,7 +24,7 @@ export const PolicyPaymentsList = ({ payments }) => {
 
                     <tr className='bg-info text-white'>
 
-                        <th>Fecha</th>
+                        <th >Fecha</th>
                         <th>Cliente</th>
                         <th>Aseguradora</th>
                         <th>Cta Pagadora</th>
@@ -93,6 +93,19 @@ export const PaymentsList = ({ payments }) => {
         </Fragment>
 
 
+
+    )
+}
+
+export const IncomeList = ({incomes})=>{
+    console.log(incomes)
+    const rows = ['date','account','description','amount','currency','office'];
+    const headers=['Fecha','Cta','Desc',"Cant.","Moneda",'Oficina']
+    return (
+        <Fragment>
+            <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
+            <SmartTable paginated={true} id='expenses_list' list={incomes} headers={headers} rows={rows}/>
+        </Fragment>
 
     )
 }

@@ -7,7 +7,7 @@ import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
 import FormCobranza from './FormCobranza';
 
-import { UserIs } from '../../../utils/utils';
+import { UserIs, formatMoney } from '../../../utils/utils';
 import { SmartCard } from '../../library/SmartCard';
 import { ClientSelector } from '../../custom/Controls';
 const NewPayment = ({ clients, getClientList, getClientById, user }) => {
@@ -73,7 +73,7 @@ const NewPayment = ({ clients, getClientList, getClientById, user }) => {
                                             </tr>
                                             <tr>
                                                 <th>Prima</th>
-                                                <td>{clients.editing.prima}</td>
+                                                <td>{formatMoney(clients.editing.prima,'2','.',',','$')}</td>
                                             </tr>
                                             <tr>
                                                 <th>Agente</th>

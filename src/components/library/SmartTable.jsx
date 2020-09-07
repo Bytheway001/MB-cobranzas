@@ -120,7 +120,7 @@ export const SmartTable = ({ list, headers, rows, paginated, actions, ...props }
                     filteredList.map(item => (
                         <tr>
                             {rows.map((h, k) => {
-                                return <td key={k}>{item[h]}</td>
+                                return <td style={{width:h==='date'?'100px':'auto'}} key={k}>{item[h]}</td>
                             })}
                             {actions && <td><Button as={Link} to={'/clients/profile/' + item.id} block size='sm' style={{ padding: 2 }}>Ver Poliza</Button></td>}
                         </tr>

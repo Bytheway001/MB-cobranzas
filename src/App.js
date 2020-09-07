@@ -27,9 +27,10 @@ import { ChecksCollection } from './components/Screens/Transfers/Checks';
 import Finances from './components/Screens/Reports/Finances';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
 import { Categories } from './components/Screens/Categories/Page';
-import { OtherPayment } from './components/Screens/Payments/Other';
+import OtherPayment from './components/Screens/Payments/Other';
 import Collector from './components/Screens/Dashboard/Collector';
 import ClientForm from './components/Forms/Client';
+import { PaymentReceipt } from './Receipts/Payment';
 const App = ({user}) => {
   return (
       <Router>
@@ -72,7 +73,7 @@ const AppRoutes = props => (
           <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
           <Route exact path='/categories' component={Categories} />
           <Route exact path='/other_incomes' component={OtherPayment} />
-          <Route exact path='/test' component={ClientForm} />
+          <Route exact path='/test' component={PaymentReceipt} />
         </Fragment>
         :
         <Route path='/' component={Maintenance} />

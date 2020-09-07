@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { API } from "./root";
 import { onSetNotification } from "./notifications";
+import { getAccountList } from "./accounts";
 
 export const AGENT_LIST_REQUESTED = "AGENT_LIST_REQUESTED";
 export const AGENT_LIST_SUCCEEDED = "AGENT_LIST_SUCCEEDED";
@@ -65,6 +66,7 @@ export const createPayment = (payment) => {
         dispatch(onPaymentCreationRequested())
         Axios.post(API + '/payments/create', payment).then(res => {
             dispatch(onPaymentCreationSucceeded(res.data))
+            dispatch(getAccountList())
             dispatch(onSetNotification('success', 'Pago creado con exito'))
           
         })

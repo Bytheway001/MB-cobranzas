@@ -7,9 +7,11 @@ import { OfficeOptions, CurrencyOptions, CategoryOptions } from '../../../option
 import { PaymentPolicyForm } from './components/PolicyForm';
 import AccountsOptions from '../../../options/accounts';
 import { CurrencyChange } from '../../Forms/CurrencyChange';
-import  AccountsView  from '../../Views/Accounts';
+import AccountsView from '../../Views/Accounts';
+import { ModalReceipt } from '../../../Receipts/Payment';
+import { connect } from 'react-redux';
 
-const NewExpense = props => {
+const NewExpense = ({ user }) => {
     const [date, setDate] = useState('');
     const [office, setOffice] = useState('');
     const [bill_number, setBillNumber] = useState("");
@@ -21,6 +23,7 @@ const NewExpense = props => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [categoryList, setCategoryList] = useState([]);
+    const [receipt, setReceipt] = useState(false);
     useEffect(() => {
         Axios.get(API + '/categories').then(res => {
             setCategoryList(res.data.data)
@@ -33,9 +36,9 @@ const NewExpense = props => {
         setLoading(true)
         setError({})
         Axios.post(API + '/expenses', data).then(res => {
-
             setError({ type: 'success', text: 'Egreso registrado con exito' })
             setLoading(false)
+            setReceipt(res.data.data)
         })
             .catch(err => {
                 setError({ type: 'danger', text: err.response.data.data })
@@ -74,13 +77,21 @@ const NewExpense = props => {
                                 </Col>
                             </Row>
                             <Button disabled={loading} type='submit' block>Registrar Gasto</Button>
+
                             {error && <Alert variant={error.type} className='mt-5'>{error.text}</Alert>}
                         </Form>
                     </Card.Body>
                 </Card>
             </Col>
+            <Col sm={8}>
+                {receipt && <ModalReceipt data={receipt} user={user.name} />}
+            </Col>
         </Row>
     )
 }
 
-export default NewExpense
+const mapStateToProps = state => (
+    { user: state.session.user }
+)
+
+export default connect(mapStateToProps, null)(NewExpense)
