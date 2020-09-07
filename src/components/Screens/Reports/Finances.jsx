@@ -1,12 +1,13 @@
-import React, { useState, Fragment, useContext } from 'react';
-import { Row, Col, Table, Card, Modal, Button, Tabs, Tab } from 'react-bootstrap';
+import React, { useState, Fragment } from 'react';
+import { Row, Col, Table, Card, Tabs, Tab } from 'react-bootstrap';
 import { useEffect } from 'react';
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
 import { ExpensesList, IncomeList, PaymentsList, PolicyPaymentsList } from './Lists';
-import { UserIs, formatMoney } from '../../../utils/utils';
+
 import { connect } from 'react-redux';
 import { Extracto } from './components/Extracto';
+import { DateSearch } from '../../custom/DateSearch';
 
 
 const Finances = ({ user }) => {
@@ -14,13 +15,36 @@ const Finances = ({ user }) => {
     const [report, setReport] = useState(null);
     const [modalshow, setModalShow] = useState(false);
     const [modalData, setModalData] = useState([]);
+
+    const LookReports = (from = null, to = null) => {
+
+        if (from && to) {
+            const f = new Date(from).toLocaleDateString()
+            const t = new Date(to).toLocaleDateString()
+            Axios.get(API + '/reports?f=' + f + '&t=' + t).then(res => {
+                console.log(res.data)
+                setReport(res.data)
+            })
+        }
+        else {
+            Axios.get(API + '/reports').then(res => {
+                console.log(res.data)
+                setReport(res.data)
+            })
+        }
+
+
+
+    }
+
     useEffect(() => {
         Axios.get(API + '/accounts').then(res => {
             setAccounts(res.data.data)
         })
-        Axios.get(API + '/reports').then(res => {
-            setReport(res.data)
-        })
+        LookReports()
+
+
+
     }, [])
 
     const fillModal = (e, id) => {
@@ -33,7 +57,10 @@ const Finances = ({ user }) => {
     return (
         <Fragment>
             <Row className='mb-2'>
-
+                <Col sm={12}>
+                <DateSearch onSearch={LookReports} />
+                </Col>
+               
                 <Col sm={12}>
                     {
                         report && (

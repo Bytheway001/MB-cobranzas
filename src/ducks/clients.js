@@ -131,7 +131,7 @@ export const clientReducer = (state = clientInitialState, action) => {
             if(action.payload){
                 return{
                     ...state,
-                    editing:state.list.find(x=>x.id==action.payload.id)
+                    editing:state.list.find(x=>x.id===parseInt(action.payload.id))
                 }
             }
             else{

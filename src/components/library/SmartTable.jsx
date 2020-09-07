@@ -3,7 +3,7 @@ import { Table, Button } from 'react-bootstrap';
 import { Paginator } from './Paginator';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * 
@@ -14,7 +14,7 @@ import { faArrowDown, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg
  */
 
 function convertToDate(string) {
-    let regex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    let regex = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/;
     if (regex.test(string)) {
         let arrDate = string.split('-');
      

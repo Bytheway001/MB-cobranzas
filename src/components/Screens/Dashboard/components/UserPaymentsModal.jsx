@@ -12,7 +12,7 @@ export const UserPaymentsModal = ({ client }) => {
             setProfile(res.data.data)
         }
         )
-    }, [])
+    }, [client.id])
     console.log(profile)
     return (
         <>

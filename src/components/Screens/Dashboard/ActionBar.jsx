@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserIs } from '../../../utils/utils';
-import { Col, Row, Button, Card } from 'react-bootstrap'
+import { Col, Row, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faExternalLinkSquareAlt, faUser, faMoneyBillAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';

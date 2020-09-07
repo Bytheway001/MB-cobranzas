@@ -1,10 +1,10 @@
 import React from 'react';
-import { Row, Col, Modal, Button } from 'react-bootstrap';
-import { Document, Page, Text, View, StyleSheet, BlobProvider, PDFViewer, Image } from '@react-pdf/renderer';
-import { useState } from 'react';
+
+import { Document, Page, Text, View, StyleSheet,  PDFViewer, Image } from '@react-pdf/renderer';
+
 import Barras from '../assets/Barras2.png';
 import { Fila, Columna } from './components/Components';
-import QRCode from 'qrcode.react';
+
 const styles = StyleSheet.create({
     page: {
         flexDirection: 'column',
@@ -67,19 +67,6 @@ export const PaymentReceipt = () => {
 }
 
 export const ModalReceipt = ({ data, user }) => {
-    const testData = {
-        id: 1,
-        date: '01/01/2020',
-        office: 'SC',
-        amount: 2000,
-        currency: "USD",
-        category: 'Sueldos y Salarios',
-        user: 'Rafael Castillo',
-        description: 'Una descripcion'
-    }
-
-
-
     return (
         <>
 

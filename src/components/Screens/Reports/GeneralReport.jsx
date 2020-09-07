@@ -8,11 +8,9 @@ import { SmartCard } from '../../library/SmartCard';
 import { SmartTable } from '../../library/SmartTable';
 
 const GeneralReport = props => {
-    const defaultFrom = new Date();
-    const defaultTo = new Date(defaultFrom.getTime() + 30 * 86400000);
+    
     const [report, setReport] = useState(null);
-    const [from, setFrom] = useState(defaultFrom)
-    const [to, setTo] = useState(defaultTo)
+  
     useEffect(() => {
         Axios.get(API + '/reports').then(res => {
             setReport(res.data)
@@ -86,9 +84,5 @@ const GeneralReport = props => {
 
 
 
-
-const mapStateToProps = state => (
-    { expenses: state.expenses }
-)
 
 export default GeneralReport;

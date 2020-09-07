@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Form, FormGroup, FormControl, Button, Tabs, Tab, Alert, Card } from 'react-bootstrap'
+import { Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
 import { Select, DatePicker, Input } from '../../custom/Controls';
-import { OfficeOptions, CurrencyOptions, CategoryOptions } from '../../../options/options';
-import { PaymentPolicyForm } from './components/PolicyForm';
+import { OfficeOptions, CurrencyOptions} from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import { CurrencyChange } from '../../Forms/CurrencyChange';
-import AccountsView from '../../Views/Accounts';
 import { ModalReceipt } from '../../../Receipts/Payment';
 import { connect } from 'react-redux';
 

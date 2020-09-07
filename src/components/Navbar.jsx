@@ -4,7 +4,7 @@ import { login, logout } from '../ducks/session';
 import { connect } from 'react-redux'
 import { GoogleLogout } from 'react-google-login';
 import { Redirect, Link } from 'react-router-dom';
-import { roles, UserIs } from '../utils/utils';
+import {  UserIs } from '../utils/utils';
 const Navbar = ({ user, logout, login }) => {
     if (!user) {
         return <Redirect to='/login' />

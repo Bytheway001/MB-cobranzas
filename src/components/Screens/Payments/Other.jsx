@@ -8,7 +8,7 @@ import Axios from 'axios';
 import { SmartCard } from '../../library/SmartCard';
 import { addNotification } from '../../../ducks/notifications';
 import { connect } from 'react-redux';
-import { ModalReceipt, IncomeReceipt } from '../../../Receipts/Payment';
+import {  IncomeReceipt } from '../../../Receipts/Payment';
 
 const OtherPayment = ({ addNotification,user }) => {
     const [date, setDate] = useState(0);
@@ -41,7 +41,7 @@ const OtherPayment = ({ addNotification,user }) => {
                         <DatePicker value={date} onChange={setDate} dateFormat='dd/MM/yyyy' label="Fecha" />
                         <Input value={description} onChange={({ target }) => setDescription(target.value)} label='Descripcion' />
                         <Input value={amount} onChange={({ target }) => setAmount(target.value)} label='Cantidad' />
-                        <Select value={currency} options={<CurrencyOptions />} onChange={({ target }) => setCurrency(target.value)} value={currency} label='Moneda' />
+                        <Select options={<CurrencyOptions />} onChange={({ target }) => setCurrency(target.value)} value={currency} label='Moneda' />
                         <Select label='Cuenta Receptora' options={<AccountsOptions except={[9]} />} value={account} onChange={({ target }) => setAccount(target.value)} />
                         <Button type='Submit'>Registrar Ingreso</Button>
                     </Form>

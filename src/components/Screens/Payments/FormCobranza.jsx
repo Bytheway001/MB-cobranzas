@@ -1,6 +1,6 @@
 
-import React, { useState, Fragment } from 'react';
-import { FormControl, Row, Col, FormGroup, Card, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { FormControl, Row, Col, FormGroup,  Form, Button, Spinner, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPayment } from '../../../ducks/agents';
 import { numerize } from '../../../utils/utils';
@@ -10,7 +10,7 @@ import { Input, Select, DatePicker } from '../../custom/Controls';
 import { SmartCard } from '../../library/SmartCard';
 import { Multiselect } from 'react-widgets';
 import 'react-widgets/dist/css/react-widgets.css';
-export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents }) => {
+export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     const [method, setMethod] = useState('')
     const [payment_type, setPaymentType] = useState("")
     const [agencyDiscount, setAgencyDiscount] = useState(0)
@@ -35,10 +35,10 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents
 
     }
     const customSetMethod = (value) => {
-        if (value == 'cash_to_agency') {
+        if (value === 'cash_to_agency') {
             setAccount(1);
         }
-        else if (value == 'check_to_agency_local' || value == 'check_to_agency_foreign') {
+        else if (value === 'check_to_agency_local' || value === 'check_to_agency_foreign') {
             setAccount(9)
         }
         else {
@@ -97,11 +97,6 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents
         "Felisa Quispe", "Sofia Aruquipa", "Narda Canelas", "Norah Guzman", "Marcelo De Rada Ocampo", "Ana Hamachi"
     ]
 
-    const handleTags = (val) => {
-        console.log(val)
-    }
-
-    const lockedMethods = ['cash_to_agency', 'tdc_to_collector', 'check_to_foreign_company', 'transfer_to_company', 'tdc_to_company', 'check_to_local_agency', 'check_to_foreign_agency', 'claim_to_company'];
     return (
         <SmartCard title='Registrar Cobranza'>
 
@@ -119,7 +114,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents
                         }
                         <Select required label='Tipo de Pago' value={payment_type} onChange={({ target }) => setPaymentType(target.value)} options={<PaymentTypeOptions />} />
                         <Select required label='Oficina' value={city} onChange={({ target }) => setCity(target.value)} options={<OfficeOptions />} />
-                        <DatePicker required label='Fecha de pago' required={true} onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
+                        <DatePicker required label='Fecha de pago' onChange={setPaymentDate} dateFormat='dd/MM/yyyy' value={paymentDate} />
                     </Col>
                     <Col sm={3}>
                         <Row>
@@ -127,7 +122,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment, agents
                                 <Select label='Moneda' value={currency} onChange={({ target }) => handleCurrencyChange(target.value)} required options={<CurrencyOptions />} />
                             </Col>
                             <Col sm={6}>
-                                {currency == 'BOB' && <Input type='number' label='Tipo de Cambio' value={changeRate} onChange={({ target }) => setChangeRate(target.value)} />}
+                                {currency === 'BOB' && <Input type='number' label='Tipo de Cambio' value={changeRate} onChange={({ target }) => setChangeRate(target.value)} />}
                             </Col>
                         </Row>
 

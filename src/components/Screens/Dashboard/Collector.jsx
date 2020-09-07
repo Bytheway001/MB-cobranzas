@@ -5,17 +5,15 @@ import { getClientById, selectClient } from '../../../ducks/clients';
 import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
-import { formatMoney, UserIs } from '../../../utils/utils';
-import { Extracto } from '../Reports/components/Extracto';
-import { CurrencyChange } from '../../Forms/CurrencyChange';
+import { UserIs } from '../../../utils/utils';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faExpandAlt, faShareSquare, faDollarSign, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
-import { UserPayments } from '../Clients/Profile';
+import {  faShareSquare, faDollarSign, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { CashBox } from './components/Cashbox';
 import { UserPaymentsModal } from './components/UserPaymentsModal';
 import ClientForm, { NewClientForm } from '../../Forms/Client';
 import { ClientProfileTable } from '../../Tables/ClientProfileTable';
-import { ClientSelect, ClientSelector } from '../../custom/Controls';
+import {ClientSelector } from '../../custom/Controls';
 import TransferForm from '../../Forms/Transfer';
 
 const buttonStyle = {
