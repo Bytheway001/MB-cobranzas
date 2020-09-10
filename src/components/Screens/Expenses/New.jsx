@@ -3,7 +3,7 @@ import { Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
 import { Select, DatePicker, Input } from '../../custom/Controls';
-import { OfficeOptions, CurrencyOptions} from '../../../options/options';
+import { OfficeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
 import { ModalReceipt } from '../../../Receipts/Payment';
 import { connect } from 'react-redux';
@@ -30,17 +30,19 @@ const NewExpense = ({ user }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = { date, office, bill_number, description, amount, account_id: account, currency, category_id: category }
-        setLoading(true)
-        setError({})
-        Axios.post(API + '/expenses', data).then(res => {
-            setError({ type: 'success', text: 'Egreso registrado con exito' })
-            setLoading(false)
-            setReceipt(res.data.data)
-        })
-            .catch(err => {
-                setError({ type: 'danger', text: err.response.data.data })
+        if (window.confirm("Desea registrar este egreso?")) {
+            setLoading(true)
+            setError({})
+            Axios.post(API + '/expenses', data).then(res => {
+                setError({ type: 'success', text: 'Egreso registrado con exito' })
                 setLoading(false)
+                setReceipt(res.data.data)
             })
+                .catch(err => {
+                    setError({ type: 'danger', text: err.response.data.data })
+                    setLoading(false)
+                })
+        }
     }
 
     return (

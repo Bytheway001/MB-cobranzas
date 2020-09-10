@@ -42,7 +42,7 @@ export const UpdateClientModal = ({ client, collectors, getCollectors, updateCli
         let sc = {
             email: selectedClient.email,
             phone: selectedClient.phone,
-            company: selectedClient.company,
+            company_id: selectedClient.company_id,
             plan: selectedClient.plan,
             option: selectedClient.option,
             collector_id: selectedClient.collector_id,

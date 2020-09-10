@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Document, Page, Text, View, StyleSheet,  PDFViewer, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, PDFViewer, Image } from '@react-pdf/renderer';
 
 import Barras from '../assets/Barras2.png';
 import { Fila, Columna } from './components/Components';
@@ -67,22 +67,32 @@ export const PaymentReceipt = () => {
 }
 
 export const ModalReceipt = ({ data, user }) => {
+
+    let testData = {
+        id: 1,
+        date: '01-01-2020',
+        amount: 5000,
+        currency: 'USD',
+
+    }
+
+    let testUser = 'Rafael Castillo'
     return (
         <>
 
             <PDFViewer width='100%' height={800}>
-                <Receipt data={data} user={user} />
+                <Receipt data={testData} user={testUser} />
             </PDFViewer>
         </>
     )
 }
 
 
-export const IncomeReceipt = ({user,data}) => {
+export const IncomeReceipt = ({ user, data }) => {
     return (
         <PDFViewer width='100%' height={800}>
             <Document>
-                <Page size='A4' orientation='landscape' style={styles.page}>
+                <Page size='A4' style={styles.page}>
                     <Fila style={{ height: 120 }}>
                         <Columna style={{ flex: 3 }}>
                             <Image src={Barras} style={{ width: '15%', backgroundColor: 'white' }} />
@@ -101,7 +111,7 @@ export const IncomeReceipt = ({user,data}) => {
                     <Fila style={{ marginTop: 20, padding: 15, borderColor: '#A1A1A1', borderWidth: 5, borderStyle: 'solid' }}>
                         <Field label='# Ingreso' text={data.id} />
                         <Field label='Fecha:' text={data.date} />
-                        
+
                         <Field label='Monto:' text={data.amount + ' ' + data.currency} />
                         <Field label='Operador:' text={user} />
                         <Field label='Factura:' text='S/N' />
@@ -111,6 +121,9 @@ export const IncomeReceipt = ({user,data}) => {
                     </Fila>
                     <Fila style={{ marginTop: 70 }}>
                         <Columna style={{ flex: 1, paddingHorizontal: 10 }}>
+                            <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid' }}>
+                                <Text style={{ fontSize: 12, textAlign: 'center' }}>Firma Operador</Text>
+                            </View>
                             <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid' }}>
                                 <Text style={{ fontSize: 12, textAlign: 'center' }}>Firma Operador</Text>
                             </View>
@@ -134,7 +147,7 @@ const Receipt = ({ data, user }) => {
 
     return (
         <Document>
-            <Page size='A4' orientation='landscape' style={styles.page}>
+            <Page size='A4' orientation='portrait' style={styles.page}>
                 <Fila style={{ height: 120 }}>
                     <Columna style={{ flex: 3 }}>
                         <Image src={Barras} style={{ width: '15%', backgroundColor: 'white' }} />
@@ -167,6 +180,9 @@ const Receipt = ({ data, user }) => {
                         <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid' }}>
                             <Text style={{ fontSize: 12, textAlign: 'center' }}>Firma Operador</Text>
                         </View>
+                        <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid',marginTop:30 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>Aclaracion de Firma</Text>
+                        </View>
                     </Columna>
                     <Columna style={{ flex: 1, paddingHorizontal: 10 }}>
 
@@ -174,6 +190,9 @@ const Receipt = ({ data, user }) => {
                     <Columna style={{ flex: 1, paddingHorizontal: 10 }}>
                         <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid' }}>
                             <Text style={{ fontSize: 12, textAlign: 'center' }}>Recibido Conforme</Text>
+                        </View>
+                        <View style={{ borderTopColor: 'black', borderTopWidth: 1, borderTopStyle: 'solid',marginTop:30 }}>
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>Aclaracion de Firma</Text>
                         </View>
                     </Columna>
 

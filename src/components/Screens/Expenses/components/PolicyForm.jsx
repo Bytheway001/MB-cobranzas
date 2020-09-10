@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap';
 
-import { Select, Input } from '../../../custom/Controls';
+import { Select, Input, DatePicker } from '../../../custom/Controls';
 import AccountsOptions from '../../../../options/accounts';
 import { CurrencyOptions } from '../../../../options/options';
 import Axios from 'axios';
@@ -15,7 +15,8 @@ export const PaymentPolicyForm = ({selectedClient}) => {
     const [currency, setCurrency] = useState('USD');
     const [amount, setAmount] = useState(0);
     const [comment, setComment] = useState("");
-    const [policyStatus, setPolicyStatus] = useState('Pendiente')
+    const [policyStatus, setPolicyStatus] = useState('Pendiente');
+    const [paymentDate,setPaymentDate]=useState("");
     const [finance,setFinance]=useState('');
    
     /* Esta es la data acomodada para enviar al servidor */
@@ -24,7 +25,15 @@ export const PaymentPolicyForm = ({selectedClient}) => {
             setClient(selectedClient)
         }
     },[selectedClient])
-    let payload = { client_id: client.length > 0 ? client[0].id : null, account_id:account, currency, amount, comment,policy_status:policyStatus }
+    let payload = { 
+        client_id: client.length > 0 ? client[0].id : null,
+        account_id:account,
+        currency,
+        amount,
+        comment,
+        policy_status:policyStatus,
+        payment_date:paymentDate
+     }
 
     const handleSubmit = (e) => {
        
@@ -44,6 +53,7 @@ export const PaymentPolicyForm = ({selectedClient}) => {
             <Form onSubmit={handleSubmit}>
                 <Select label='Cuenta Pagadora:' options={<AccountsOptions except={[9]} />} onChange={(e) => setAccount(e.target.value)} selected={client} />
                 <Select label='Moneda:' onChange={({ target }) => setCurrency(target.value)} options={<CurrencyOptions />} value={currency} />
+                <DatePicker label='Fecha de pago de la poliza' value={paymentDate} onChange={(val)=>setPaymentDate(val)}/>
                 <Input label='Monto Cancelado' value={amount} onChange={({ target }) => setAmount(target.value)} />
                 <Select label='Marcar Poliza como:' value={policyStatus} options={
                     <Fragment>
