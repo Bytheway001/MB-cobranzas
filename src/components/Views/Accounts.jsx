@@ -26,7 +26,7 @@ export const AccountsView = ({user}) => {
             <tbody>
                 {
                     accounts.map(account => {
-                        if (account.type !='Cash') {
+                        if (account.type !=='Cash') {
                             if (UserIs(user, 360)) {
                                 return (
                                     <tr>

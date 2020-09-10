@@ -52,7 +52,7 @@ const AgentSelect = ({ agents, onChange, value, getAgentList, label }) => {
     useEffect(() => {
         getAgentList()
 
-    }, [])
+    }, [getAgentList])
 
     const handleChange = newValue => {
 
@@ -66,7 +66,7 @@ const AgentSelect = ({ agents, onChange, value, getAgentList, label }) => {
     return (
         <FormGroup>
             <label>{label}</label>
-            <Typeahead id='agent' size='sm' options={agents} onChange={handleChange} selected={value ? [agents.find(x => x.id == value)] : []} labelKey='name' clearButton={true} />
+            <Typeahead id='agent' size='sm' options={agents} onChange={handleChange} selected={value ? [agents.find(x => x.id === parseInt(value))] : []} labelKey='name' clearButton={true} />
         </FormGroup>
     )
 }
@@ -74,7 +74,7 @@ const AgentSelect = ({ agents, onChange, value, getAgentList, label }) => {
 const CollectorSelect = ({ collectors, onChange, getCollectorList, label, value }) => {
     useEffect(() => {
         getCollectorList()
-    }, [])
+    }, [getCollectorList])
 
     const handleChange = value => {
         if (value[0]) {
@@ -85,21 +85,14 @@ const CollectorSelect = ({ collectors, onChange, getCollectorList, label, value 
         }
     }
    
-    if(collectors.length>0){
-        if(value){
-
-            console.log(value)
-            console.table(collectors)
-            console.log([collectors.find(x=>x.id==value)])
-        }
-    }
+   
 
     return (
         <>
         <FormGroup>
             <label>{label}</label>
             {collectors.length > 0 &&
-                <Typeahead id='collector' size='sm' options={collectors} onChange={handleChange} selected={value ? [collectors.find(x => x.id == parseInt(value))] : []} labelKey='name' clearButton={true}/>
+                <Typeahead id='collector' size='sm' options={collectors} onChange={handleChange} selected={value ? [collectors.find(x => x.id === parseInt(value))] : []} labelKey='name' clearButton={true}/>
             }
         </FormGroup>
         </>
@@ -140,10 +133,10 @@ export const PlanSelect = ({ company, ...props }) => {
 }
 
 export const ClientSelect = ({list,getClientList,onChange,selected})=>{
-    console.log(selected)
+  
     useEffect(()=>{
         getClientList()
-    },[])
+    },[getClientList])
 
     return(
         <Typeahead id='client' size='sm' options={list} onChange={onChange} selected={selected} labelKey='name' clearButton={true} on />

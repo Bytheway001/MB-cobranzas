@@ -1,13 +1,13 @@
 // Formulario para nueva cobranza 
 import React, { useEffect, useState, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Typeahead } from 'react-bootstrap-typeahead'
-import { getClientList, getClientById } from '../../../ducks/clients'
-import { Form, Row, Col, Card, FormGroup, Table } from 'react-bootstrap';
+
+import {  getClientById } from '../../../ducks/clients'
+import { Form, Row, Col,  FormGroup, Table } from 'react-bootstrap';
 import UpdateClientModal from '../Clients/UpdateClientModal';
 import FormCobranza from './FormCobranza';
 
-import { UserIs } from '../../../utils/utils';
+import { UserIs, formatMoney } from '../../../utils/utils';
 import { SmartCard } from '../../library/SmartCard';
 import { ClientSelector } from '../../custom/Controls';
 const NewPayment = ({ clients, getClientList, getClientById, user }) => {
@@ -73,7 +73,7 @@ const NewPayment = ({ clients, getClientList, getClientById, user }) => {
                                             </tr>
                                             <tr>
                                                 <th>Prima</th>
-                                                <td>{clients.editing.prima}</td>
+                                                <td>{formatMoney(clients.editing.prima,'2','.',',','$')}</td>
                                             </tr>
                                             <tr>
                                                 <th>Agente</th>
@@ -115,15 +115,6 @@ const NewPayment = ({ clients, getClientList, getClientById, user }) => {
     )
 }
 
-
-
-
-const TextGroup = ({ label, text }) => (
-    <div className='px-2 mb-2' >
-        <p className='mb-0'><b>{label}</b></p>
-        <p style={{ fontSize: '1.1em' }} className='mb-0'>{text}</p>
-    </div>
-)
 
 
 const mapStateToProps = state => ({

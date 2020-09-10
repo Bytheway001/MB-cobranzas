@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Form, FormGroup, FormControl, Button, Tabs, Tab, Alert, Card } from 'react-bootstrap'
+import { Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
 import { Select, DatePicker, Input } from '../../custom/Controls';
-import { OfficeOptions, CurrencyOptions, CategoryOptions } from '../../../options/options';
-import { PaymentPolicyForm } from './components/PolicyForm';
+import { OfficeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import { CurrencyChange } from '../../Forms/CurrencyChange';
-import  AccountsView  from '../../Views/Accounts';
+import { ModalReceipt } from '../../../Receipts/Payment';
+import { connect } from 'react-redux';
 
-const NewExpense = props => {
+const NewExpense = ({ user }) => {
     const [date, setDate] = useState('');
     const [office, setOffice] = useState('');
     const [bill_number, setBillNumber] = useState("");
@@ -21,6 +20,7 @@ const NewExpense = props => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [categoryList, setCategoryList] = useState([]);
+    const [receipt, setReceipt] = useState(false);
     useEffect(() => {
         Axios.get(API + '/categories').then(res => {
             setCategoryList(res.data.data)
@@ -30,17 +30,19 @@ const NewExpense = props => {
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = { date, office, bill_number, description, amount, account_id: account, currency, category_id: category }
-        setLoading(true)
-        setError({})
-        Axios.post(API + '/expenses', data).then(res => {
-
-            setError({ type: 'success', text: 'Egreso registrado con exito' })
-            setLoading(false)
-        })
-            .catch(err => {
-                setError({ type: 'danger', text: err.response.data.data })
+        if (window.confirm("Desea registrar este egreso?")) {
+            setLoading(true)
+            setError({})
+            Axios.post(API + '/expenses', data).then(res => {
+                setError({ type: 'success', text: 'Egreso registrado con exito' })
                 setLoading(false)
+                setReceipt(res.data.data)
             })
+                .catch(err => {
+                    setError({ type: 'danger', text: err.response.data.data })
+                    setLoading(false)
+                })
+        }
     }
 
     return (
@@ -74,13 +76,21 @@ const NewExpense = props => {
                                 </Col>
                             </Row>
                             <Button disabled={loading} type='submit' block>Registrar Gasto</Button>
+
                             {error && <Alert variant={error.type} className='mt-5'>{error.text}</Alert>}
                         </Form>
                     </Card.Body>
                 </Card>
             </Col>
+            <Col sm={8}>
+                {receipt && <ModalReceipt data={receipt} user={user.name} />}
+            </Col>
         </Row>
     )
 }
 
-export default NewExpense
+const mapStateToProps = state => (
+    { user: state.session.user }
+)
+
+export default connect(mapStateToProps, null)(NewExpense)

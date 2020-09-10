@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from 'react';
-import { Row, Col, Card, Form, FormGroup, FormControl, Button, InputGroup } from 'react-bootstrap';
+import { Row, Col, Form, FormGroup, FormControl, Button, InputGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -46,7 +46,7 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
         })
         getAgents();
         getCollectors()
-    }, [])
+    }, [getAgents,getCollectors])
 
     const handleCompanyChange=(value)=>{
         setCompany(value)

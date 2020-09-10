@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import { Provider, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import './assets/scss/overrides.scss'
 import './assets/scss/application.scss'
-import { createStore, applyMiddleware, compose } from 'redux';
 import { rootReducer } from './ducks/root';
-import thunk from 'redux-thunk'
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import BasicLayout from './components/Layouts/Basic';
 import Home from './components/Screens/Home';
 import PrivateRoute from './components/PrivateRoute';
-import Dashboard from './components/Screens/Dashboard/Screen';
+
 import NewClient from './components/Screens/Clients/New';
 import NewPayment from './components/Screens/Payments/New';
 import ClientProfile from './components/Screens/Clients/Profile';
@@ -27,9 +26,11 @@ import { ChecksCollection } from './components/Screens/Transfers/Checks';
 import Finances from './components/Screens/Reports/Finances';
 import { PolicyPaymentsPage } from './components/Screens/Expenses/PolicyPaymentPage';
 import { Categories } from './components/Screens/Categories/Page';
-import { OtherPayment } from './components/Screens/Payments/Other';
+import OtherPayment from './components/Screens/Payments/Other';
 import Collector from './components/Screens/Dashboard/Collector';
-import ClientForm from './components/Forms/Client';
+import { PaymentReceipt } from './Receipts/Payment';
+
+
 const App = ({user}) => {
   return (
       <Router>
@@ -72,7 +73,7 @@ const AppRoutes = props => (
           <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
           <Route exact path='/categories' component={Categories} />
           <Route exact path='/other_incomes' component={OtherPayment} />
-          <Route exact path='/test' component={ClientForm} />
+          <Route exact path='/test' component={PaymentReceipt} />
         </Fragment>
         :
         <Route path='/' component={Maintenance} />
@@ -80,22 +81,6 @@ const AppRoutes = props => (
 
   </BasicLayout>
 
-)
-
-const CollectorRoutes = props => (
-  <BasicLayout>
-    <Switch>
-      <Route exact path="/" component={Collector} />
-      <Route exact path='/clients/profile/:id' component={ClientProfile} />
-      <Route exact path='/payments/new' component={NewPayment} />
-      <Route exact path='/clients/new' component={NewClient} />
-      <Route exact path='/transfers/new' component={NewTransfer} />
-      <Route exact path='/expenses/new' component={NewExpense} />
-      <Route exact path='/other_incomes' component={OtherPayment} />
-      <Route exact path='/checks/collect' component={ChecksCollection} />
-      <Route exact path='/test' component={ClientForm} />
-    </Switch>
-  </BasicLayout>
 )
 
 const Maintenance = () => (

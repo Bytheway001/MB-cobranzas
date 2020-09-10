@@ -15,11 +15,10 @@ export const TransferForm = ({ accounts, modal, setNotification, notifications }
     const [to, setTo] = useState('');
     const [amount, setAmount] = useState("")
     const [currency, setCurrency] = useState("");
-    const [error, setError] = useState("");
     const [comment, setComment] = useState("");
     const [show, setShow] = useState(false)
+    
     const handleSubmit = (e) => {
-        setError("")
         let payload = { from, to, amount, currency, comment }
         e.preventDefault();
         Axios.post(API + '/transfers', payload).then(res => {

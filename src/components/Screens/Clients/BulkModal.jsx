@@ -19,7 +19,7 @@ export const BulkModal = ({ keys, createBulkClients }) => {
 
     const loadData=(data)=>{
         console.log(data)
-        let badRows = data.filter(x=>x.h_id=='')
+        let badRows = data.filter(x=>x.h_id==='')
         if(badRows.length>0){
             setErrors("Hay "+badRows.length+' Registros con problemas')
         }
@@ -60,7 +60,7 @@ export const BulkModal = ({ keys, createBulkClients }) => {
                                     data.map(client => (
 
                                         
-                                        <tr className={client.h_id!=''?'white':'bg-danger'}>
+                                        <tr className={client.h_id!==''?'white':'bg-danger'}>
                                             {keys.map((h, k) => {
                                                 if (!client[h]) {
 

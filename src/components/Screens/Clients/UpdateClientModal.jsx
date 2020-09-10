@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal, Form, Row, Col, FormGroup, FormControl } from 'react-bootstrap';
-import { Companies } from '../../../utils/utils';
+import { Button, Modal, Form, Row, Col, FormGroup } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { connect } from 'react-redux';
-import { UpdateClientPolicy, getClientById } from '../../../ducks/clients';
+import { UpdateClientPolicy } from '../../../ducks/clients';
 import { getCollectors, getAgents } from '../../../ducks/agents'
-import { Input, Select, DatePicker } from '../../custom/Controls';
+import { Input, Select } from '../../custom/Controls';
 import Axios from 'axios';
 import { API } from '../../../ducks/root';
 
@@ -19,7 +18,7 @@ export const UpdateClientModal = ({ client, collectors, getCollectors, updateCli
             setCompanies(res.data.data)
         })
         getCollectors()
-    }, [])
+    }, [getCollectors])
 
 
     function setValue(prop, value) {
@@ -43,7 +42,7 @@ export const UpdateClientModal = ({ client, collectors, getCollectors, updateCli
         let sc = {
             email: selectedClient.email,
             phone: selectedClient.phone,
-            company: selectedClient.company,
+            company_id: selectedClient.company_id,
             plan: selectedClient.plan,
             option: selectedClient.option,
             collector_id: selectedClient.collector_id,
@@ -60,9 +59,6 @@ export const UpdateClientModal = ({ client, collectors, getCollectors, updateCli
         return arr.map((r, k) => <option key={k} value={r.id}>{r.name}</option>)
     }
 
-    const showVariable = (o) => {
-        console.log(o)
-    }
 
     return (
         <>
@@ -101,7 +97,7 @@ export const UpdateClientModal = ({ client, collectors, getCollectors, updateCli
                                 <Input value={selectedClient.policy_number} onChange={({ target }) => setValue('policy_number', target.value)} label='Numero de Poliza' />
                                 <FormGroup>
                                     <label>Cobrador:</label>
-                                    <Typeahead bsSize='sm' options={collectors} selected={collectors.filter(x => x.id == selectedClient.collector_id)} labelKey='name' id='cobrador' clearButton={true} onChange={(o) => setValue('collector_id', o[0] ? o[0].id : null)} />
+                                    <Typeahead bsSize='sm' options={collectors} selected={collectors.filter(x => x.id === selectedClient.collector_id)} labelKey='name' id='cobrador' clearButton={true} onChange={(o) => setValue('collector_id', o[0] ? o[0].id : null)} />
                                 </FormGroup>
                                 <Select value={selectedClient.frequency} onChange={({ target }) => setValue('frequency', target.value)} options={optionize([
                                     { id: 'Annual', name: 'Anual' },

@@ -9,7 +9,7 @@ import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
     useEffect(() => {
         getPayments()
-    }, [])
+    }, [getPayments])
 
     const validatePayment = (id) => {
         if (window.confirm('Seguro que desea validar esta cobranza?')) {
@@ -67,7 +67,7 @@ const PaymentsReport = ({ getPayments, list, validate, accounts }) => {
                                             </td>
                                             <td>{payment.collector}</td>
                                             <td style={{ fontSize: '1em' }}>{MethodsArray[payment.payment_method]}</td>
-                                            <td>{payment.account_id ?accounts.length > 0 && accounts.find(x => x.id == payment.account_id).name:'--'}</td>
+                                            <td>{payment.account_id ?accounts.length > 0 && accounts.find(x => x.id === parseInt(payment.account_id)).name:'--'}</td>
                                         </tr>
                                     )
                                     )

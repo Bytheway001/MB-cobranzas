@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-
 import CategoryForm from './Form';
-import Axios from 'axios';
-import { API } from '../../../ducks/root';
+
 
 export const CreateModal = ({ categoryList, text,editing,btnStyle }) => {
     const [show, setShow] = useState(false);

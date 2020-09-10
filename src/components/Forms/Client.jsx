@@ -6,7 +6,7 @@ import { createClient, UpdateClientPolicy } from '../../ducks/clients'
 import { connect } from 'react-redux'
 
 const ClientForm = ({ createClient, modal, client, updateClient }) => {
-    const year = new Date().getFullYear()
+ 
     const [agent_id, setAgentId] = useState('');
     const [first_name, setFirstName] = useState("");
     const [policy_number, setPolicyNumber] = useState("");
@@ -140,7 +140,7 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
 }
 
 const NCF = ({ createClient, modal, client, updateClient }) => {
-    const year = new Date().getFullYear()
+   
     const [agent_id, setAgentId] = useState('');
     const [first_name, setFirstName] = useState("");
     const [policy_number, setPolicyNumber] = useState("");
@@ -234,7 +234,7 @@ const NCF = ({ createClient, modal, client, updateClient }) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => setShow(false)}>Cancelar</Button>
-                        <Button variant='success' form='new_client_form' type='submit' variant="primary">Crear</Button>
+                        <Button form='new_client_form' type='submit' variant="primary">Crear</Button>
                     </Modal.Footer>
                 </Modal>
             </>

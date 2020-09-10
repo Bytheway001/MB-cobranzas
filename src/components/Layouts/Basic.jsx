@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 const BasicLayout = ({ children, notifications, deleteNotification,listAccounts }) => {
     useEffect(()=>{
         listAccounts()
-    },[])
+    },[listAccounts])
     return (
         <Fragment>
             <Navbar />

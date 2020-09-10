@@ -8,14 +8,10 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 const Expenses = ({ getExpenses, list }) => {
     useEffect(() => {
         getExpenses()
-    }, [])
+    }, [getExpenses])
     return (
         <Row>
-            <Col sm={12}>
-
-                <h1 className="text-center"></h1>
-               
-            </Col>
+           
             <Col sm={12}>
                 <Card>
                     <Card.Header className='bg-primary w-100 d-flex flex-row text-white align-items-center justify-content-between'>

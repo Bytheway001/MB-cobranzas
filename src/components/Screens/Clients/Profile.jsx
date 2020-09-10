@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from 'react'
 import { Card, Row, Col, Table, Button, Alert, Badge } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { showClientProfile } from '../../../ducks/clients'
-import { UpdateClientModal } from './UpdateClientModal'
 import { Link } from 'react-router-dom'
 import { formatMoney } from '../../../utils/utils'
 

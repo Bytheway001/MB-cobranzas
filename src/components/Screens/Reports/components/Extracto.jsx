@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Modal, Table, Button } from 'react-bootstrap'
+import { Modal,  Button } from 'react-bootstrap'
 import { formatMoney } from '../../../../utils/utils'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
