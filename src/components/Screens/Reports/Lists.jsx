@@ -4,12 +4,12 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { SmartTable } from '../../library/SmartTable';
 export const ExpensesList = ({ expenses }) => {
 
-    const rows = ['date','account','description','category','bill_number','amount','currency','office'];
-    const headers=['Fecha','Cta','Desc',"Categoria",'# Fact',"Cant.","Moneda",'Oficina']
+    const rows = ['date', 'account', 'description', 'category', 'bill_number', 'amount', 'currency', 'office'];
+    const headers = ['Fecha', 'Cta', 'Desc', "Categoria", '# Fact', "Cant.", "Moneda", 'Oficina']
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <SmartTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows}/>
+            <SmartTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows} />
         </Fragment>
 
     )
@@ -23,8 +23,8 @@ export const PolicyPaymentsList = ({ payments }) => {
                 <thead>
 
                     <tr className='bg-info text-white'>
-
-                        <th >Fecha</th>
+                        <th >Pagado En:</th>
+                        <th >Registrado En:</th>
                         <th>Cliente</th>
                         <th>Aseguradora</th>
                         <th>Cta Pagadora</th>
@@ -36,13 +36,14 @@ export const PolicyPaymentsList = ({ payments }) => {
                 <tbody>
                     {payments.map((e, k) => (
                         <tr key={k}>
+                            <td>{e.payment_date}</td>
                             <td>{e.date}</td>
                             <td>{e.client}</td>
                             <td>{e.company}</td>
                             <td>{e.account}</td>
                             <td>{e.currency}</td>
                             <td>{e.amount}</td>
-                            <td>{e.policy_status==='Pagada'?'Pago Total':'Pago Parcial'}</td>
+                            <td>{e.policy_status === 'Pagada' ? 'Pago Total' : 'Pago Parcial'}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -97,14 +98,14 @@ export const PaymentsList = ({ payments }) => {
     )
 }
 
-export const IncomeList = ({incomes})=>{
+export const IncomeList = ({ incomes }) => {
     console.log(incomes)
-    const rows = ['date','account','description','amount','currency','office'];
-    const headers=['Fecha','Cta','Desc',"Cant.","Moneda",'Oficina']
+    const rows = ['date', 'account', 'description', 'amount', 'currency', 'office'];
+    const headers = ['Fecha', 'Cta', 'Desc', "Cant.", "Moneda", 'Oficina']
     return (
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <SmartTable paginated={true} id='expenses_list' list={incomes} headers={headers} rows={rows}/>
+            <SmartTable paginated={true} id='expenses_list' list={incomes} headers={headers} rows={rows} />
         </Fragment>
 
     )
