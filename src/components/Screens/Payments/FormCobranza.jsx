@@ -86,7 +86,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
                 account_id: account,
                 change_rate: changeRate
             }
-            createPayment(payment)
+            createPayment({payment:payment,tags:tags})
         }
 
 
@@ -94,7 +94,23 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
     }
 
     const data = [
-        "Felisa Quispe", "Sofia Aruquipa", "Narda Canelas", "Norah Guzman", "Marcelo De Rada Ocampo", "Ana Hamachi"
+        "Felisa Quispe",
+        "Sofia Aruquipa",
+        "Narda Canelas",
+        "Norah Guzman",
+        "Marcelo De Rada Ocampo",
+        "Ana Hamachi",
+        "Zulema Navarro",
+        "Janetth Poma",
+        "Liz Mamani",
+        "Yoshimi Andia",
+        "Jessica Martinez",
+        "Carola Verastegui",
+        "Carmiña Mercado",
+        "Glenda Gaitty",
+        "Karen Dorado",
+        "Soledad Sainz",
+        "Heidy Teran",
     ]
 
     return (

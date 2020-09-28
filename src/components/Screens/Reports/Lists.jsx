@@ -23,6 +23,7 @@ export const PolicyPaymentsList = ({ payments }) => {
                 <thead>
 
                     <tr className='bg-info text-white'>
+                        <th>Ref.</th>
                         <th >Pagado En:</th>
                         <th >Registrado En:</th>
                         <th>Cliente</th>
@@ -36,6 +37,7 @@ export const PolicyPaymentsList = ({ payments }) => {
                 <tbody>
                     {payments.map((e, k) => (
                         <tr key={k}>
+                            <td>{e.id}</td>
                             <td>{e.payment_date}</td>
                             <td>{e.date}</td>
                             <td>{e.client}</td>

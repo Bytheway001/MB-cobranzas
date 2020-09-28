@@ -68,20 +68,12 @@ export const PaymentReceipt = () => {
 
 export const ModalReceipt = ({ data, user }) => {
 
-    let testData = {
-        id: 1,
-        date: '01-01-2020',
-        amount: 5000,
-        currency: 'USD',
-
-    }
-
-    let testUser = 'Rafael Castillo'
+  
     return (
         <>
 
             <PDFViewer width='100%' height={800}>
-                <Receipt data={testData} user={testUser} />
+                <Receipt data={data} user={user} />
             </PDFViewer>
         </>
     )
