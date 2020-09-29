@@ -1,15 +1,28 @@
+
 import React, { Fragment } from 'react'
 import { Table } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory from 'react-bootstrap-table2-filter';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { SmartTable } from '../../library/SmartTable';
-export const ExpensesList = ({ expenses }) => {
+import { IncomeReceipt } from '../../../Receipts/Income';
+import { PaymentReceipt } from '../../../Receipts/Payment';
 
-    const rows = ['date', 'account', 'description', 'category', 'bill_number', 'amount', 'currency', 'office'];
-    const headers = ['Fecha', 'Cta', 'Desc', "Categoria", '# Fact', "Cant.", "Moneda", 'Oficina']
+export const ExpensesList = ({ expenses }) => {
+    const columns = [
+        { dataField: 'date', text: "Fecha", sort: true },
+        { dataField: 'account', text: 'Cuenta' },
+        { dataField: 'description', text: 'Descripcion' },
+        { dataField: 'category', text: 'Categoria' },
+        { dataField: 'bill_number', text: '# Factura' },
+        { dataField: 'amount', text: 'Cantidad' },
+        { dataField: 'currency', text: 'Moneda' },
+        { dataField: 'office', text: 'Oficina' },
+        { dataField: 'id', text: 'Descargar', formatter: (cell, row) => <PaymentReceipt data={row} user={row.user} modal={true} /> }
+    ]
+
     return (
         <Fragment>
-            <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <SmartTable paginated={true} id='expenses_list' list={expenses} headers={headers} rows={rows} />
+            <BootstrapTable striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed keyField='id' data={expenses} columns={columns} filter={filterFactory()} />
         </Fragment>
 
     )
@@ -18,7 +31,7 @@ export const ExpensesList = ({ expenses }) => {
 export const PolicyPaymentsList = ({ payments }) => {
     return (
         <Fragment>
-            <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="policy_payments_list" filename="tablexls" buttonText='Descargar (xls)' />
+            <ReactHTMLTableToExcel sheet="AA" className='btn btn-primary btn-sm mb-2' table="policy_payments_list" filename="tablexls" buttonText='Descargar (xls)' />
             <Table id='policy_payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
                 <thead>
 
@@ -55,7 +68,21 @@ export const PolicyPaymentsList = ({ payments }) => {
 }
 
 export const PaymentsList = ({ payments }) => {
+    const columns = [
+        { dataField: 'id', text: 'Ref', sort: true },
+        { dataField: 'payment_date', text: 'Fecha' },
+        { dataField: 'client', text: 'Cliente' },
+        { dataField: 'account_name', text: "Cuenta" },
+        { dataField: 'company', text: 'Aseguradora' },
+        { dataField: 'plan', text: 'Plan' },
+        { dataField: 'collector', text: 'Cobrador' },
+        { dataField: 'payment_method', text: 'Metodo de Pago' },
+        { dataField: 'amount', text: 'Cantidad' },
+        { dataField: 'currency', text: 'Moneda' }
+    ]
     return (
+        <BootstrapTable striped hover rowStyle={{ fontSize: '0.8em' }} bootstrap4={true} condensed={true} classes='table-sm' keyField='id' data={payments} columns={columns} filter={filterFactory()} />
+        /*
         <Fragment>
             <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="payments_list" filename="tablexls" buttonText='Descargar (xls)' />
             <Table id='payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
@@ -94,21 +121,32 @@ export const PaymentsList = ({ payments }) => {
             </Table>
 
         </Fragment>
-
+                        */
 
 
     )
 }
 
 export const IncomeList = ({ incomes }) => {
-    console.log(incomes)
-    const rows = ['date', 'account', 'description', 'amount', 'currency', 'office'];
-    const headers = ['Fecha', 'Cta', 'Desc', "Cant.", "Moneda", 'Oficina']
+    const columns = [
+        { dataField: 'id', text: 'Ref', sort: true },
+        { dataField: 'date', text: 'Fecha', sort: true },
+        {
+            dataField: 'account',
+            text: 'Cuenta.',
+            sort: true,
+        },
+        { dataField: 'description', text: "Desc." },
+        { dataField: 'amount', text: 'Cant.' },
+        { dataField: 'currency', text: 'Moneda' },
+
+        { dataField: 'any', text: 'Descargar', formatter: (cell, row) => <IncomeReceipt data={row} user={row.user} modal={true} /> }
+    ]
+
     return (
         <Fragment>
-            <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="expenses_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <SmartTable paginated={true} id='expenses_list' list={incomes} headers={headers} rows={rows} />
+            <BootstrapTable striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed keyField='id' data={incomes} columns={columns} filter={filterFactory()} />
         </Fragment>
-
     )
 }
+

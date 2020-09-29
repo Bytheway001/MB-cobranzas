@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from '@react-pdf/renderer';
+import { StyleSheet, View,Text } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
     row:{
@@ -8,7 +8,25 @@ const styles = StyleSheet.create({
     },
     col:{
         flexDirection:'column'
-    }
+    },
+    field: {
+        width: '25%',
+        marginVertical: 7
+
+    },
+    fieldLabel: {
+        fontWeight: 'bold',
+        marginRight: 10,
+        fontSize: 11,
+        marginBottom: 5,
+        color: 'gray'
+    },
+    fieldText: {
+        fontSize: 14,
+        textIndent: 5,
+        fontStyle: 'italic'
+    },
+    
 })
 export const Fila =({children,style})=>(
     <View style={{...styles.row,...style}}>
@@ -21,3 +39,13 @@ export const Columna = ({children,style})=>(
         {children}
     </View>
 )
+
+
+export const Field = ({ label, text, style }) => {
+    return (
+        <View style={{ ...styles.field, ...style }}>
+            <Text style={styles.fieldLabel}>{label}</Text>
+            <Text style={styles.fieldText}>{text}</Text>
+        </View>
+    )
+}

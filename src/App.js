@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import './assets/scss/overrides.scss'
 import './assets/scss/application.scss'
+
 import { rootReducer } from './ducks/root';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -70,6 +72,7 @@ const AppRoutes = props => (
           <Route exact path='/transfers/new' component={NewTransfer} />
           <Route exact path='/checks/collect' component={ChecksCollection} />
           <Route exact path='/reports/finances' component={Finances} />
+          <Route exact path='/reports/finances/:id' component={Finances} />
           <Route exact path='/policy/pay' component={PolicyPaymentsPage}></Route>
           <Route exact path='/categories' component={Categories} />
           <Route exact path='/other_incomes' component={OtherPayment} />

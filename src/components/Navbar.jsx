@@ -16,6 +16,7 @@ const Navbar = ({ user, logout, login }) => {
             <Bar.Collapse id="basic-navbar-nav">
                 <Nav className='mr-auto'>
                     <Nav.Link as={Link} to='/'>Inicio</Nav.Link>
+                    <Nav.Link as={Link} to={'/reports/finances/'+user.id}>Mi Gestion</Nav.Link>
                     <NavDropdown title='Operaciones'>
                         {UserIs(user, 224) && <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/payments/new'>Nueva Cobranza</NavDropdown.Item>}
                         <NavDropdown.Item style={{ fontSize: '0.8em' }} as={Link} to='/transfers/new'>Transferencias Internas</NavDropdown.Item>
@@ -36,8 +37,6 @@ const Navbar = ({ user, logout, login }) => {
                     }
                 </Nav>
                 <Nav className="ml-auto">
-
-
                     <Bar.Text>{user.email}</Bar.Text>
                     <Bar.Text className='ml-3'>
                         <Image src={user.imageUrl} height={32} style={{ borderRadius: 50, cursor: 'pointer' }} />

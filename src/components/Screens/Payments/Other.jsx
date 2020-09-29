@@ -8,9 +8,10 @@ import Axios from 'axios';
 import { SmartCard } from '../../library/SmartCard';
 import { addNotification } from '../../../ducks/notifications';
 import { connect } from 'react-redux';
-import {  IncomeReceipt } from '../../../Receipts/Payment';
+import { IncomeReceipt } from '../../../Receipts/Income';
 
-const OtherPayment = ({ addNotification,user }) => {
+
+const OtherPayment = ({ addNotification, user }) => {
     const [date, setDate] = useState(0);
     const [description, setDescription] = useState("");
     const [account, setAccount] = useState("");
@@ -20,13 +21,13 @@ const OtherPayment = ({ addNotification,user }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (window.confirm("Desea realizar esta operacion?")) {
-            Axios.post(API + '/income', { date, description, account_id: account, amount, currency }).then(res => {
+            Axios.post(API + '/income', { date, description, account_id: account, amount, currency, user_id: user.id }).then(res => {
 
                 addNotification('success', "Ingreso registrado con exito")
+                console.log(res.data.data)
                 setReceipt(res.data.data)
             })
                 .catch(err => {
-
                     addNotification('danger', "No se pudo crear el ingreso")
                 })
         }
@@ -54,9 +55,9 @@ const OtherPayment = ({ addNotification,user }) => {
     )
 }
 
-const MSTP = state=>(
+const MSTP = state => (
     {
-        user:state.session.user
+        user: state.session.user
     }
 )
 

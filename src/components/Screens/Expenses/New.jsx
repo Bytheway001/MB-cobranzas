@@ -5,7 +5,7 @@ import { API } from '../../../ducks/root';
 import { Select, DatePicker, Input } from '../../custom/Controls';
 import { OfficeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import { ModalReceipt } from '../../../Receipts/Payment';
+import { ModalReceipt, PaymentReceipt } from '../../../Receipts/Payment';
 import { connect } from 'react-redux';
 
 const NewExpense = ({ user }) => {
@@ -33,7 +33,7 @@ const NewExpense = ({ user }) => {
         if (window.confirm("Desea registrar este egreso?")) {
             setLoading(true)
             setError({})
-            Axios.post(API + '/expenses', data).then(res => {
+            Axios.post(API + '/expenses', {...data,user_id:user.id}).then(res => {
                 setError({ type: 'success', text: 'Egreso registrado con exito' })
                 setLoading(false)
                 setReceipt(res.data.data)
@@ -83,7 +83,7 @@ const NewExpense = ({ user }) => {
                 </Card>
             </Col>
             <Col sm={8}>
-                {receipt && <ModalReceipt data={receipt} user={user.name} />}
+                {receipt && <PaymentReceipt data={receipt} user={user.name} modal={false} />}
             </Col>
         </Row>
     )

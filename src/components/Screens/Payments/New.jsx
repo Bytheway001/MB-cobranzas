@@ -10,9 +10,8 @@ import FormCobranza from './FormCobranza';
 import { UserIs, formatMoney } from '../../../utils/utils';
 import { SmartCard } from '../../library/SmartCard';
 import { ClientSelector } from '../../custom/Controls';
-const NewPayment = ({ clients, getClientList, getClientById, user }) => {
+const NewPayment = ({ clients, getClientById, user }) => {
     const [client, setClient] = useState([]);
-    const [tags,setTags]=useState([]);
     useEffect(() => {
         if (client.length > 0) {
             getClientById(client[0].id)

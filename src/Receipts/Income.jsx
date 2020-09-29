@@ -41,7 +41,7 @@ const styles={
 }
 
 
-export const PaymentReceipt = ({ user, data, modal }) => {
+export const IncomeReceipt = ({ user, data, modal }) => {
     const [show, setShow] = useState(false)
     const jsx = (
         <PDFViewer width='100%' height={800}>
@@ -59,7 +59,7 @@ export const PaymentReceipt = ({ user, data, modal }) => {
                     </Fila>
                     <Fila style={{ marginTop: 40, borderWidth: 1, borderColor: 'black', borderStyle: 'solid' }}>
                         <Columna style={{ backgroundColor: '#0747A6', width: '100%', textAlign: 'center', padding: 10 }}>
-                            <Text style={{ color: 'white' }}>Comprobante de Egreso</Text>
+                            <Text style={{ color: 'white' }}>Comprobante de Ingreso</Text>
                         </Columna>
                     </Fila>
                     <Fila style={{ marginTop: 20, padding: 15, borderColor: '#A1A1A1', borderWidth: 5, borderStyle: 'solid' }}>
