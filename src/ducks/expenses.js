@@ -1,5 +1,5 @@
-import { API } from "./root";
 import Axios from "axios";
+import { API } from "../utils/utils";
 
 export const EXPENSES_LIST_REQUESTED = "EXPENSES_LIST_REQUESTED";
 export const EXPENSES_LIST_SUCCEEDED = "EXPENSES_LIST_SUCCEEDED";

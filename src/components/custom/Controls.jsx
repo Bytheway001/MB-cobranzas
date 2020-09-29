@@ -4,10 +4,10 @@ import ReactDatePicker from 'react-datepicker';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { connect } from 'react-redux';
 import { getAgents, getCollectors } from '../../ducks/agents';
-import { API } from '../../ducks/root';
 import Axios from 'axios';
 import { useState } from 'react';
 import { getClientList } from '../../ducks/clients';
+import { API } from '../../utils/utils';
 
 export const Input = ({ label, type, onChange, value, ...props }) => (
     <FormGroup >

@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { Select, Input } from '../custom/Controls';
 import Axios from 'axios';
-import { API } from '../../ducks/root';
+import { API } from '../../utils/utils';
+
 
 export const CurrencyChange = () => {
     const [account_from, setAccountFrom] = useState('');

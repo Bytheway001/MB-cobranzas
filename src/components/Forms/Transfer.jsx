@@ -8,8 +8,8 @@ import { CurrencyOptions } from '../../options/options';
 import { Thumbnail } from '../Screens/Dashboard/Collector';
 import { addNotification } from '../../ducks/notifications';
 import Axios from 'axios';
-import { API } from '../../ducks/root';
 import { SmartCard } from '../library/SmartCard';
+import { API } from '../../utils/utils';
 export const TransferForm = ({ accounts, modal, setNotification, notifications }) => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');

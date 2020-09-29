@@ -1,7 +1,7 @@
 import Axios from "axios";
-import { API } from "./root";
 import { onSetNotification } from "./notifications";
 import { getAccountList } from "./accounts";
+import { API } from "../utils/utils";
 
 export const AGENT_LIST_REQUESTED = "AGENT_LIST_REQUESTED";
 export const AGENT_LIST_SUCCEEDED = "AGENT_LIST_SUCCEEDED";

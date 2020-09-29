@@ -6,8 +6,8 @@ import { Select, Input, DatePicker } from '../../../custom/Controls';
 import AccountsOptions from '../../../../options/accounts';
 import { CurrencyOptions } from '../../../../options/options';
 import Axios from 'axios';
-import { API } from '../../../../ducks/root';
 import { Fragment } from 'react';
+import { API } from '../../../../utils/utils';
 
 export const PaymentPolicyForm = ({selectedClient}) => {
     const [client, setClient] = useState([]);

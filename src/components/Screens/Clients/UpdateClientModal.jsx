@@ -6,7 +6,7 @@ import { UpdateClientPolicy } from '../../../ducks/clients';
 import { getCollectors, getAgents } from '../../../ducks/agents'
 import { Input, Select } from '../../custom/Controls';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
+import { API } from '../../../utils/utils';
 
 export const UpdateClientModal = ({ client, collectors, getCollectors, updateClientPolicy }) => {
     const [companies, setCompanies] = useState([]);

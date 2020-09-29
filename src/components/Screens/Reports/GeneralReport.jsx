@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
 import { PaymentsList, PolicyPaymentsList } from './Lists';
 import { DateSearch } from '../../custom/DateSearch';
 import { SmartCard } from '../../library/SmartCard';
 import { SmartTable } from '../../library/SmartTable';
+import { API } from '../../../utils/utils';
 
 const GeneralReport = props => {
     

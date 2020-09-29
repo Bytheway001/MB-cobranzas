@@ -8,8 +8,8 @@ import { createClient, createBulkClients } from '../../../ducks/clients'
 import { connect } from 'react-redux';
 import { BulkModal } from './BulkModal';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
 import { SmartCard } from '../../library/SmartCard';
+import { API } from '../../../utils/utils';
 const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient, createBulkClients }) => {
     const [first_name, setFirstName] = useState('');
     const [comment, setComment] = useState('');

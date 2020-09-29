@@ -6,9 +6,8 @@ import { login } from '../../ducks/session';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
-import { API } from '../../ducks/root';
 import Axios from 'axios';
-import { setupInterceptors } from '../../utils/utils';
+import { API, setupInterceptors } from '../../utils/utils';
 const HomeScreen = ({ login, user, loading, history }) => {
     const responseGoogle = (response) => {
         let profile = response.profileObj;

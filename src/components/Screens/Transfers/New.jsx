@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { Select, Input } from '../../custom/Controls';
 import AccountsOptions from '../../../options/accounts';
-import { API } from '../../../ducks/root';
+
 import Axios from 'axios'
 import { CurrencyOptions } from '../../../options/options';
 import { connect } from 'react-redux';
 import { addNotification } from '../../../ducks/notifications';
 
 import { SmartCard } from '../../library/SmartCard';
+import { API } from '../../../utils/utils';
 const NewTransfer = ({ setNotification }) => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');

@@ -4,9 +4,9 @@ import { Input, AgentSelector, CollectorSelector, CompanySelect, PlanSelect, Sel
 import { getAgents } from '../../ducks/agents'
 import { createClient, UpdateClientPolicy } from '../../ducks/clients'
 import { connect } from 'react-redux'
+import { useCallback } from 'react'
 
 const ClientForm = ({ createClient, modal, client, updateClient }) => {
- 
     const [agent_id, setAgentId] = useState('');
     const [first_name, setFirstName] = useState("");
     const [policy_number, setPolicyNumber] = useState("");
@@ -39,7 +39,7 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
 
     }
 
-    const refreshClient = () => {
+    const refreshClient =useCallback( () => {
         if (client) {
             setPhone(client.phone)
             setCollectorId(client.collector_id)
@@ -56,13 +56,13 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
             setComment(client.comment)
             setPrima(client.prima)
         }
-    }
+    },[client])
 
 
     useEffect(() => {
         refreshClient()
         getAgents()
-    }, [client])
+    }, [client,refreshClient])
 
     const form = (
         <Form onSubmit={handleSubmit} id='client_form'>
@@ -250,9 +250,12 @@ const CustomDatePicker = ({ label, onChange, value }) => {
     const [day, setDay] = useState(v[0] ? v[0] : '');
     const [month, setMonth] = useState(v[1] ? v[1] : '');
     const [year, setYear] = useState(v[2] ? v[2] : '');
-    useEffect(() => {
+    const handleChange=useCallback(()=>{
         onChange(day + '-' + month + '-' + year)
-    }, [day, month, year])
+    },[day,month,year,onChange])
+    useEffect(() => {
+        handleChange(day + '-' + month + '-' + year)
+    }, [handleChange,day,month,year])
 
     return (
         <FormGroup size='sm'>

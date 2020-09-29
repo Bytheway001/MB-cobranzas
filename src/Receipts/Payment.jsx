@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import { Document, Page, Text, View, StyleSheet, PDFViewer, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View,PDFViewer, Image } from '@react-pdf/renderer';
 import { Fila,Columna, Field } from './components/Components';
 import Barras from '../assets/Barras2.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

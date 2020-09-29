@@ -1,5 +1,5 @@
-import { API } from "./root";
 import Axios from 'axios'
+import { API } from '../utils/utils';
 const ACCOUNT_LIST_REQUESTED = "ACCOUNT_LIST_REQUESTED";
 const ACCOUNT_LIST_SUCCEEDED = "ACCOUNT_LIST_SUCCEEDED";
 const ACCOUNT_LIST_FAILED = "ACCOUNT_LIST_FAILED";

@@ -2,12 +2,13 @@ import React, { useState, Fragment, useCallback } from 'react';
 import { Row, Col, Table, Card, Tabs, Tab } from 'react-bootstrap';
 import { useEffect } from 'react';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
+
 import { ExpensesList, IncomeList, PaymentsList, PolicyPaymentsList } from './Lists';
 
 import { connect } from 'react-redux';
 import { Extracto } from './components/Extracto';
 import { DateSearch } from '../../custom/DateSearch';
+import { API } from '../../../utils/utils';
 
 
 const Finances = ({ user, match }) => {
@@ -17,30 +18,30 @@ const Finances = ({ user, match }) => {
     const [modalData, setModalData] = useState([]);
     const id = match.params.id || null;
     
-    const LookReports = useCallback(((from = null, to = null) => {
+    const LookReports =useCallback((from = null, to = null) => {
         if (from && to) {
             const f = new Date(from).toLocaleDateString()
             const t = new Date(to).toLocaleDateString()
             Axios.get(API + '/reports?f=' + f + '&t=' + t + (id ? '&id=' + id : '')).then(res => {
-                console.log(res.data)
+              
                 setReport(res.data)
             })
         }
         else {
             Axios.get(API + '/reports' + (id ? '?id=' + id : '')).then(res => {
-                console.log(res.data)
+                
                 setReport(res.data)
             })
         }
-    })
-    )
+    },[id]) 
+    
 
     useEffect(() => {
         Axios.get(API + '/accounts').then(res => {
             setAccounts(res.data.data)
         })
         LookReports()
-    }, [])
+    }, [LookReports])
 
     const fillModal = (e, id) => {
         Axios.get(API + '/movements/' + id).then(res => {
@@ -119,7 +120,7 @@ const Finances = ({ user, match }) => {
                                                                 {
                                                                     accounts.length > 0 && accounts.filter(x => x.type === 'Cash').map((account, key) => (
                                                                         <tr key={key}>
-                                                                            <td><a href='#' onClick={(e,) => fillModal(e, account.id)}>{account.name}</a></td>
+                                                                            <td><button className='btn-a' onClick={(e,) => fillModal(e, account.id)}>{account.name}</button></td>
                                                                             <td>{account.usd}</td>
                                                                             <td>{account.bob}</td>
                                                                         </tr>

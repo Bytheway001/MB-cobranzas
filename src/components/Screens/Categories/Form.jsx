@@ -3,7 +3,7 @@ import { Input, Select } from '../../custom/Controls';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
+import { API } from '../../../utils/utils';
 
 
 const CategoryForm = ({categoryList,editing}) => {

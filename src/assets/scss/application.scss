@@ -222,3 +222,17 @@ span.multiselect-native-select select {
     }
   }
 }
+.btn-a{
+  background:none;
+  border:none;
+  &:hover{
+    color:blue;
+    text-decoration: underline;
+  }
+  &:focus{
+    
+    outline:0;
+  }
+  
+  
+}

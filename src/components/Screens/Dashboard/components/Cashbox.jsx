@@ -3,8 +3,7 @@ import React,{useState,Fragment} from 'react';
 import {Table,Button} from 'react-bootstrap';
 import { Extracto } from '../../Reports/components/Extracto';
 import Axios from 'axios';
-import { API } from '../../../../ducks/root';
-import { formatMoney } from '../../../../utils/utils';
+import { API, formatMoney } from '../../../../utils/utils';
 import { CurrencyChangeModal } from './CurrencyChangeModal';
 
 export const CashBox = ({ usd, bob, id }) => {

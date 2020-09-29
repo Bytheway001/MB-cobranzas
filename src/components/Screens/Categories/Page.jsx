@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Table, Card} from 'react-bootstrap';
 import { CreateModal } from './CreateModal';
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
+import { API } from '../../../utils/utils';
+
 export const Categories = () => {
     const [categoryList, setCategoryList] = useState([])
     useEffect(() => {

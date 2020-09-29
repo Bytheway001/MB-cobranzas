@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react'
-import { API } from '../../../../ducks/root';
 import {Modal,Button} from 'react-bootstrap'
 import Axios from 'axios';
 import { UserPayments } from '../../Clients/Profile';
+import { API } from '../../../../utils/utils';
 
 export const UserPaymentsModal = ({ client }) => {
     const [show, setShow] = useState(false);

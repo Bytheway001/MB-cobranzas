@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Button, Alert, Card } from 'react-bootstrap'
 import Axios from 'axios';
-import { API } from '../../../ducks/root';
 import { Select, DatePicker, Input } from '../../custom/Controls';
 import { OfficeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import { ModalReceipt, PaymentReceipt } from '../../../Receipts/Payment';
+import {  PaymentReceipt } from '../../../Receipts/Payment';
 import { connect } from 'react-redux';
+import { API } from '../../../utils/utils';
 
 const NewExpense = ({ user }) => {
     const [date, setDate] = useState('');

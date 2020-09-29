@@ -3,10 +3,11 @@ import { Row, Card, Col, Table } from 'react-bootstrap';
 import { PaymentPolicyForm } from './components/PolicyForm';
 
 import { PolicyView } from '../Clients/PolicyView';
-import { API } from '../../../ducks/root';
+
 import Axios from 'axios';
 import { SmartCard } from '../../library/SmartCard';
 import { ClientSelector } from '../../custom/Controls';
+import { API } from '../../../utils/utils';
 
 export const PolicyPaymentsPage = () => {
     const [client, setClient] = useState([]);

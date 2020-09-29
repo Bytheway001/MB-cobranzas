@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { API } from '../../../ducks/root';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Axios from 'axios';
@@ -9,6 +8,7 @@ import { Select } from '../../custom/Controls';
 import AccountsOptions from '../../../options/accounts';
 
 import { SmartCard } from '../../library/SmartCard';
+import { API } from '../../../utils/utils';
 export const View = props => {
     const [list, setList] = useState([]);
     const [checkId,setCheckId]=useState('');

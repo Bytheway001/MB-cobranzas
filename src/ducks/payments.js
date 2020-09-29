@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { API } from "./root";
+import { API } from "../utils/utils";
 
 const PAYMENT_LIST_REQUESTED = 'PAYMENT_LIST_REQUESTED';
 const PAYMENT_LIST_SUCCEEDED = "PAYMENT_LIST_SUCCEEDED";

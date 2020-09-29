@@ -1,5 +1,5 @@
-import { API } from "./root";
 import Axios from "axios";
+import { API } from "../utils/utils";
 import { onSetNotification, addNotification } from "./notifications";
 
 export const CLIENT_PROFILE_REQUESTED = "CLIENT_PROFILE_REQUESTED";

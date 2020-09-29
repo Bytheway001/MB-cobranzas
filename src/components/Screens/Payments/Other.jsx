@@ -3,12 +3,12 @@ import { Row, Form, Col, Button } from 'react-bootstrap';
 import { Input, DatePicker, Select } from '../../custom/Controls';
 import AccountsOptions from '../../../options/accounts';
 import { CurrencyOptions } from '../../../options/options';
-import { API } from '../../../ducks/root';
 import Axios from 'axios';
 import { SmartCard } from '../../library/SmartCard';
 import { addNotification } from '../../../ducks/notifications';
 import { connect } from 'react-redux';
 import { IncomeReceipt } from '../../../Receipts/Income';
+import { API } from '../../../utils/utils';
 
 
 const OtherPayment = ({ addNotification, user }) => {

@@ -5,7 +5,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import './assets/scss/overrides.scss'
 import './assets/scss/application.scss'
 
-import { rootReducer } from './ducks/root';
+
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import BasicLayout from './components/Layouts/Basic';

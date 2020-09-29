@@ -23,7 +23,7 @@ export const Extracto = ({ show, setShow, data }) => {
 
 
 
-            console.log(finalData)
+         
         return (
             <>
                 <Modal size='xl' show={show} onHide={() => setShow(false)}>
