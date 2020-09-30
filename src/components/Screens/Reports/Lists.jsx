@@ -1,73 +1,84 @@
 
-import React, { Fragment } from 'react'
-import { Table } from 'react-bootstrap';
+import React from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory from 'react-bootstrap-table2-filter';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
+import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit';
 import { IncomeReceipt } from '../../../Receipts/Income';
 import { PaymentReceipt } from '../../../Receipts/Payment';
 
 export const ExpensesList = ({ expenses }) => {
+    const listOf = (property) => {
+        return [...new Set(expenses.map(e => (e[property])))].map(x => ({ value: x, label: x }))
+    }
+    const accounts = listOf('account');
+    const categories = listOf('category');
+    const currencies = listOf('currency');
+    const { ExportCSVButton } = CSVExport;
+
     const columns = [
+        { dataField: 'id', text: 'Ref', sort: true },
         { dataField: 'date', text: "Fecha", sort: true },
-        { dataField: 'account', text: 'Cuenta' },
+        { dataField: 'account', text: 'Cuenta', sort: true, filter: selectFilter({ options: accounts, className: 'form-control-sm', placeholder: 'Todas' }) },
         { dataField: 'description', text: 'Descripcion' },
-        { dataField: 'category', text: 'Categoria' },
+        { dataField: 'category', text: 'Categoria', filter: selectFilter({ options: categories, className: 'form-control form-control-sm', placeholder: 'Todas' }) },
         { dataField: 'bill_number', text: '# Factura' },
         { dataField: 'amount', text: 'Cantidad' },
-        { dataField: 'currency', text: 'Moneda' },
+        { dataField: 'currency', text: 'Moneda', sort: true, filter: selectFilter({ options: currencies, className: 'form-control form-control-sm', placeholder: 'Todas' }) },
         { dataField: 'office', text: 'Oficina' },
-        { dataField: 'id', text: 'Descargar', formatter: (cell, row) => <PaymentReceipt data={row} user={row.user} modal={true} /> }
+        { dataField: 'download', text: 'Descargar', formatter: (cell, row) => <PaymentReceipt data={row} user={row.user} modal={true} /> }
     ]
 
     return (
-        <Fragment>
-            <BootstrapTable striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed keyField='id' data={expenses} columns={columns} filter={filterFactory()} />
-        </Fragment>
+        <ToolkitProvider keyField='id' data={expenses} columns={columns} exportCSV >
+            {
+                props => {
+                    return (
+                        <>
+                            <ExportCSVButton className='btn btn-primary btn-sm my-2' {...props.csvProps}>Descargar CSV!!</ExportCSVButton>
+                            <BootstrapTable {...props.baseProps} striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed filter={filterFactory()} />
+                        </>
+                    )
+
+                }
+            }
+
+        </ToolkitProvider>
 
     )
 }
 
 export const PolicyPaymentsList = ({ payments }) => {
+    const { ExportCSVButton } = CSVExport;
+    const columns=[
+        {dataField:'id',text:'Ref'},
+        {dataField:'payment_date',text:"Fecha de pago"},
+        {dataField:'client',text:"Cliente"},
+        {dataField:'company',text:'Aseguradora'},
+        {dataField:'amount',text:'Cantidad'},
+        {dataField:'currency',text:'Moneda'},
+        {dataField:'status',text:'Status'}
+       
+    ]
     return (
-        <Fragment>
-            <ReactHTMLTableToExcel sheet="AA" className='btn btn-primary btn-sm mb-2' table="policy_payments_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <Table id='policy_payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
-                <thead>
+        <ToolkitProvider keyField='id' data={payments} columns={columns} exportCSV >
+        {
+            props => {
+                return (
+                    <>
+                        <ExportCSVButton className='btn btn-primary btn-sm my-2' {...props.csvProps}>Descargar CSV!!</ExportCSVButton>
+                        <BootstrapTable {...props.baseProps} striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed filter={filterFactory()} />
+                    </>
+                )
 
-                    <tr className='bg-info text-white'>
-                        <th>Ref.</th>
-                        <th >Pagado En:</th>
-                        <th >Registrado En:</th>
-                        <th>Cliente</th>
-                        <th>Aseguradora</th>
-                        <th>Cta Pagadora</th>
-                        <th>Moneda</th>
-                        <th>Cantidad</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {payments.map((e, k) => (
-                        <tr key={k}>
-                            <td>{e.id}</td>
-                            <td>{e.payment_date}</td>
-                            <td>{e.date}</td>
-                            <td>{e.client}</td>
-                            <td>{e.company}</td>
-                            <td>{e.account}</td>
-                            <td>{e.currency}</td>
-                            <td>{e.amount}</td>
-                            <td>{e.policy_status === 'Pagada' ? 'Pago Total' : 'Pago Parcial'}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </Fragment>
+            }
+        }
+
+    </ToolkitProvider>
     )
 }
 
 export const PaymentsList = ({ payments }) => {
+    const { ExportCSVButton } = CSVExport;
     const columns = [
         { dataField: 'id', text: 'Ref', sort: true },
         { dataField: 'payment_date', text: 'Fecha' },
@@ -81,53 +92,26 @@ export const PaymentsList = ({ payments }) => {
         { dataField: 'currency', text: 'Moneda' }
     ]
     return (
-        <BootstrapTable striped hover rowStyle={{ fontSize: '0.8em' }} bootstrap4={true} condensed={true} classes='table-sm' keyField='id' data={payments} columns={columns} filter={filterFactory()} />
-        /*
-        <Fragment>
-            <ReactHTMLTableToExcel className='btn btn-primary btn-sm mb-2' table="payments_list" filename="tablexls" buttonText='Descargar (xls)' />
-            <Table id='payments_list' style={{ fontSize: '0.8em' }} size='sm' className='table-striped' variant='hover'>
-                <thead>
-                    <tr className='bg-info text-white'>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th>Cliente</th>
-                        <th>Aseguradora</th>
-                        <th>Plan</th>
-                        <th>Cobrador</th>
-                        <th>Metodo de Pago</th>
-                        <th>Cuenta</th>
-                        <th>Moneda</th>
-                        <th>Monto</th>
+        <ToolkitProvider keyField='id' data={payments} columns={columns} exportCSV >
+            {
+                props => {
+                    return (
+                        <>
+                            <ExportCSVButton className='btn btn-primary btn-sm my-2' {...props.csvProps}>Descargar CSV!!</ExportCSVButton>
+                            <BootstrapTable {...props.baseProps} striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed filter={filterFactory()} />
+                        </>
+                    )
 
-                    </tr>
+                }
+            }
 
-                </thead>
-                <tbody>
-                    {payments.map((r, k) => (
-                        <tr key={k}>
-                            <th>{r.id}</th>
-                            <td>{r.payment_date}</td>
-                            <td>{r.client}</td>
-                            <td>{r.company}</td>
-                            <td>{r.plan}</td>
-                            <td>{r.collector}</td>
-                            <td>{r.payment_method}</td>
-                            <td>{r.account_name}</td>
-                            <td>{r.currency}</td>
-                            <td>{r.amount}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-
-        </Fragment>
-                        */
-
+        </ToolkitProvider>
 
     )
 }
 
 export const IncomeList = ({ incomes }) => {
+    const { ExportCSVButton } = CSVExport;
     const columns = [
         { dataField: 'id', text: 'Ref', sort: true },
         { dataField: 'date', text: 'Fecha', sort: true },
@@ -144,9 +128,20 @@ export const IncomeList = ({ incomes }) => {
     ]
 
     return (
-        <Fragment>
-            <BootstrapTable striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed keyField='id' data={incomes} columns={columns} filter={filterFactory()} />
-        </Fragment>
+        <ToolkitProvider keyField='id' data={incomes} columns={columns} exportCSV >
+            {
+                props => {
+                    return (
+                        <>
+                            <ExportCSVButton className='btn btn-primary btn-sm my-2' {...props.csvProps}>Descargar CSV!!</ExportCSVButton>
+                            <BootstrapTable {...props.baseProps} striped hover bootstrap4={true} rowStyle={{ fontSize: '0.9em' }} condensed filter={filterFactory()} />
+                        </>
+                    )
+
+                }
+            }
+
+        </ToolkitProvider>
     )
 }
 

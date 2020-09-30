@@ -1,21 +1,24 @@
+/* Libraries Imports */
 import React, { Fragment } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+/* Css Declarations */
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
+import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 import './assets/scss/overrides.scss'
 import './assets/scss/application.scss'
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import './App.css';
 
-
-
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+/* Components Imports */
 import BasicLayout from './components/Layouts/Basic';
 import Home from './components/Screens/Home';
 import PrivateRoute from './components/PrivateRoute';
-
 import NewClient from './components/Screens/Clients/New';
 import NewPayment from './components/Screens/Payments/New';
 import ClientProfile from './components/Screens/Clients/Profile';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
 import Reports from './components/Screens/Reports/Reports';
 import { BulkPayments } from './components/Screens/Payments/Bulk'
 import { RCC } from './components/Screens/Reports/components/RCC';
@@ -31,6 +34,7 @@ import { Categories } from './components/Screens/Categories/Page';
 import OtherPayment from './components/Screens/Payments/Other';
 import Collector from './components/Screens/Dashboard/Collector';
 import { PaymentReceipt } from './Receipts/Payment';
+
 
 
 const App = ({user}) => {

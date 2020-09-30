@@ -13,7 +13,7 @@ export const UserPaymentsModal = ({ client }) => {
         }
         )
     }, [client.id])
-    console.log(profile)
+   
     return (
         <>
             <Button block size='sm' onClick={() => setShow(true)}>Historial de Pago</Button>

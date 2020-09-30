@@ -53,7 +53,7 @@ export const PaymentReceipt = ({ user, data, modal }) => {
                         </Columna>
                         <Columna style={{ flex: 1, paddingHorizontal: 10, alignItems: 'flex-end' }}>
                             <View style={{ width: 80 }}>
-                                <Image src={'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=expense' + data.id + user} allowDangerousPaths />
+                                <Image src={'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cobranzas.megabrokerslatam.com/expense/' + data.id +'&uname='+ user} allowDangerousPaths />
                             </View>
                         </Columna>
                     </Fila>

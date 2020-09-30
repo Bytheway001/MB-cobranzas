@@ -22,10 +22,10 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
     const [show, setShow] = useState(false)
     const [prima, setPrima] = useState('');
     const [phone, setPhone] = useState("");
-
+    const [h_id,setHubspotId]=useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
-        let payload = { agent_id, first_name, policy_number, company_id, collector_id, plan, option, effective_date, renovation_date, frequency, email, phone, prima, comment }
+        let payload = { agent_id, first_name, policy_number, company_id, collector_id, plan, option, effective_date, renovation_date, frequency, email, phone, prima, comment,h_id }
 
         if (client) {
             updateClient(client.id, payload)
@@ -55,6 +55,7 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
             setEmail(client.email)
             setComment(client.comment)
             setPrima(client.prima)
+            setHubspotId(client.h_id)
         }
     },[client])
 
@@ -97,6 +98,13 @@ const ClientForm = ({ createClient, modal, client, updateClient }) => {
                     <FormGroup>
                         <label>Comentarios:</label>
                         <FormControl as='textarea' value={comment} onChange={({ target }) => setComment(target.value)} />
+                    </FormGroup>
+
+                </Col>
+                <Col sm={6}>
+                    <FormGroup>
+                        <label>ID de Hubspot:</label>
+                        <FormControl value={h_id} onChange={({ target }) => setHubspotId(target.value)} />
                     </FormGroup>
 
                 </Col>

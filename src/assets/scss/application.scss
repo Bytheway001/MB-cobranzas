@@ -214,11 +214,13 @@ span.multiselect-native-select select {
 .react-bootstrap-table{
   tr{
     th,td{
-      &:nth-child(1){
-       
-        width:5%;
-      }
+      font-size: 0.8em;
       
+    }
+    th{
+      background:#17a2b8;
+      color:white;
+      vertical-align: top;
     }
   }
 }

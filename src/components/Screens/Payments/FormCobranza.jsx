@@ -111,6 +111,7 @@ export const FormCobranza = ({ id, prima, createPayment, creatingPayment }) => {
         "Karen Dorado",
         "Soledad Sainz",
         "Heidy Teran",
+        "Rafael Castillo"
     ]
 
     return (

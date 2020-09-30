@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { Select, DatePicker, Input } from '../../custom/Controls';
 import { OfficeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import {  PaymentReceipt } from '../../../Receipts/Payment';
+import { PaymentReceipt } from '../../../Receipts/Payment';
 import { connect } from 'react-redux';
 import { API } from '../../../utils/utils';
 
@@ -21,6 +21,8 @@ const NewExpense = ({ user }) => {
     const [loading, setLoading] = useState(false);
     const [categoryList, setCategoryList] = useState([]);
     const [receipt, setReceipt] = useState(false);
+
+    
     useEffect(() => {
         Axios.get(API + '/categories').then(res => {
             setCategoryList(res.data.data)
@@ -33,7 +35,7 @@ const NewExpense = ({ user }) => {
         if (window.confirm("Desea registrar este egreso?")) {
             setLoading(true)
             setError({})
-            Axios.post(API + '/expenses', {...data,user_id:user.id}).then(res => {
+            Axios.post(API + '/expenses', { ...data, user_id: user.id }).then(res => {
                 setError({ type: 'success', text: 'Egreso registrado con exito' })
                 setLoading(false)
                 setReceipt(res.data.data)
