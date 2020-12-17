@@ -5,12 +5,14 @@ import { createPayment } from '../../../ducks/agents';
 import arrayMutators from 'final-form-arrays'
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from '../../../options/options';
 import AccountsOptions from '../../../options/accounts';
-import { Select, DatePicker } from '../../custom/Controls';
+
 
 import { Field, Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { composeValidators, Validators } from '../../Forms/Validators';
+
 import { GlobalContext } from '../../Layouts/Basic';
+import { composeValidators, Validators } from '../../../Forms/Validators';
+import { DatePicker, Select } from '../../../Controls';
 const agencyMethods = ['tdc_to_company', 'transfer_to_company', 'check_to_foreign_company', 'tdc_to_collector', 'claim_to_company', 'check_to_agency_foreign', 'check_to_agency_local'];
 const FormCobranza = ({ createPayment, policy }) => {
     const { addNotification } = useContext(GlobalContext);

@@ -3,7 +3,7 @@ import {Button,Modal} from 'react-bootstrap'
 import { CurrencyChange } from '../../../Forms/CurrencyChange';
 
 
-export const CurrencyChangeModal = () => {
+export const CurrencyChangeForm = () => {
     const [show, setShow] = useState(false);
 
     return (

@@ -1,10 +1,10 @@
 
 import React,{useState,Fragment} from 'react';
 import {Table,Button} from 'react-bootstrap';
-import { Extracto } from '../../Reports/components/Extracto';
+import { Extracto } from './Screens/Reports/components/Extracto';
 import Axios from 'axios';
-import { API, formatMoney } from '../../../../utils/utils';
-import { CurrencyChangeModal } from './CurrencyChangeModal';
+import { API, formatMoney } from '../utils/utils';
+import { CurrencyChange } from '../Forms';
 
 export const CashBox = ({ usd, bob, id }) => {
     const [modalData, setModalData] = useState([]);
@@ -27,7 +27,7 @@ export const CashBox = ({ usd, bob, id }) => {
                 <tfoot>
                     <tr>
                         <th><Button onClick={(e) => fillModal(e, id)} block size='sm'>Ver Movimientos</Button></th>
-                        <th><CurrencyChangeModal /></th>
+                        <th><CurrencyChange /></th>
                     </tr>
 
 

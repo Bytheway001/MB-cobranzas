@@ -1,9 +1,10 @@
 import React,{useState} from 'react';
-import { Input, Select } from '../../custom/Controls';
+
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 import { API } from '../../../utils/utils';
+import { Input, Select } from '../../../Controls';
 
 
 const CategoryForm = ({categoryList,editing}) => {
@@ -35,7 +36,7 @@ const CategoryForm = ({categoryList,editing}) => {
     return (
         <Form id='category-form' onSubmit={handleSubmit}>
             <Input value={name} onChange={({target})=>setName(target.value)} type='text' label='Nombre de la categoria'/>
-            <Select value={parent_id} onChange={({target})=>setParentId(target.value)} label='Categoria Padre:' options={categoryList.map(x=>(<option value={x.id}>{x.name}</option> ))}/>
+            <Select value={parent_id} onChange={({target})=>setParentId(target.value)} label='Categoria Padre:' options={categoryList.map((x,k)=>(<option key={k} value={x.id}>{x.name}</option> ))}/>
         </Form>
     )
 }

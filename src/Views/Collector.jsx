@@ -1,38 +1,33 @@
+import { faDollarSign, faShareSquare } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import { Row, Col} from 'react-bootstrap';
-import { SmartCard } from '../../library/SmartCard';
-import { getClientList, selectClient, selectClientPolicy } from '../../../ducks/clients';
+import { Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { UserIs } from '../../../utils/utils';
-import { faShareSquare, faDollarSign } from '@fortawesome/free-solid-svg-icons';
-import { CashBox } from './components/Cashbox';
-import ClientForm from '../../Forms/Client';
-import { ClientProfileTable } from '../../Tables/ClientProfileTable';
-import TransferForm from '../../Forms/Transfer';
-import { PolicySelector } from '../../custom/PolicySelector';
-import { ClientSelect } from '../../custom/ClientSelector';
-import PolicyForm from '../../Forms/Policy';
-import { CheckForm } from '../../Forms/Check';
-import { Thumbnail } from '../../Thumbnail';
+import { CashBox } from '../components/Cashbox';
+import { SmartCard } from '../components/library/SmartCard';
+import { Thumbnail } from '../components/Thumbnail';
+import { PolicySelector } from '../Controls';
+import { ClientSelector } from '../Controls/ClientSelector';
+import { getClientList, selectClient, selectClientPolicy } from '../ducks/clients';
+import { CheckForm, ClientForm, PolicyForm, TransferForm } from '../Forms';
+import { ClientProfile } from '../Tables/ClientProfile';
+import { UserIs } from '../utils/utils';
+
+const Collector = ({ clients, selectClient, user, accounts, getClientList, selectClientPolicy }) => {
 
 
-
-
-export const Collector = ({ clients,  selectClient, user, accounts, getClientList,selectClientPolicy }) => {
-
-  
     const editing = clients.editing
     return (
         <Row>
             <Col sm={6}>
                 <SmartCard title="Clientes">
-                     <Row className='mb-2'>
+                    <Row className='mb-2'>
                         <Col sm={2}>
                             <label>Cliente</label>
                         </Col>
                         <Col sm={6}>
-                            <ClientSelect
+                            <ClientSelector
                                 onSearch={getClientList}
                                 title='Cliente'
                                 options={clients.list}
@@ -43,14 +38,14 @@ export const Collector = ({ clients,  selectClient, user, accounts, getClientLis
                             />
                         </Col>
                         <Col sm={4}>
-                            <ClientForm  modal={true} editing={editing}  />
+                            <ClientForm modal={true} editing={editing} />
                         </Col>
                     </Row>
                     <Row>
                         {
                             editing &&
                             <>
-                            
+
                                 <Col sm={2} className='mb-1'>
                                     <label>Poliza</label>
                                 </Col>
@@ -58,10 +53,10 @@ export const Collector = ({ clients,  selectClient, user, accounts, getClientLis
                                     <PolicySelector options={editing.policies} selected={[]} onChange={(val) => selectClientPolicy(val)} title='Poliza'></PolicySelector>
                                 </Col>
                                 <Col sm={4} className='mb-1'>
-                                    <PolicyForm modal={true} client={editing.id} policy={editing.policies.find(x=>x.selected)} />
+                                    <PolicyForm modal={true} client={editing.id} policy={editing.policies.find(x => x.selected)} />
                                 </Col>
                                 <Col sm={12}>
-                                    <ClientProfileTable client={editing}/>
+                                    <ClientProfile client={editing} />
                                 </Col>
                             </>
                         }
@@ -90,7 +85,7 @@ export const Collector = ({ clients,  selectClient, user, accounts, getClientLis
                                 <Thumbnail as={Link} to='/other_incomes' title='Registrar Ingreso' icon={faDollarSign} />
                             </Col>
                             <Col sm={6}>
-                                <CheckForm/>
+                                <CheckForm />
                             </Col>
 
                         </Row>
