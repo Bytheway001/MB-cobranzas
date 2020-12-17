@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { formatMoney } from '../utils/utils';
 import FormCobranza from '../components/Screens/Payments/FormCobranza';
+import PaymentHistory from '../Views/PaymentHistory';
 export const ClientProfile = ({ client }) => {
     const policy = client.policies.find(x => x.selected);
     if (!policy) {
@@ -74,7 +75,7 @@ export const ClientProfile = ({ client }) => {
                 <tr>
                     <th className='bg-info text-white' style={{ verticalAlign: 'middle' }}>Acciones:</th>
                     <td><FormCobranza policy={policy} /></td>
-                    <td colSpan={2}><Button block size='sm'>Historial de Pago</Button></td>
+                    <td colSpan={2}><PaymentHistory policy={policy.id}/></td>
                 </tr>
             </tfoot>
         </Table>
