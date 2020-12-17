@@ -70,9 +70,11 @@
       "pre-commit": "lint-staged"
     }
   },
+  
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --write",
+      "eslint --fix"
     ]
   }
 }
