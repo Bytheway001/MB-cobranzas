@@ -33,7 +33,7 @@ const Expenses = ({ getExpenses, list }) => {
                             <tbody>
                                 {
                                     list.map((expense, key) => (
-                                        <tr>
+                                        <tr key={key}>
                                             <td>{expense.date}</td>
                                             <td>{expense.bill_number}</td>
                                             <td>{expense.description}</td>

@@ -5,11 +5,13 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import ReactDatePicker from 'react-datepicker';
 import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
-import { createPolicy } from '../../ducks/clients';
-import { getCompanies, getPlans } from '../../ducks/static';
-import { formatDate } from '../../utils/utils';
-import { GlobalContext } from '../Layouts/Basic';
+import { createPolicy } from '../ducks/clients';
+import { getCompanies, getPlans } from '../ducks/static';
+import { formatDate } from '../utils/utils';
+import { GlobalContext } from '../components/Layouts/Basic';
+
 import { composeValidators, Validators } from './Validators';
+
 
 
 const PolicyForm = ({ companies, getCompanies,  policy, client, createPolicy }) => {

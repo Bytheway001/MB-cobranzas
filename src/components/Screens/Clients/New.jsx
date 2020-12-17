@@ -168,8 +168,8 @@ const NewClient = ({ agents, getAgents, collectors, getCollectors, createClient,
                                             <FormControl required size='sm' as='select' value={company} onChange={({ target }) => { setPlan([]); handleCompanyChange(target.value) }}>
                                                 <option value="">Seleccione...</option>
                                                 {
-                                                    companies.map(company => (
-                                                        <option value={company.id}>{company.name}</option>
+                                                    companies.map((company,k) => (
+                                                        <option key={k} value={company.id}>{company.name}</option>
                                                     ))
                                                 }
                                             </FormControl>

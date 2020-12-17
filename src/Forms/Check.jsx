@@ -3,12 +3,13 @@ import Axios from 'axios';
 import React, { useState } from 'react';
 import { Button, FormGroup, Modal } from 'react-bootstrap';
 import { Field, Form } from 'react-final-form';
-import { API, formatMoney } from '../../utils/utils';
-import { FinalFormSelect } from '../custom/FinalForm';
+import { API, formatMoney } from '../utils/utils';
+import { FinalFormSelect } from '../components/custom/FinalForm';
 import { composeValidators, Validators } from './Validators';
-import AccountsOptions from '../../options/accounts';
-import { Thumbnail } from '../Thumbnail';
-export const CheckForm = () => {
+import AccountsOptions from '../options/accounts';
+import { Thumbnail } from '../components/Thumbnail';
+
+const CheckForm = () => {
     const [show, setShow] = useState(false);
     const [checks, setChecks] = useState([])
     const handleShow = () => {
@@ -65,3 +66,5 @@ export const CheckForm = () => {
         </>
     )
 }
+
+export default CheckForm
