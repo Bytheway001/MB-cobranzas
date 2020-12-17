@@ -2,24 +2,26 @@ import React, { useContext, useState } from 'react';
 import { connect } from 'react-redux';
 import { faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button, Alert, FormGroup, InputGroup } from 'react-bootstrap'
-import AccountsOptions from '../../options/accounts';
-import { CurrencyOptions } from '../../options/options';
-import { addNotification } from '../../ducks/notifications';
+import AccountsOptions from '../options/accounts';
+import { CurrencyOptions } from '../options/options';
+import { addNotification } from '../ducks/notifications';
 import Axios from 'axios';
 
-import { API } from '../../utils/utils';
+import { API } from '../utils/utils';
 import { Field, Form } from 'react-final-form';
 import { composeValidators, Validators } from './Validators';
-import { FinalFormInput, FinalFormSelect } from '../custom/FinalForm';
-import { GlobalContext } from '../Layouts/Basic';
-import { Thumbnail } from '../Thumbnail';
+import { FinalFormInput, FinalFormSelect } from '../components/custom/FinalForm';
+
+
+import { GlobalContext } from '../components/Layouts/Basic';
+import { Thumbnail } from '../components/Thumbnail';
 
 const TransferForm = ({ setNotification, notifications }) => {
     const [show, setShow] = useState(false);
     const { addNotification } = useContext(GlobalContext)
 
     const onTransferSubmit = (values) => {
-        Axios.post(API + '/transfers', values).then(res => {
+        Axios.post(API + '/transfers', values).then(() => {
             addNotification('success', 'Transferencia realizada con exito')
             setShow(false)
         }).catch(err => {

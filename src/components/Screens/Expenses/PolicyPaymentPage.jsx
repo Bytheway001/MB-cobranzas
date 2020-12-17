@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Card, Col, FormGroup, Table, } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { ClientSelect } from '../../custom/ClientSelector';
+
 import { getClientList, selectClient, selectClientPolicy } from '../../../ducks/clients';
-import { PolicySelector } from '../../custom/PolicySelector';
-import PaymentPolicyForm from './components/PolicyForm';
+
+import PaymentPolicyForm from '../../../Forms/PolicyPayment';
 import { API } from '../../../utils/utils';
 import Axios from 'axios';
+import { ClientSelector, PolicySelector } from '../../../Controls';
 
 
 
@@ -35,7 +36,7 @@ const PolicyPaymentsPage = ({ clients, getClientList, selectClient, editing, sel
                     <Card.Body>
                         <FormGroup>
                             <label>Cliente</label>
-                            <ClientSelect
+                            <ClientSelector
                                 selected={editing}
                                 onSearch={getClientList}
                                 title='Cliente'

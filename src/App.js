@@ -32,10 +32,9 @@ import Finances from './components/Screens/Reports/Finances';
 
 import { Categories } from './components/Screens/Categories/Page';
 import OtherPayment from './components/Screens/Payments/Other';
-import Collector from './components/Screens/Dashboard/Collector';
-import { Test } from './Test';
 import PolicyPaymentPage from './components/Screens/Expenses/PolicyPaymentPage';
 import { Renovaciones } from './components/Screens/Reports/Renovaciones';
+import  Collector  from './Views/Collector';
 
 
 const App = () => {

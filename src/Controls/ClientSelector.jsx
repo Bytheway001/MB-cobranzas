@@ -2,7 +2,7 @@ import React from "react"
 import { AsyncTypeahead } from "react-bootstrap-typeahead"
 
 
-export const ClientSelect = ({ options, onChange,  onSearch,isLoading,selected,...props }) => {
+export const ClientSelector = ({ options, onChange,  onSearch,isLoading,selected,...props }) => {
     const getSelected = ()=>{
         if(selected){
             return [selected]

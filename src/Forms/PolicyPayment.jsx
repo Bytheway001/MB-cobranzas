@@ -1,16 +1,16 @@
 // Formulario para pagos de poliza
-import React, { useState, useEffect, useContext } from 'react';
+import React, {  useContext } from 'react';
 import { FormGroup, FormControl, Button, InputGroup, FormCheck } from 'react-bootstrap';
-
-import { Select, DatePicker } from '../../../custom/Controls';
-import AccountsOptions from '../../../../options/accounts';
-import { CurrencyOptions } from '../../../../options/options';
+import AccountsOptions from '../options/accounts';
+import { CurrencyOptions } from '../options/options';
 
 import { Field, Form } from 'react-final-form';
-import { composeValidators, Validators } from '../../../Forms/Validators';
-import { GlobalContext } from '../../../Layouts/Basic';
-import { createPolicyPayment } from '../../../../ducks/payments';
+
+import { GlobalContext } from '../components/Layouts/Basic';
+import { createPolicyPayment } from '../ducks/payments';
 import { connect } from 'react-redux';
+import { composeValidators, Validators } from './Validators';
+import { DatePicker, Select } from '../Controls';
 
 const PaymentPolicyForm = ({ policy,createPolicyPayment }) => {
     const {addNotification}=useContext(GlobalContext)
@@ -67,12 +67,12 @@ const PaymentPolicyForm = ({ policy,createPolicyPayment }) => {
 
                         <InputGroup>
                             <Field component='input' value='Direct' type='radio' name='payment_type' validate={Validators.required}>
-                                {({ meta, input }) => {
+                                {({  input }) => {
                                     return <FormCheck inline {...input} label='Pago Directo' />
                                 }}
                             </Field>
                             <Field component='input' value='Finance' type='radio' name='payment_type' validate={Validators.required}>
-                                {({ meta, input }) => {
+                                {({  input }) => {
                                     return <FormCheck inline {...input} label='Financiamieno' />
                                 }}
                             </Field>
@@ -83,12 +83,12 @@ const PaymentPolicyForm = ({ policy,createPolicyPayment }) => {
                         <label>Moneda/Monto</label>
                         <InputGroup>
                             <Field name='currency' validate={Validators.required}>
-                                {({ input, meta }) => (
+                                {({ input  }) => (
                                     <Select options={<CurrencyOptions />} {...input} />
                                 )}
                             </Field>
                             <Field name='amount' validate={composeValidators(Validators.required, Validators.mustBeDecimal)}>
-                                {({ input, meta }) => (
+                                {({ input }) => (
                                     <FormControl size='sm' {...input} />
                                 )}
                             </Field>
@@ -98,7 +98,7 @@ const PaymentPolicyForm = ({ policy,createPolicyPayment }) => {
                     <FormGroup>
                         <label>Comentario</label>
                         <Field name='comment'>
-                            {({ input, meta }) => (
+                            {({ input }) => (
                                 <FormControl as='textarea' size='sm' {...input} />
                             )}
                         </Field>

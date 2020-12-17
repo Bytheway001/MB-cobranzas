@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
-import { Select, Input } from '../../custom/Controls';
 import AccountsOptions from '../../../options/accounts';
-
 import Axios from 'axios'
 import { CurrencyOptions } from '../../../options/options';
 import { connect } from 'react-redux';
 import { addNotification } from '../../../ducks/notifications';
-
 import { SmartCard } from '../../library/SmartCard';
 import { API } from '../../../utils/utils';
+import { Input, Select } from '../../../Controls';
 const NewTransfer = ({ setNotification }) => {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
@@ -21,7 +19,7 @@ const NewTransfer = ({ setNotification }) => {
         setError("")
         let payload = { from, to, amount, currency,comment }
         e.preventDefault();
-        Axios.post(API + '/transfers', payload).then(res => {
+        Axios.post(API + '/transfers', payload).then(() => {
             setNotification('success', 'Transferencia realizada con exito')
         })
             .catch(err => {
@@ -34,8 +32,8 @@ const NewTransfer = ({ setNotification }) => {
             <Col sm={{ span: 4, offset: 4 }}>
                 <SmartCard title='Transferencias entre cuentas'>
                     <Form onSubmit={handleSubmit}>
-                        <Select value={from} onChange={({ target }) => setFrom(target.value)} label='Cuenta a Debitar:' options={<AccountsOptions except={[9]} />}></Select>
-                        <Select value={to} onChange={({ target }) => setTo(target.value)} label='Cuenta a Abonar:' options={<AccountsOptions except={[9]} />}></Select>
+                        <Select value={from} onChange={({ target }) => setFrom(target.value)} label='Cuenta a Debitar:' options={<AccountsOptions except={[9]} />}/>
+                        <Select value={to} onChange={({ target }) => setTo(target.value)} label='Cuenta a Abonar:' options={<AccountsOptions except={[9]} />}/>
                         <Row>
                             <Col sm={6}>
                                 <Select value={currency} onChange={({ target }) => setCurrency(target.value)} options={<CurrencyOptions />} label='Monto a transferir:' />

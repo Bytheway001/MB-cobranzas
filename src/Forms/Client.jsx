@@ -1,12 +1,12 @@
 import React, { useEffect, useState,useContext } from 'react'
 import { Row, Col, FormGroup, FormControl, Button, Modal } from 'react-bootstrap'
-import { getAgents, getCollectors } from '../../ducks/agents'
-import { createClient } from '../../ducks/clients'
+import { getAgents, getCollectors } from '../ducks/agents'
+import { createClient } from '../ducks/clients'
 import { connect } from 'react-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { Form, Field } from 'react-final-form'
 import { composeValidators, Validators } from './Validators'
-import { GlobalContext } from '../Layouts/Basic'
+import { GlobalContext } from '../components/Layouts/Basic'
 
 const ClientForm = ({ agents, getAgents, collectors, getCollectors, createClient, editing}) => {
     // Validators

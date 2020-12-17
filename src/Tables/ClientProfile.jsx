@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
-import { formatMoney } from '../../utils/utils';
-import FormCobranza from '../Screens/Payments/FormCobranza';
-export const ClientProfileTable = ({ client }) => {
+import { formatMoney } from '../utils/utils';
+import FormCobranza from '../components/Screens/Payments/FormCobranza';
+export const ClientProfile = ({ client }) => {
     const policy = client.policies.find(x => x.selected);
     if (!policy) {
         return null;
