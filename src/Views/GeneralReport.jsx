@@ -90,7 +90,7 @@ const GeneralReport = () => {
 			</Col>
 			<Col sm={6}>
 				<SmartCard title="Ingresos">
-					<Table size="sm" variant="bordered">
+					<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
 						<thead>
 							<tr>
 								<th style={{ width: "50%" }}>--</th>
@@ -116,7 +116,7 @@ const GeneralReport = () => {
 			</Col>
 			<Col sm={6}>
 				<SmartCard title="Egresos">
-					<Table size="sm" variant="bordered">
+					<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
 						<thead>
 							<tr>
 								<th style={{ width: "50%" }}>--</th>
