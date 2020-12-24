@@ -94,7 +94,7 @@ const GeneralReport = () => {
 						<thead>
 							<tr>
 								<th style={{ width: "50%" }}>--</th>
-								<th className="text-right">USDDD</th>
+								<th className="text-right">USD</th>
 								<th className="text-right">BOB</th>
 							</tr>
 							<tr>
