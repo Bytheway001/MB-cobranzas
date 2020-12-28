@@ -68,7 +68,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && git-branch-is -r \"^((?!master).)*$\""
+      "pre-commit": "lint-staged && git-branch-is -r \"^((?!master).)*$\" && git-branch-is -r \"^((?!develop).)*$\""
     }
   },
   "lint-staged": {
