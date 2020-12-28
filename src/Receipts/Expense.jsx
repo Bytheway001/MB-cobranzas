@@ -138,7 +138,7 @@ export const ExpenseReceipt = ({ user, data, modal }) => {
 				</Button>
 				<Modal size="xl" show={show} onHide={() => setShow(false)} animation={false}>
 					<Modal.Header closeButton>
-						<Modal.Title>Cliente</Modal.Title>
+						<Modal.Title>Comprobante de Gasto</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>{jsx}</Modal.Body>
 					<Modal.Footer>
