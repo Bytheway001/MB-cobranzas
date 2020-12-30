@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
+
 export const NotificationContext = React.createContext();
 
 export function NotificationProvider({ children }) {
@@ -8,16 +9,19 @@ export function NotificationProvider({ children }) {
 		setNotifications([...notifications, { type, message }]);
 	};
 
-	/*
-    function addNotification(type, message) {
-        setNotifications([...notifications, { type, message }])
-    }
-    */
-
-	const value = {
-		notifications,
-		addNotification,
+	const deleteNotification = (index) => {
+		notifications.splice(index, 1);
+		setNotifications([...notifications]);
 	};
+
+	const value = useMemo(
+		() => ({
+			notifications,
+			addNotification,
+			deleteNotification,
+		}),
+		[notifications]
+	);
 
 	return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 }

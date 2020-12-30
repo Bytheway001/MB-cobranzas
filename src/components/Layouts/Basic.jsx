@@ -10,7 +10,7 @@ import { useNotifications } from "../../context/notification";
 export const GlobalContext = React.createContext();
 
 const BasicLayout = ({ children, listAccounts }) => {
-	const notifications = useNotifications();
+	const { notifications, deleteNotification } = useNotifications();
 	useEffect(() => {
 		listAccounts();
 	}, [listAccounts]);
@@ -18,9 +18,23 @@ const BasicLayout = ({ children, listAccounts }) => {
 		<>
 			<Navbar />
 			<Container fluid className="p-5">
-				{JSON.stringify(notifications)}
 				{children}
-				<Notification />
+
+				<div className="notification-wrapper">
+					{notifications.length > 0 &&
+						notifications.map((not, index) => {
+							return (
+								<Notification
+									index={index}
+									key={index}
+									deleteNotification={() => deleteNotification(index)}
+									type={not.type}
+								>
+									{not.message}
+								</Notification>
+							);
+						})}
+				</div>
 			</Container>
 		</>
 	);
