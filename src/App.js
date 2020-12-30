@@ -35,6 +35,7 @@ import { Renovaciones } from "./components/Screens/Reports/Renovaciones";
 import Collector from "./Views/Collector";
 import GeneralReport from "./Views/GeneralReport";
 import { NotificationProvider } from "./context/notification";
+import { ClientProvider } from "./context/clients";
 
 const App = () => {
 	return (
@@ -56,35 +57,37 @@ const mapStateToProps = (state) => {
 const maintenance = false;
 
 const AppRoutes = () => (
-	<NotificationProvider>
-		<BasicLayout>
-			{!maintenance ? (
-				<Fragment>
-					<PrivateRoute exact path="/" comp={Collector} />
-					<Route exact path="/clients/new" component={NewClient} />
-					<Route exact path="/clients/profile/:id" component={ClientProfile} />
-					<Route exact path="/payments/new" component={NewPayment} />
-					<Route exact path="/reports" component={Reports} />
-					<Route exact path="/reports/rcc" component={RCC} />
-					<Route exact path="/reports/general" component={GeneralReport} />
-					<Route exact path="/reports/payments" component={PaymentsReport} />
-					<Route exact path="/payments/bulk" component={BulkPayments} />
-					<Route exact path="/expenses" component={Expenses} />
-					<Route exact path="/expenses/new" component={NewExpense} />
-					<Route exact path="/transfers/new" component={NewTransfer} />
-					<Route exact path="/checks/collect" component={ChecksCollection} />
-					<Route exact path="/reports/finances" component={Finances} />
-					<Route exact path="/reports/finances/:id" component={Finances} />
-					<Route exact path="/policy/pay" component={PolicyPaymentPage}></Route>
-					<Route exact path="/categories" component={Categories} />
-					<Route exact path="/other_incomes" component={OtherPayment} />
-					<Route exact path="/test" component={Renovaciones} />
-				</Fragment>
-			) : (
-				<Route path="/" component={Maintenance} />
-			)}
-		</BasicLayout>
-	</NotificationProvider>
+	<ClientProvider>
+		<NotificationProvider>
+			<BasicLayout>
+				{!maintenance ? (
+					<Fragment>
+						<PrivateRoute exact path="/" comp={Collector} />
+						<Route exact path="/clients/new" component={NewClient} />
+						<Route exact path="/clients/profile/:id" component={ClientProfile} />
+						<Route exact path="/payments/new" component={NewPayment} />
+						<Route exact path="/reports" component={Reports} />
+						<Route exact path="/reports/rcc" component={RCC} />
+						<Route exact path="/reports/general" component={GeneralReport} />
+						<Route exact path="/reports/payments" component={PaymentsReport} />
+						<Route exact path="/payments/bulk" component={BulkPayments} />
+						<Route exact path="/expenses" component={Expenses} />
+						<Route exact path="/expenses/new" component={NewExpense} />
+						<Route exact path="/transfers/new" component={NewTransfer} />
+						<Route exact path="/checks/collect" component={ChecksCollection} />
+						<Route exact path="/reports/finances" component={Finances} />
+						<Route exact path="/reports/finances/:id" component={Finances} />
+						<Route exact path="/policy/pay" component={PolicyPaymentPage}></Route>
+						<Route exact path="/categories" component={Categories} />
+						<Route exact path="/other_incomes" component={OtherPayment} />
+						<Route exact path="/test" component={Renovaciones} />
+					</Fragment>
+				) : (
+					<Route path="/" component={Maintenance} />
+				)}
+			</BasicLayout>
+		</NotificationProvider>
+	</ClientProvider>
 );
 
 const Maintenance = () => <div>EN MANTENIMIENTO</div>;

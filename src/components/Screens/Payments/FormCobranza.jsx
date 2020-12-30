@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FormControl, Row, Col, FormGroup, Button, Modal, InputGroup, FormCheck } from "react-bootstrap";
 import { connect } from "react-redux";
 import { createPayment } from "../../../ducks/agents";
@@ -9,7 +9,6 @@ import AccountsOptions from "../../../options/accounts";
 import { Field, Form } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 
-import { GlobalContext } from "../../Layouts/Basic";
 import { composeValidators, Validators } from "../../../Forms/Validators";
 import { DatePicker, Select } from "../../../Controls";
 const agencyMethods = [
@@ -22,7 +21,6 @@ const agencyMethods = [
 	"check_to_agency_local",
 ];
 const FormCobranza = ({ createPayment, policy, renovation }) => {
-	const { addNotification } = useContext(GlobalContext);
 	const [show, setShow] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const handleClose = () => setShow(false);
@@ -30,8 +28,7 @@ const FormCobranza = ({ createPayment, policy, renovation }) => {
 	const onFormSubmit = (values) => {
 		setLoading(true);
 		createPayment(values)
-			.then((res) => {
-				addNotification("success", res.data);
+			.then(() => {
 				setLoading(false);
 				handleClose();
 			})

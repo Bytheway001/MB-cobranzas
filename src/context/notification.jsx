@@ -4,11 +4,9 @@ export const NotificationContext = React.createContext();
 
 export function NotificationProvider({ children }) {
 	const [notifications, setNotifications] = useState([]);
-
 	const addNotification = (type, message) => {
 		setNotifications([...notifications, { type, message }]);
 	};
-
 	const deleteNotification = (index) => {
 		notifications.splice(index, 1);
 		setNotifications([...notifications]);
