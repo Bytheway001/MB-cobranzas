@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Alert } from "react-bootstrap";
-import { connect } from "react-redux";
 import Navbar from "../Navbar";
-import { deleteNotification } from "../../ducks/notifications";
 import { useNotifications } from "../../context/notification";
 import { useGlobal } from "../../context/global";
 export const GlobalContext = React.createContext();
@@ -51,10 +49,4 @@ const Notification = ({ children, type, deleteNotification, index }) => (
 	</Alert>
 );
 
-const mapStateToProps = (state) => ({
-	user: state.session.user,
-});
-const mapDispatchToProps = (dispatch) => ({
-	deleteNotification: (index) => dispatch(deleteNotification(index)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout);
+export default BasicLayout;
