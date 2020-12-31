@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button, FormGroup, InputGroup } from "react-bootstrap";
 import AccountsOptions from "../options/accounts";
 import { CurrencyOptions } from "../options/options";
-import { addNotification } from "../ducks/notifications";
-
 import { Field, Form } from "react-final-form";
 import { composeValidators, Validators } from "./Validators";
 import { FinalFormInput, FinalFormSelect } from "../components/custom/FinalForm";
-
 import { Thumbnail } from "../components/Thumbnail";
 import { useUser } from "../context/User";
 import { useNotifications } from "../context/notification";
@@ -96,10 +92,4 @@ const TransferForm = () => {
 		</>
 	);
 };
-const mapStateToProps = (state) => ({
-	notifications: state.notifications,
-});
-const mapDispatchToProps = (dispatch) => ({
-	setNotification: (type, text) => dispatch(addNotification(type, text)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(TransferForm);
+export default TransferForm;
