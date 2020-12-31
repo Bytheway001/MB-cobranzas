@@ -9,16 +9,16 @@ import { SmartCard } from "../components/library/SmartCard";
 import { Thumbnail } from "../components/Thumbnail";
 import { useClients } from "../context/clients";
 import { useGlobal } from "../context/global";
+import { useUser } from "../context/User";
 import { PolicySelector } from "../Controls";
 import { ClientSelector } from "../Controls/ClientSelector";
 import { CheckForm, ClientForm, PolicyForm, TransferForm } from "../Forms";
 import { ClientProfile } from "../Tables/ClientProfile";
-import { UserIs } from "../utils/utils";
 
-const Collector = ({ user }) => {
+const Collector = () => {
 	const { clients, clientActions, loading, editing } = useClients();
-
 	const { accounts } = useGlobal();
+	const { user, userRole } = useUser();
 	return (
 		<Row>
 			<Col sm={6}>
@@ -67,7 +67,7 @@ const Collector = ({ user }) => {
 					</Row>
 				</SmartCard>
 			</Col>
-			{UserIs(user, 248) && (
+			{userRole(248) && (
 				<Col sm={6}>
 					<SmartCard title="Operaciones">
 						<Row>

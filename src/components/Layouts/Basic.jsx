@@ -12,11 +12,13 @@ const BasicLayout = ({ children }) => {
 	const { globalActions } = useGlobal();
 
 	useEffect(() => {
+		globalActions.getCategories();
 		globalActions.getAgents();
 		globalActions.getAccounts();
 		globalActions.getCollectors();
 		globalActions.getCompanies();
 	}, []);
+
 	return (
 		<>
 			<Navbar />

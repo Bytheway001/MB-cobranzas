@@ -1,11 +1,26 @@
 import Axios from "axios";
 import React, { useContext, useState, useMemo } from "react";
-import { API } from "../utils/utils";
+import { API, setupInterceptors } from "../utils/utils";
 
 export const UsersContext = React.createContext();
 export function UsersProvider({ children }) {
-	const [user, setUser] = useState(null);
-	const [authenticated, setAuthenticated] = useState(false);
+	const token = localStorage.getItem("user");
+	if (token) {
+		console.log("there is token");
+		setupInterceptors(JSON.parse(token).id);
+	}
+	const [user, setUser] = useState(token ? JSON.parse(token) : null);
+	const [authenticated, setAuthenticated] = useState(token ? true : false);
+	const loginUser = (data) => {
+		localStorage.setItem("user", data);
+		setUser(JSON.parse(data));
+	};
+
+	const logoutUser = () => {
+		console.log("Logging out");
+		localStorage.removeItem("user");
+		setUser(null);
+	};
 
 	const createTransfer = async (values) => {
 		try {
@@ -15,10 +30,38 @@ export function UsersProvider({ children }) {
 			return err.response;
 		}
 	};
+
+	const createExpense = async (values) => {
+		if (window.confirm("Desea registrar este egreso?")) {
+			const res = await Axios.post(API + "/expenses", { ...values });
+			return res.data.data;
+		}
+	};
+
+	const userRole = (level) => {
+		let roles = { staff: 128, collector: 224, admin: 248, master: 255 };
+		let userRole = roles[user.role];
+		return userRole >= level;
+	};
+
+	const createPolicyPayment = () => null;
+	const createIncome = () => null;
+	const changeCurrency = () => null;
+	const collectCheck = () => null;
+	const validatePayment = () => null;
+
 	const userActions = {
 		createTransfer: (values) => createTransfer(values),
 		setUser,
-		setAuthenticated,
+		createExpense,
+		loginUser: (user) => loginUser(user),
+		logoutUser: () => logoutUser(),
+		setAuthenticated: (val) => setAuthenticated(val),
+		createPolicyPayment,
+		createIncome,
+		changeCurrency,
+		collectCheck,
+		validatePayment,
 	};
 
 	const value = useMemo(
@@ -26,6 +69,7 @@ export function UsersProvider({ children }) {
 			user,
 			authenticated,
 			userActions,
+			userRole,
 		}),
 		[user, authenticated, userActions]
 	);

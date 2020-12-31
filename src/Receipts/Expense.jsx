@@ -76,7 +76,7 @@ export const ExpenseReceipt = ({ user, data, modal }) => {
 								label="Monto:"
 								text={data.amount + " " + data.currency}
 							/>
-							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="Operador:" text={user.name} />
+							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="Operador:" text={user} />
 							<Field
 								style={{ flexDirection: "row", justifyContent: "space-between" }}
 								label="# Factura:"

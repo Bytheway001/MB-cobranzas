@@ -10,6 +10,7 @@ export const GlobalProvider = ({ children }) => {
 	const [accounts, setAccounts] = useState([]);
 	const [collectors, setCollectors] = useState([]);
 	const [companies, setCompanies] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const getAgents = () => {
 		Axios.get(API + "/agents")
 			.then((res) => {
@@ -41,11 +42,18 @@ export const GlobalProvider = ({ children }) => {
 		});
 	};
 
+	const getCategories = () => {
+		Axios.get(API + "/categories").then((res) => {
+			setCategories(res.data.data);
+		});
+	};
+
 	const globalActions = {
 		getAgents: () => getAgents(),
 		getAccounts: () => getAccounts(),
 		getCollectors: () => getCollectors(),
 		getCompanies: () => getCompanies(),
+		getCategories: () => getCategories(),
 	};
 
 	const value = useMemo(
@@ -55,6 +63,7 @@ export const GlobalProvider = ({ children }) => {
 			accounts,
 			collectors,
 			companies,
+			categories,
 		}),
 		[agents, accounts, collectors, companies]
 	);
