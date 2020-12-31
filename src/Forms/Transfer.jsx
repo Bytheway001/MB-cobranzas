@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
-import { Modal, Button, Alert, FormGroup, InputGroup } from "react-bootstrap";
+import { Modal, Button, FormGroup, InputGroup } from "react-bootstrap";
 import AccountsOptions from "../options/accounts";
 import { CurrencyOptions } from "../options/options";
 import { addNotification } from "../ducks/notifications";
-import Axios from "axios";
 
-import { API } from "../utils/utils";
 import { Field, Form } from "react-final-form";
 import { composeValidators, Validators } from "./Validators";
 import { FinalFormInput, FinalFormSelect } from "../components/custom/FinalForm";
 
 import { Thumbnail } from "../components/Thumbnail";
+import { useUser } from "../context/User";
+import { useNotifications } from "../context/notification";
 
-const TransferForm = ({ setNotification, notifications }) => {
+const TransferForm = () => {
+	const { addNotification } = useNotifications();
 	const [show, setShow] = useState(false);
-
+	const { userActions } = useUser();
 	const onTransferSubmit = (values) => {
-		Axios.post(API + "/transfers", values)
-			.then(() => {
-				setShow(false);
-			})
-			.catch((err) => {
-				setNotification("danger", err.response.data.data);
-			});
+		userActions.createTransfer(values).then((res) => {
+			if (res.data.errors) {
+				addNotification("danger", res.data.data);
+			} else {
+				console.log(res.data);
+				addNotification("success", res.data);
+			}
+			setShow(false);
+		});
 	};
 
 	return (
@@ -35,7 +38,6 @@ const TransferForm = ({ setNotification, notifications }) => {
 					<Modal.Title>Transferencia Interna</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					{notifications.length > 0 && <Alert variant={notifications[0].type}>{notifications[0].text}</Alert>}
 					<Form onSubmit={onTransferSubmit}>
 						{({ handleSubmit }) => (
 							<form id="transfer-form" onSubmit={handleSubmit}>

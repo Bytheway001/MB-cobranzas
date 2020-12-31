@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Row, Col, FormGroup, FormControl } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import ReactDatePicker from "react-datepicker";
 import { Field, Form } from "react-final-form";
-import { connect } from "react-redux";
-import { createPolicy } from "../ducks/clients";
-import { getCompanies, getPlans } from "../ducks/static";
+import { useClients } from "../context/clients";
+
+import { useGlobal } from "../context/global";
+
 import { formatDate } from "../utils/utils";
 
 import { composeValidators, Validators } from "./Validators";
 
-const PolicyForm = ({ companies, getCompanies, policy, client, createPolicy }) => {
+const PolicyForm = ({ policy, client }) => {
+	const { companies } = useGlobal();
+	const { clientActions } = useClients();
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 	const onFormSubmit = (d) => {
 		//eslint-disable-next-line
 		let { plan, company, selected, ...rest } = d;
@@ -19,18 +25,11 @@ const PolicyForm = ({ companies, getCompanies, policy, client, createPolicy }) =
 			plan_id: d.plan.id,
 		};
 		//eslint-disable-next-line
-		createPolicy(policy).then((res) => {
+		clientActions.createPolicy(policy).then((res) => {
 			handleClose();
 		});
 	};
 
-	useEffect(() => {
-		getCompanies();
-	}, [getCompanies]);
-
-	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
 	return (
 		<>
 			<Button block size="sm" variant="primary" onClick={handleShow}>
@@ -273,18 +272,4 @@ const PolicyForm = ({ companies, getCompanies, policy, client, createPolicy }) =
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		companies: state.static.companies,
-		plans: state.static.plans,
-	};
-};
-const mapDispatchToProps = (dispatch) => {
-	return {
-		createPolicy: (policy) => dispatch(createPolicy(policy)),
-		getCompanies: () => dispatch(getCompanies()),
-		getPlans: (id) => dispatch(getPlans(id)),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PolicyForm);
+export default PolicyForm;

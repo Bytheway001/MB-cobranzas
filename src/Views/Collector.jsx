@@ -8,17 +8,17 @@ import { CashBox } from "../components/Cashbox";
 import { SmartCard } from "../components/library/SmartCard";
 import { Thumbnail } from "../components/Thumbnail";
 import { useClients } from "../context/clients";
+import { useGlobal } from "../context/global";
 import { PolicySelector } from "../Controls";
 import { ClientSelector } from "../Controls/ClientSelector";
 import { CheckForm, ClientForm, PolicyForm, TransferForm } from "../Forms";
 import { ClientProfile } from "../Tables/ClientProfile";
 import { UserIs } from "../utils/utils";
 
-const Collector = ({ user, accounts }) => {
-	const clients = useClients();
-	console.log(clients.editing);
-	const editing = clients.editing;
+const Collector = ({ user }) => {
+	const { clients, clientActions, loading, editing } = useClients();
 
+	const { accounts } = useGlobal();
 	return (
 		<Row>
 			<Col sm={6}>
@@ -29,11 +29,11 @@ const Collector = ({ user, accounts }) => {
 						</Col>
 						<Col sm={6}>
 							<ClientSelector
-								onSearch={clients.getClientList}
+								onSearch={clientActions.getClients}
 								title="Cliente"
-								options={clients.list}
-								isLoading={clients.loading}
-								onChange={clients.selectClient}
+								options={clients}
+								isLoading={loading}
+								onChange={clientActions.select}
 								clearButton={true}
 								selected={editing}
 							/>
@@ -52,7 +52,7 @@ const Collector = ({ user, accounts }) => {
 									<PolicySelector
 										options={editing.policies}
 										selected={[]}
-										onChange={(val) => clients.selectPolicy(val)}
+										onChange={(val) => clientActions.selectPolicy(val)}
 										title="Poliza"
 									></PolicySelector>
 								</Col>

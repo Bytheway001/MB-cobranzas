@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, FormGroup, FormControl, Button, Modal } from "react-bootstrap";
-import { getAgents, getCollectors } from "../ducks/agents";
-import { createClient } from "../ducks/clients";
-import { connect } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Form, Field } from "react-final-form";
 import { composeValidators, Validators } from "./Validators";
 import { useNotifications } from "../context/notification";
+import { useGlobal } from "../context/global";
+import { useClients } from "../context/clients";
 
-const ClientForm = ({ agents, getAgents, collectors, getCollectors, createClient, editing }) => {
+const ClientForm = ({ editing }) => {
 	const { addNotification } = useNotifications();
-
+	const { agents, collectors } = useGlobal();
+	const { clientActions } = useClients();
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	useEffect(() => {
-		getAgents();
-		getCollectors();
-	}, [getAgents, getCollectors]);
+
 	const onFormSubmit = (data) => {
 		//eslint-disable-next-line
 		let { agent, collector, policies, ...rest } = data;
@@ -26,8 +23,8 @@ const ClientForm = ({ agents, getAgents, collectors, getCollectors, createClient
 			agent_id: data.agent_id,
 			collector_id: data.collector_id,
 		};
-
-		createClient(client)
+		clientActions
+			.create(client)
 			.then(() => {
 				addNotification("success", "Cliente Creado con Exito");
 				handleClose();
@@ -196,18 +193,4 @@ const ClientForm = ({ agents, getAgents, collectors, getCollectors, createClient
 	);
 };
 
-const mapStateToProps = (state) => {
-	return {
-		agents: state.agents.agents,
-		collectors: state.agents.collectors,
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getAgents: () => dispatch(getAgents()),
-		getCollectors: () => dispatch(getCollectors()),
-		createClient: (client) => dispatch(createClient(client)),
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ClientForm);
+export default ClientForm;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FormControl, Row, Col, FormGroup, Button, Modal, InputGroup, FormCheck } from "react-bootstrap";
-import { connect } from "react-redux";
-import { createPayment } from "../../../ducks/agents";
+
 import arrayMutators from "final-form-arrays";
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from "../../../options/options";
 import AccountsOptions from "../../../options/accounts";
@@ -11,6 +10,8 @@ import { FieldArray } from "react-final-form-arrays";
 
 import { composeValidators, Validators } from "../../../Forms/Validators";
 import { DatePicker, Select } from "../../../Controls";
+import { useClients } from "../../../context/clients";
+import { useNotifications } from "../../../context/notification";
 const agencyMethods = [
 	"tdc_to_company",
 	"transfer_to_company",
@@ -20,19 +21,24 @@ const agencyMethods = [
 	"check_to_agency_foreign",
 	"check_to_agency_local",
 ];
-const FormCobranza = ({ createPayment, policy, renovation }) => {
+const FormCobranza = ({ policy, renovation }) => {
+	const { clientActions } = useClients();
+	const { addNotification } = useNotifications();
 	const [show, setShow] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const onFormSubmit = (values) => {
 		setLoading(true);
-		createPayment(values)
+		clientActions
+			.createPayment(values)
 			.then(() => {
+				addNotification("success", "Cobranza Registrada con exito");
 				setLoading(false);
 				handleClose();
 			})
 			.catch((err) => {
+				addNotification("success", "No se Pudo Registrar La Cobranza");
 				console.log(err);
 			});
 	};
@@ -340,12 +346,4 @@ const FormCobranza = ({ createPayment, policy, renovation }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({
-	creatingPayment: state.agents.creatingPayment,
-	agents: state.agents.collectors,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-	createPayment: (payment) => dispatch(createPayment(payment)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(FormCobranza);
+export default FormCobranza;

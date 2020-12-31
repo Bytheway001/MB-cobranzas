@@ -1,19 +1,22 @@
 import React, { useEffect } from "react";
 import { Container, Alert } from "react-bootstrap";
-
 import { connect } from "react-redux";
 import Navbar from "../Navbar";
 import { deleteNotification } from "../../ducks/notifications";
-import { getAccountList } from "../../ducks/accounts";
 import { useNotifications } from "../../context/notification";
-
+import { useGlobal } from "../../context/global";
 export const GlobalContext = React.createContext();
 
-const BasicLayout = ({ children, listAccounts }) => {
+const BasicLayout = ({ children }) => {
 	const { notifications, deleteNotification } = useNotifications();
+	const { globalActions } = useGlobal();
+
 	useEffect(() => {
-		listAccounts();
-	}, [listAccounts]);
+		globalActions.getAgents();
+		globalActions.getAccounts();
+		globalActions.getCollectors();
+		globalActions.getCompanies();
+	}, []);
 	return (
 		<>
 			<Navbar />
@@ -51,6 +54,5 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
 	deleteNotification: (index) => dispatch(deleteNotification(index)),
-	listAccounts: () => dispatch(getAccountList()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout);

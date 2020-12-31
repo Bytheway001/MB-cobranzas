@@ -6,10 +6,9 @@ const ClientContext = React.createContext();
 export const useClients = () => useContext(ClientContext);
 
 export const ClientProvider = ({ children }) => {
-	const [list, setList] = useState([]);
+	const [clients, setClients] = useState([]);
 	const [editing, setEditing] = useState(null);
 	const [loading, setLoading] = useState(false);
-
 	const getClientList = (query = null) => {
 		setLoading(true);
 		let string = "";
@@ -21,13 +20,13 @@ export const ClientProvider = ({ children }) => {
 
 		Axios.get(string)
 			.then((res) => {
+				setClients(res.data.data);
 				setLoading(false);
-				setList(res.data.data);
 			})
 			.catch(() => {
 				alert("a");
+				setClients([]);
 				setLoading(false);
-				setList([]);
 			});
 	};
 
@@ -57,9 +56,53 @@ export const ClientProvider = ({ children }) => {
 		setEditing({ ...editing, policies: newState });
 	};
 
+	const createClient = async (data) => {
+		const res = await Axios.post(API + "/clients/create", data);
+		if (!data.id) {
+			clients.push(res.data.data);
+		} else {
+			let index = clients.findIndex((x) => x.id === data.id);
+			clients[index] = res.data.data;
+		}
+		setClients([...clients]);
+		setEditing(res.data.data);
+		return res.data;
+	};
+	const createPolicy = async (policy) => {
+		const res = await Axios.post(API + "/clients/policies/create", policy);
+		if (policy.id) {
+			let index = editing.policies.findIndex((x) => x.id === policy.id);
+			editing.policies[index] = { ...res.data.data, selected: true };
+		} else {
+			editing.policies.push({ ...res.data.data, selected: true });
+		}
+		setEditing({ ...editing });
+		console.log(editing);
+		return res.data;
+	};
+
+	const createPayment = async (payment) => {
+		const res = await Axios.post(API + "/payments/create", payment);
+		return res.data;
+	};
+
+	const clientActions = {
+		getClients: () => getClientList(),
+		select: (val) => selectClient(val),
+		selectPolicy: (val) => selectPolicy(val),
+		create: (data) => createClient(data),
+		createPolicy: (data) => createPolicy(data),
+		createPayment: (data) => createPayment(data),
+	};
+
 	const value = useMemo(() => {
-		return { list, getClientList, editing, setEditing, selectClient, loading, selectPolicy };
-	}, [list, editing]);
+		return {
+			clients,
+			editing,
+			loading,
+			clientActions,
+		};
+	}, [clients, editing, loading]);
 
 	return <ClientContext.Provider value={value}>{children}</ClientContext.Provider>;
 };
