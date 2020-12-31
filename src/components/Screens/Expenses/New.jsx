@@ -16,16 +16,16 @@ const NewExpense = () => {
 	const { userActions, user } = useUser();
 	const [receipt, setReceipt] = useState(false);
 	const [error, setError] = useState(false);
-	console.log(user);
 
 	const onExpenseSubmit = (values) => {
 		userActions
 			.createExpense(values)
 			.then((res) => {
+				setError(false);
 				setReceipt(res);
 			})
 			.catch((err) => {
-				setError(err);
+				setError(err.response.data);
 			});
 	};
 
