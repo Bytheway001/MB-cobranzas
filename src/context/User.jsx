@@ -37,6 +37,12 @@ export function UsersProvider({ children }) {
 			return res.data.data;
 		}
 	};
+	const createIncome = async (values) => {
+		if (window.confirm("Desea registrar este egreso?")) {
+			const res = await Axios.post(API + "/income", { ...values });
+			return res.data;
+		}
+	};
 
 	const userRole = (level) => {
 		let roles = { staff: 128, collector: 224, admin: 248, master: 255 };
@@ -45,7 +51,7 @@ export function UsersProvider({ children }) {
 	};
 
 	const createPolicyPayment = () => null;
-	const createIncome = () => null;
+
 	const changeCurrency = () => null;
 	const collectCheck = () => null;
 	const validatePayment = () => null;
@@ -58,7 +64,7 @@ export function UsersProvider({ children }) {
 		logoutUser: () => logoutUser(),
 		setAuthenticated: (val) => setAuthenticated(val),
 		createPolicyPayment,
-		createIncome,
+		createIncome: (values) => createIncome(values),
 		changeCurrency,
 		collectCheck,
 		validatePayment,
