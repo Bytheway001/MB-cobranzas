@@ -50,12 +50,14 @@ export function UsersProvider({ children }) {
 		return userRole >= level;
 	};
 
-	const createPolicyPayment = () => null;
+	const createPolicyPayment = async (policy_payment) => {
+		const res = await Axios.post(API + "/payments/policy", policy_payment);
+		return res.data;
+	};
 
 	const changeCurrency = () => null;
 	const collectCheck = () => null;
 	const validatePayment = () => null;
-
 	const userActions = {
 		createTransfer: (values) => createTransfer(values),
 		setUser,
@@ -63,7 +65,7 @@ export function UsersProvider({ children }) {
 		loginUser: (user) => loginUser(user),
 		logoutUser: () => logoutUser(),
 		setAuthenticated: (val) => setAuthenticated(val),
-		createPolicyPayment,
+		createPolicyPayment: (data) => createPolicyPayment(data),
 		createIncome: (values) => createIncome(values),
 		changeCurrency,
 		collectCheck,
