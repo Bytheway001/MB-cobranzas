@@ -3,7 +3,6 @@ import { Row, Col, Button, Card, FormGroup, FormControl, InputGroup } from "reac
 import { CurrencyOptions } from "../../../options/options";
 import AccountsOptions from "../../../options/accounts";
 import { Field, Form } from "react-final-form";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { IncomeReceipt } from "../../../Receipts/Income";
