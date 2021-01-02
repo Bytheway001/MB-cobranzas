@@ -1,23 +1,30 @@
 import React, { useEffect } from "react";
 import { Row, Col, Button, Card } from "react-bootstrap";
-import { getPaymentList, validatePayment } from "../../../ducks/payments";
-import { connect } from "react-redux";
 import { formatMoney, listOf, methods } from "../../../utils/utils";
 import BootstrapTable from "react-bootstrap-table-next";
+import { useUser } from "../../../context/User";
 
-const PaymentsReport = ({ getPayments, list, validate }) => {
+import { useNotifications } from "../../../context/notification";
+
+const PaymentsReport = () => {
+	const { payments, userActions } = useUser();
+	const { addNotification } = useNotifications();
+
 	useEffect(() => {
-		getPayments();
-	}, [getPayments]);
+		userActions.getPayments();
+	}, []);
 
 	const validatePayment = (id) => {
 		if (window.confirm("Seguro que desea validar esta cobranza?")) {
-			validate(id);
-			getPayments();
+			userActions.validatePayment(id).then((res) => {
+				console.log(res.data);
+				addNotification("success", res.data);
+				userActions.getPayments();
+			});
 		}
 	};
 
-	const companies = list.length > 0 ? listOf(list, "policy.plan.company.name") : [];
+	const companies = payments.length > 0 ? listOf(payments, "policy.plan.company.name") : [];
 	console.log(companies);
 	const columns = [
 		{ dataField: "id", text: "#Ref", style: { textAlign: "center", verticalAlign: "middle" }, headerStyle: { width: 40 }, sort: true },
@@ -82,7 +89,7 @@ const PaymentsReport = ({ getPayments, list, validate }) => {
 							classes="table-sm table-striped"
 							keyField="id"
 							columns={columns}
-							data={list.filter((x) => !x.corrected_with)}
+							data={payments.filter((x) => !x.corrected_with)}
 						/>
 					</Card.Body>
 				</Card>
@@ -90,13 +97,5 @@ const PaymentsReport = ({ getPayments, list, validate }) => {
 		</Row>
 	);
 };
-const mapStateToProps = (state) => ({
-	list: state.payments.list,
-	accounts: state.accounts.list,
-});
-const mapDispatchToProps = (dispatch) => ({
-	getPayments: () => dispatch(getPaymentList()),
-	validate: (id) => dispatch(validatePayment(id)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentsReport);
+export default PaymentsReport;

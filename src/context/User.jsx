@@ -12,6 +12,7 @@ export function UsersProvider({ children }) {
 	const [user, setUser] = useState(token ? JSON.parse(token) : null);
 	const [authenticated, setAuthenticated] = useState(token ? true : false);
 	const [reports, setReports] = useState(null);
+	const [payments, setPayments] = useState([]);
 	const loginUser = (data) => {
 		localStorage.setItem("user", data);
 		setUser(JSON.parse(data));
@@ -22,7 +23,7 @@ export function UsersProvider({ children }) {
 		localStorage.removeItem("user");
 		setUser(null);
 	};
-
+	/* Post Requests */
 	const createTransfer = async (values) => {
 		try {
 			const res = await Axios.post(API + "/transfers", values);
@@ -31,7 +32,6 @@ export function UsersProvider({ children }) {
 			return err.response;
 		}
 	};
-
 	const createExpense = async (values) => {
 		if (window.confirm("Desea registrar este egreso?")) {
 			const res = await Axios.post(API + "/expenses", { ...values });
@@ -44,18 +44,17 @@ export function UsersProvider({ children }) {
 			return res.data;
 		}
 	};
-
-	const userRole = (level) => {
-		let roles = { staff: 128, collector: 224, admin: 248, master: 255 };
-		let userRole = roles[user.role];
-		return userRole >= level;
-	};
-
 	const createPolicyPayment = async (policy_payment) => {
 		const res = await Axios.post(API + "/payments/policy", policy_payment);
 		return res.data;
 	};
 
+	const validatePayment = async (id) => {
+		const res = await Axios.get(API + "/payments/validate/" + id);
+		return res.data;
+	};
+
+	/* Get Requests */
 	const getReports = async (from = null, to = null, id) => {
 		if (from && to) {
 			const f = new Date(from).toLocaleDateString();
@@ -68,9 +67,22 @@ export function UsersProvider({ children }) {
 		}
 	};
 
+	const getPayments = async () => {
+		const res = await Axios.get(API + "/payments");
+		setPayments(res.data.data);
+	};
+
+	/* Functional Actions */
+
+	const userRole = (level) => {
+		let roles = { staff: 128, collector: 224, admin: 248, master: 255 };
+		let userRole = roles[user.role];
+		return userRole >= level;
+	};
+
 	const changeCurrency = () => null;
 	const collectCheck = () => null;
-	const validatePayment = () => null;
+
 	const userActions = {
 		createTransfer: (values) => createTransfer(values),
 		setUser,
@@ -80,9 +92,10 @@ export function UsersProvider({ children }) {
 		setAuthenticated: (val) => setAuthenticated(val),
 		createPolicyPayment: (data) => createPolicyPayment(data),
 		createIncome: (values) => createIncome(values),
+		getPayments: () => getPayments(),
 		changeCurrency,
 		collectCheck,
-		validatePayment,
+		validatePayment: (id) => validatePayment(id),
 		getReports: (from, to, id) => getReports(from, to, id),
 	};
 
@@ -93,6 +106,7 @@ export function UsersProvider({ children }) {
 			userActions,
 			userRole,
 			reports,
+			payments,
 		}),
 		[user, authenticated, userActions]
 	);
