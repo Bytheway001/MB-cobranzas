@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { API, setupInterceptors } from "../utils/utils";
 
 export const UsersContext = React.createContext();
@@ -81,21 +81,24 @@ export function UsersProvider({ children }) {
 	const changeCurrency = () => null;
 	const collectCheck = () => null;
 
-	const userActions = {
-		createTransfer: (values) => createTransfer(values),
-		setUser,
-		createExpense,
-		loginUser: (user) => loginUser(user),
-		logoutUser: () => logoutUser(),
-		setAuthenticated: (val) => setAuthenticated(val),
-		createPolicyPayment: (data) => createPolicyPayment(data),
-		createIncome: (values) => createIncome(values),
-		getPayments: () => getPayments(),
-		changeCurrency,
-		collectCheck,
-		validatePayment: (id) => validatePayment(id),
-		getReports: (from, to, id) => getReports(from, to, id),
-	};
+	const userActions = useMemo(
+		() => ({
+			createTransfer: (values) => createTransfer(values),
+			setUser,
+			createExpense,
+			loginUser: (user) => loginUser(user),
+			logoutUser: () => logoutUser(),
+			setAuthenticated: (val) => setAuthenticated(val),
+			createPolicyPayment: (data) => createPolicyPayment(data),
+			createIncome: (values) => createIncome(values),
+			getPayments: () => getPayments(),
+			changeCurrency,
+			collectCheck,
+			validatePayment: (id) => validatePayment(id),
+			getReports: (from, to, id) => getReports(from, to, id),
+		}),
+		[]
+	);
 
 	const value = {
 		user,

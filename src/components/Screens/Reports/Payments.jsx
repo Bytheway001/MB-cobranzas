@@ -12,7 +12,7 @@ const PaymentsReport = () => {
 
 	useEffect(() => {
 		userActions.getPayments();
-	}, []);
+	}, [userActions]);
 
 	const validatePayment = (id) => {
 		if (window.confirm("Seguro que desea validar esta cobranza?")) {

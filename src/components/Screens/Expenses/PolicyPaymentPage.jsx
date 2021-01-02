@@ -52,34 +52,36 @@ const PolicyPaymentsPage = () => {
 
 								{policy && (
 									<Table size="sm">
-										<tr>
-											<th>Aseguradora</th>
-											<th>{policy.company.name}</th>
-										</tr>
-										<tr>
-											<th>Plan</th>
-											<th>{policy.plan.name}</th>
-										</tr>
-										<tr>
-											<th># Poliza</th>
-											<th>{policy.policy_number}</th>
-										</tr>
-										<tr>
-											<th>Prima</th>
-											<th>{policy.premium}</th>
-										</tr>
-										<tr>
-											<th>Cobrado</th>
-											<th>{policy.totals.collected}</th>
-										</tr>
-										<tr>
-											<th>Financiado</th>
-											<th>{policy.totals.financed}</th>
-										</tr>
-										<tr>
-											<th>Pagado a la Aseg</th>
-											<th>{policy.totals.payed}</th>
-										</tr>
+										<tbody>
+											<tr>
+												<th>Aseguradora</th>
+												<th>{policy.company.name}</th>
+											</tr>
+											<tr>
+												<th>Plan</th>
+												<th>{policy.plan.name}</th>
+											</tr>
+											<tr>
+												<th># Poliza</th>
+												<th>{policy.policy_number}</th>
+											</tr>
+											<tr>
+												<th>Prima</th>
+												<th>{policy.premium}</th>
+											</tr>
+											<tr>
+												<th>Cobrado</th>
+												<th>{policy.totals.collected}</th>
+											</tr>
+											<tr>
+												<th>Financiado</th>
+												<th>{policy.totals.financed}</th>
+											</tr>
+											<tr>
+												<th>Pagado a la Aseg</th>
+												<th>{policy.totals.payed}</th>
+											</tr>
+										</tbody>
 									</Table>
 								)}
 							</>
@@ -103,20 +105,22 @@ const PolicyPaymentsPage = () => {
 							<Card.Body>
 								{history && (
 									<Table size="sm">
-										<tr>
-											<th>Fecha</th>
-											<th>Tipo</th>
-											<th>Monto</th>
-										</tr>
-										{history.policy_payments.map((hist, k) => (
-											<tr key={k}>
-												<td>{hist.payment_date}</td>
-												<td>{hist.payment_type}</td>
-												<td>
-													{hist.amount} {hist.currency}
-												</td>
+										<tbody>
+											<tr>
+												<th>Fecha</th>
+												<th>Tipo</th>
+												<th>Monto</th>
 											</tr>
-										))}
+											{history.policy_payments.map((hist, k) => (
+												<tr key={k}>
+													<td>{hist.payment_date}</td>
+													<td>{hist.payment_type}</td>
+													<td>
+														{hist.amount} {hist.currency}
+													</td>
+												</tr>
+											))}
+										</tbody>
 									</Table>
 								)}
 							</Card.Body>
@@ -128,20 +132,22 @@ const PolicyPaymentsPage = () => {
 							<Card.Body>
 								{history && (
 									<Table size="sm">
-										<tr>
-											<th>Fecha</th>
-											<th>Tipo</th>
-											<th>Monto</th>
-										</tr>
-										{history.payments.map((hist, k) => (
-											<tr key={k}>
-												<td>{hist.payment_date}</td>
-												<td>{hist.payment_type}</td>
-												<td>
-													{hist.amount} {hist.currency}
-												</td>
+										<tbody>
+											<tr>
+												<th>Fecha</th>
+												<th>Tipo</th>
+												<th>Monto</th>
 											</tr>
-										))}
+											{history.payments.map((hist, k) => (
+												<tr key={k}>
+													<td>{hist.payment_date}</td>
+													<td>{hist.payment_type}</td>
+													<td>
+														{hist.amount} {hist.currency}
+													</td>
+												</tr>
+											))}
+										</tbody>
 									</Table>
 								)}
 							</Card.Body>

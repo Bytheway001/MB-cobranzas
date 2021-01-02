@@ -27,9 +27,10 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 			{ BOB: bob, USD: usd }
 		);
 		const finalData = data
-			.map((row) => {
+			.map((row, index) => {
 				saldoInicial[row.currency] = saldoInicial[row.currency] + parseFloat(row.debe) - parseFloat(row.haber);
 				let obj = {
+					index: index,
 					date: row.date,
 					description: row.description,
 					currency: row.currency,
@@ -115,7 +116,7 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 						</Row>
 
 						<ToolkitProvider
-							keyField="id"
+							keyField="index"
 							data={finalData}
 							columns={columns}
 							exportCSV={{
@@ -133,7 +134,6 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 											Descargar CSV!!
 										</ExportCSVButton>
 										<BootstrapTable
-											id="cashflowtable"
 											{...props.baseProps}
 											striped
 											hover

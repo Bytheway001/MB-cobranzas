@@ -134,7 +134,7 @@ export const ExpenseReceipt = ({ user, data, modal }) => {
 		return (
 			<>
 				<Button onClick={() => setShow(true)}>
-					<FontAwesomeIcon title="Ver Comprobante" icon={faSave} size="md " color="white" />
+					<FontAwesomeIcon title="Ver Comprobante" icon={faSave} color="white" />
 				</Button>
 				<Modal size="xl" show={show} onHide={() => setShow(false)} animation={false}>
 					<Modal.Header closeButton>

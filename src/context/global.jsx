@@ -48,13 +48,16 @@ export const GlobalProvider = ({ children }) => {
 		});
 	};
 
-	const globalActions = {
-		getAgents: () => getAgents(),
-		getAccounts: () => getAccounts(),
-		getCollectors: () => getCollectors(),
-		getCompanies: () => getCompanies(),
-		getCategories: () => getCategories(),
-	};
+	const globalActions = useMemo(
+		() => ({
+			getAgents: () => getAgents(),
+			getAccounts: () => getAccounts(),
+			getCollectors: () => getCollectors(),
+			getCompanies: () => getCompanies(),
+			getCategories: () => getCategories(),
+		}),
+		[]
+	);
 
 	const value = useMemo(
 		() => ({
@@ -65,7 +68,7 @@ export const GlobalProvider = ({ children }) => {
 			companies,
 			categories,
 		}),
-		[agents, accounts, collectors, companies]
+		[agents, accounts, collectors, companies, globalActions, categories]
 	);
 	return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
 };

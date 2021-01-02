@@ -15,7 +15,7 @@ const BasicLayout = ({ children }) => {
 		globalActions.getAccounts();
 		globalActions.getCollectors();
 		globalActions.getCompanies();
-	}, []);
+	}, [globalActions]);
 
 	return (
 		<>

@@ -26,7 +26,7 @@ const Finances = ({ match }) => {
 
 	useEffect(() => {
 		userActions.getReports(null, null, id);
-	}, []);
+	}, [id, userActions]);
 
 	const fillModal = (e, id) => {
 		Axios.get(API + "/movements/" + id).then((res) => {

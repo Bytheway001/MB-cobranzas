@@ -8,7 +8,7 @@ import { API } from "../../../utils/utils";
 import "moment/locale/es";
 import { Modal } from "react-bootstrap";
 import FormCobranza from "../../../Forms/Payment";
-
+// eslint-disable-next-line no-extend-native
 Date.prototype.getMonthFormatted = function () {
 	var month = this.getMonth() + 1;
 	return month < 10 ? "0" + month : "" + month; // ('' + month) for string result
