@@ -27,7 +27,9 @@ import { NotificationProvider } from "./context/notification";
 import { ClientProvider } from "./context/clients";
 import { GlobalProvider } from "./context/global";
 import { UsersProvider } from "./context/User";
-
+import { ContextDevTool } from "react-context-devtool";
+import { ClientContext } from "./context/clients";
+import { GlobalContext } from "./context/global";
 const App = () => {
 	return (
 		<UsersProvider>
@@ -45,7 +47,9 @@ const maintenance = false;
 
 const AppRoutes = () => (
 	<GlobalProvider>
+		<ContextDevTool context={GlobalContext} id="global-context" displayName="Global" />
 		<ClientProvider>
+			<ContextDevTool context={ClientContext} id="client-context" displayName="Client" />
 			<NotificationProvider>
 				<BasicLayout>
 					{!maintenance ? (

@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useContext, useMemo, useState } from "react";
 import { API } from "../utils/utils";
-const GlobalContext = React.createContext();
+export const GlobalContext = React.createContext();
 
 export const useGlobal = () => useContext(GlobalContext);
 
