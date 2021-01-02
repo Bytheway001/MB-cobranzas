@@ -2,7 +2,7 @@ import { faDollarSign, faShareSquare } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
-import { connect } from "react-redux";
+
 import { Link } from "react-router-dom";
 import { CashBox } from "../components/Cashbox";
 import { SmartCard } from "../components/library/SmartCard";
@@ -102,9 +102,4 @@ const Collector = () => {
 	);
 };
 
-const mapStateToProps = (state) => ({
-	user: state.session.user,
-	accounts: state.accounts.list,
-});
-
-export default connect(mapStateToProps, null)(Collector);
+export default Collector;

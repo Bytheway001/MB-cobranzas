@@ -11,6 +11,7 @@ export function UsersProvider({ children }) {
 	}
 	const [user, setUser] = useState(token ? JSON.parse(token) : null);
 	const [authenticated, setAuthenticated] = useState(token ? true : false);
+	const [reports, setReports] = useState(null);
 	const loginUser = (data) => {
 		localStorage.setItem("user", data);
 		setUser(JSON.parse(data));
@@ -55,6 +56,18 @@ export function UsersProvider({ children }) {
 		return res.data;
 	};
 
+	const getReports = async (from = null, to = null, id) => {
+		if (from && to) {
+			const f = new Date(from).toLocaleDateString();
+			const t = new Date(to).toLocaleDateString();
+			const res = await Axios.get(API + "/reports?f=" + f + "&t=" + t + (id ? "&id=" + id : ""));
+			setReports(res.data);
+		} else {
+			const res = await Axios.get(API + "/reports" + (id ? "?id=" + id : ""));
+			setReports(res.data);
+		}
+	};
+
 	const changeCurrency = () => null;
 	const collectCheck = () => null;
 	const validatePayment = () => null;
@@ -70,6 +83,7 @@ export function UsersProvider({ children }) {
 		changeCurrency,
 		collectCheck,
 		validatePayment,
+		getReports: (from, to, id) => getReports(from, to, id),
 	};
 
 	const value = useMemo(
@@ -78,6 +92,7 @@ export function UsersProvider({ children }) {
 			authenticated,
 			userActions,
 			userRole,
+			reports,
 		}),
 		[user, authenticated, userActions]
 	);
