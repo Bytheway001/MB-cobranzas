@@ -11,14 +11,10 @@ import "./App.css";
 import BasicLayout from "./components/Layouts/Basic";
 import Home from "./components/Screens/Home";
 import PrivateRoute from "./components/PrivateRoute";
-import Reports from "./components/Screens/Reports/Reports";
-import { BulkPayments } from "./components/Screens/Payments/Bulk";
-import { RCC } from "./components/Screens/Reports/components/RCC";
-import NewExpense from "./components/Screens/Expenses/New";
+import ExpensesForm from "./Forms/Expense";
 import PaymentsReport from "./components/Screens/Reports/Payments";
 import { ChecksCollection } from "./components/Screens/Transfers/Checks";
 import Finances from "./components/Screens/Reports/Finances";
-import OtherPayment from "./components/Screens/Payments/Other";
 import PolicyPaymentPage from "./components/Screens/Expenses/PolicyPaymentPage";
 import { Renovaciones } from "./components/Screens/Reports/Renovaciones";
 import Collector from "./Views/Collector";
@@ -30,6 +26,7 @@ import { UsersProvider } from "./context/User";
 import { ContextDevTool } from "react-context-devtool";
 import { ClientContext } from "./context/clients";
 import { GlobalContext } from "./context/global";
+import IncomeForm from "./Forms/Income";
 const App = () => {
 	return (
 		<UsersProvider>
@@ -55,17 +52,14 @@ const AppRoutes = () => (
 					{!maintenance ? (
 						<Fragment>
 							<PrivateRoute exact path="/" comp={Collector} />
-							<Route exact path="/reports" component={Reports} />
-							<Route exact path="/reports/rcc" component={RCC} />
 							<Route exact path="/reports/general" component={GeneralReport} />
 							<Route exact path="/reports/payments" component={PaymentsReport} />
-							<Route exact path="/payments/bulk" component={BulkPayments} />
-							<Route exact path="/expenses/new" component={NewExpense} />
+							<Route exact path="/expenses/new" component={ExpensesForm} />
 							<Route exact path="/checks/collect" component={ChecksCollection} />
 							<Route exact path="/reports/finances" component={Finances} />
 							<Route exact path="/reports/finances/:id" component={Finances} />
 							<Route exact path="/policy/pay" component={PolicyPaymentPage}></Route>
-							<Route exact path="/other_incomes" component={OtherPayment} />
+							<Route exact path="/other_incomes" component={IncomeForm} />
 							<Route exact path="/test" component={Renovaciones} />
 						</Fragment>
 					) : (

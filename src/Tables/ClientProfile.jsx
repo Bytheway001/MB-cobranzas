@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { formatMoney } from "../utils/utils";
-import FormCobranza from "../components/Screens/Payments/FormCobranza";
+import PaymentForm from "../Forms/Payment";
 import PaymentHistory from "../Views/PaymentHistory";
 export const ClientProfile = ({ client }) => {
 	const policy = client.policies.find((x) => x.selected);
@@ -86,7 +86,7 @@ export const ClientProfile = ({ client }) => {
 						Acciones:
 					</th>
 					<td>
-						<FormCobranza policy={policy} />
+						<PaymentForm policy={policy} />
 					</td>
 					<td colSpan={2}>
 						<PaymentHistory policy={policy.id} />

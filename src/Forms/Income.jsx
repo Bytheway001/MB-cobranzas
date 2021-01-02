@@ -1,62 +1,46 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Card, FormGroup, FormControl, InputGroup } from "react-bootstrap";
-import { OfficeOptions, CurrencyOptions } from "../../../options/options";
-import AccountsOptions from "../../../options/accounts";
-import { ExpenseReceipt } from "../../../Receipts/Expense";
+import { CurrencyOptions } from "../options/options";
+import AccountsOptions from "../options/accounts";
 import { Field, Form } from "react-final-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { composeValidators, Validators } from "../../../Forms/Validators";
-import { DatePicker, Select } from "../../../Controls";
-import { useGlobal } from "../../../context/global";
-import { useUser } from "../../../context/User";
+import { IncomeReceipt } from "../Receipts/Income";
+import { composeValidators, Validators } from "./Validators";
+import { DatePicker, Select } from "../Controls";
+import { useGlobal } from "../context/global";
+import { useUser } from "../context/User";
 
-const NewExpense = () => {
+const IncomeForm = () => {
 	const { categories } = useGlobal();
-	const { userActions, user } = useUser();
+	const { user, userActions } = useUser();
 	const [receipt, setReceipt] = useState(false);
 	const [error, setError] = useState(false);
 
 	const onExpenseSubmit = (values) => {
 		userActions
-			.createExpense(values)
+			.createIncome(values)
 			.then((res) => {
 				setError(false);
-				setReceipt(res);
+				setReceipt(res.data);
 			})
 			.catch((err) => {
-				setError(err.response.data);
+				setError(err.data);
 			});
 	};
 
 	return (
 		<Row>
 			<Col sm={12}>
-				<h2 className="text-center">Nuevo Egreso</h2>
+				<h2 className="text-center">Nuevo Ingreso</h2>
 			</Col>
 			<Col sm={4}>
 				<Card>
-					<Card.Header className="bg-primary text-white">Datos del Egreso</Card.Header>
+					<Card.Header className="bg-primary text-white">Datos del Ingreso</Card.Header>
 					<Card.Body>
 						<Form onSubmit={onExpenseSubmit}>
 							{({ handleSubmit }) => (
 								<form onSubmit={handleSubmit}>
-									<Field name="office" validate={Validators.required}>
-										{({ input, meta }) => (
-											<FormGroup>
-												<Select
-													isInvalid={meta.error && meta.touched}
-													isValid={!meta.errors && meta.touched}
-													label="Oficina"
-													options={<OfficeOptions />}
-													value={input.value}
-													onChange={input.onChange}
-													{...input}
-												/>
-												{meta.touched && meta.error && <span className="error-feedback">{meta.error}</span>}
-											</FormGroup>
-										)}
-									</Field>
 									<Field name="date" validate={Validators.required}>
 										{({ input, meta }) => (
 											<FormGroup>
@@ -73,21 +57,7 @@ const NewExpense = () => {
 											</FormGroup>
 										)}
 									</Field>
-									<Field name="bill_number" validate={Validators.required}>
-										{({ input, meta }) => (
-											<FormGroup>
-												<label># Factura</label>
-												<FormControl
-													isInvalid={meta.error && meta.touched}
-													isValid={!meta.errors && meta.touched}
-													value={input.value}
-													onChange={input.onChange}
-													{...input}
-												/>
-												{meta.touched && meta.error && <span className="error-feedback">{meta.error}</span>}
-											</FormGroup>
-										)}
-									</Field>
+
 									<Field name="description" validate={Validators.required}>
 										{({ input, meta }) => (
 											<FormGroup>
@@ -138,7 +108,7 @@ const NewExpense = () => {
 										</InputGroup>
 									</FormGroup>
 									<FormGroup>
-										<label>Categoria / Cuenta Pagadora</label>
+										<label>Categoria / Cuenta Receptora</label>
 										<InputGroup size="sm">
 											<Field name="category_id" validate={Validators.required}>
 												{({ input, meta }) => (
@@ -148,11 +118,16 @@ const NewExpense = () => {
 														onChange={input.onChange}
 														value={input.value}
 														{...input}
-														options={categories.map((cat, index) => (
-															<option key={index} value={cat.id}>
-																{cat.name}
-															</option>
-														))}
+														options={categories
+															.filter((x) => x.type === "Ingreso")
+															.map((cat, key) => (
+																<option key={key} value={cat.id}>
+																	{cat.parent_id
+																		? categories.find((x) => x.id === cat.parent_id).name + " - "
+																		: null}{" "}
+																	{cat.name}
+																</option>
+															))}
 													/>
 												)}
 											</Field>
@@ -171,7 +146,7 @@ const NewExpense = () => {
 										</InputGroup>
 									</FormGroup>
 									<Button size="sm" block type="submit">
-										Registrar Gasto
+										Registrar Ingreso
 									</Button>
 								</form>
 							)}
@@ -187,11 +162,11 @@ const NewExpense = () => {
 							<p>{error.data}</p>
 						</div>
 					)}
-					{receipt && <ExpenseReceipt data={receipt} user={user.name} modal={false} />}
+					{receipt && <IncomeReceipt data={receipt} user={user} modal={false} />}
 				</div>
 			</Col>
 		</Row>
 	);
 };
 
-export default NewExpense;
+export default IncomeForm;

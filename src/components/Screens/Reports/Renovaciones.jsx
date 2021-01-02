@@ -7,7 +7,7 @@ import Axios from "axios";
 import { API } from "../../../utils/utils";
 import "moment/locale/es";
 import { Modal } from "react-bootstrap";
-import FormCobranza from "../Payments/FormCobranza";
+import FormCobranza from "../../../Forms/Payment";
 
 Date.prototype.getMonthFormatted = function () {
 	var month = this.getMonth() + 1;

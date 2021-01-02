@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { FormControl, Row, Col, FormGroup, Button, Modal, InputGroup, FormCheck } from "react-bootstrap";
 
 import arrayMutators from "final-form-arrays";
-import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from "../../../options/options";
-import AccountsOptions from "../../../options/accounts";
+import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from "../options/options";
+import AccountsOptions from "../options/accounts";
 
 import { Field, Form } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 
-import { composeValidators, Validators } from "../../../Forms/Validators";
-import { DatePicker, Select } from "../../../Controls";
-import { useClients } from "../../../context/clients";
-import { useNotifications } from "../../../context/notification";
+import { composeValidators, Validators } from "./Validators";
+import { DatePicker, Select } from "../Controls";
+import { useClients } from "../context/clients";
+import { useNotifications } from "../context/notification";
 const agencyMethods = [
 	"tdc_to_company",
 	"transfer_to_company",
@@ -21,7 +21,7 @@ const agencyMethods = [
 	"check_to_agency_foreign",
 	"check_to_agency_local",
 ];
-const FormCobranza = ({ policy, renovation }) => {
+const PaymentForm = ({ policy, renovation }) => {
 	const { clientActions } = useClients();
 	const { addNotification } = useNotifications();
 	const [show, setShow] = useState(false);
@@ -346,4 +346,4 @@ const FormCobranza = ({ policy, renovation }) => {
 	);
 };
 
-export default FormCobranza;
+export default PaymentForm;
