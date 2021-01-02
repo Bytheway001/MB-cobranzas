@@ -102,7 +102,7 @@ export const ClientProvider = ({ children }) => {
 			loading,
 			clientActions,
 		};
-	}, [clients, editing, loading]);
+	}, [clients, editing, loading, clientActions]);
 
 	return <ClientContext.Provider value={value}>{children}</ClientContext.Provider>;
 };

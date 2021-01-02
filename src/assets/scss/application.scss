@@ -122,7 +122,39 @@ body {
 .custom-card {
   border: none;
   box-shadow: 2px 2px 5px lightgray;
-  .card-header {
+ 
+}
+
+.modal-content{
+  border:$blue 2px solid;
+  .modal-header{
+    padding-top:10px;
+    display:flex;
+    align-items: center;
+    background:$blue;
+    color:white;
+    button{
+      color:white;
+    
+      &:hover{
+        color:red;
+      }
+      &:focus,&:active{
+        outline:none;
+        border:none;
+        box-shadow: none;
+      }
+      span{
+      
+        font-weight: bold;
+        font-size:1.5em;
+       
+       
+        text-shadow: none;
+      }
+    
+    }
+   
   }
 }
 

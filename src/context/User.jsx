@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState } from "react";
 import { API, setupInterceptors } from "../utils/utils";
 
 export const UsersContext = React.createContext();
@@ -99,17 +99,14 @@ export function UsersProvider({ children }) {
 		getReports: (from, to, id) => getReports(from, to, id),
 	};
 
-	const value = useMemo(
-		() => ({
-			user,
-			authenticated,
-			userActions,
-			userRole,
-			reports,
-			payments,
-		}),
-		[user, authenticated, userActions]
-	);
+	const value = {
+		user,
+		authenticated,
+		userActions,
+		userRole,
+		reports,
+		payments,
+	};
 	return <UsersContext.Provider value={value}>{children}</UsersContext.Provider>;
 }
 
