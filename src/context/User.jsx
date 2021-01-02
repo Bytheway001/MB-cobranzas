@@ -6,7 +6,6 @@ export const UsersContext = React.createContext();
 export function UsersProvider({ children }) {
 	const token = localStorage.getItem("user");
 	if (token) {
-		console.log("there is token");
 		setupInterceptors(JSON.parse(token).id);
 	}
 	const [user, setUser] = useState(token ? JSON.parse(token) : null);
@@ -19,7 +18,6 @@ export function UsersProvider({ children }) {
 	};
 
 	const logoutUser = () => {
-		console.log("Logging out");
 		localStorage.removeItem("user");
 		setUser(null);
 	};

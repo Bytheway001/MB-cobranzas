@@ -19,7 +19,6 @@ const TransferForm = () => {
 			if (res.data.errors) {
 				addNotification("danger", res.data.data);
 			} else {
-				console.log(res.data);
 				addNotification("success", res.data);
 			}
 			setShow(false);

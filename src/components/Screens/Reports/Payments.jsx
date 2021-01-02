@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col, Button, Card } from "react-bootstrap";
-import { formatMoney, listOf, methods } from "../../../utils/utils";
+import { formatMoney, methods } from "../../../utils/utils";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useUser } from "../../../context/User";
 
@@ -17,15 +17,12 @@ const PaymentsReport = () => {
 	const validatePayment = (id) => {
 		if (window.confirm("Seguro que desea validar esta cobranza?")) {
 			userActions.validatePayment(id).then((res) => {
-				console.log(res.data);
 				addNotification("success", res.data);
 				userActions.getPayments();
 			});
 		}
 	};
 
-	const companies = payments.length > 0 ? listOf(payments, "policy.plan.company.name") : [];
-	console.log(companies);
 	const columns = [
 		{ dataField: "id", text: "#Ref", style: { textAlign: "center", verticalAlign: "middle" }, headerStyle: { width: 40 }, sort: true },
 		{ dataField: "payment_date", text: "Fecha", style: { textAlign: "center", verticalAlign: "middle" }, headerStyle: { width: 80 } },

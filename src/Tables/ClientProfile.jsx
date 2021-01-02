@@ -5,7 +5,6 @@ import PaymentForm from "../Forms/Payment";
 import PaymentHistory from "../Views/PaymentHistory";
 export const ClientProfile = ({ client }) => {
 	const policy = client.policies.find((x) => x.selected);
-	console.log(policy);
 	if (!policy) {
 		return null;
 	}

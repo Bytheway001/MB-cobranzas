@@ -77,7 +77,6 @@ export const ClientProvider = ({ children }) => {
 			editing.policies.push({ ...res.data.data, selected: true });
 		}
 		setEditing({ ...editing });
-		console.log(editing);
 		return res.data;
 	};
 
