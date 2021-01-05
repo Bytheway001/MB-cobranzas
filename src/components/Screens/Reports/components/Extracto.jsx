@@ -36,8 +36,8 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 					currency: row.currency,
 					debe: parseFloat(row.debe).toFixed(2),
 					haber: parseFloat(row.haber).toFixed(2),
-					saldo_usd: saldoInicial.USD,
-					saldo_bob: saldoInicial.BOB,
+					saldo_usd: saldoInicial.USD.toFixed(2),
+					saldo_bob: saldoInicial.BOB.toFixed(2),
 					category: row.category,
 				};
 
