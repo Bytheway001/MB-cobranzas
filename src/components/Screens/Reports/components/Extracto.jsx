@@ -34,8 +34,8 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 					date: row.date,
 					description: row.description,
 					currency: row.currency,
-					debe: row.debe,
-					haber: row.haber,
+					debe: parseFloat(row.debe).toFixed(2),
+					haber: parseFloat(row.haber).toFixed(2),
 					saldo_usd: saldoInicial.USD,
 					saldo_bob: saldoInicial.BOB,
 					category: row.category,
@@ -81,10 +81,26 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 				text: "Debe",
 				csvType: Number,
 				formatter: (cell, row) => formatMoney(cell, "2", ".", ",", row.currency === "USD" ? "$" : "Bs."),
+				style: { textAlign: "right" },
 			},
-			{ dataField: "haber", text: "Haber" },
-			{ dataField: "saldo_usd", text: "Saldo (USD)", formatter: (cell) => formatMoney(cell, 2, ",", ".", "$") },
-			{ dataField: "saldo_bob", text: "Saldo (BOB)", formatter: (cell) => formatMoney(cell, 2, ",", ".", "Bs.") },
+			{
+				dataField: "haber",
+				text: "Haber",
+				formatter: (cell, row) => formatMoney(cell, "2", ".", ",", row.currency === "USD" ? "$" : "Bs."),
+				style: { textAlign: "right" },
+			},
+			{
+				dataField: "saldo_usd",
+				text: "Saldo (USD)",
+				formatter: (cell) => formatMoney(cell, 2, ",", ".", "$"),
+				style: { textAlign: "right" },
+			},
+			{
+				dataField: "saldo_bob",
+				text: "Saldo (BOB)",
+				formatter: (cell) => formatMoney(cell, 2, ",", ".", "Bs."),
+				style: { textAlign: "right" },
+			},
 		];
 		return (
 			<>
