@@ -19,11 +19,11 @@ const PaymentPolicyForm = ({ policy }) => {
 		};
 		userActions
 			.createPolicyPayment(policy_payment)
-			.then(() => {
-				addNotification("success", "Pago creado con exito");
+			.then((res) => {
+				addNotification("success", res.data);
 			})
-			.catch(() => {
-				addNotification("danger", "No se pudo crear este pago");
+			.catch((err) => {
+				addNotification("danger", err.response.data.data);
 			});
 	};
 

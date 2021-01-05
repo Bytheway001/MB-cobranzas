@@ -83,8 +83,8 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 				formatter: (cell, row) => formatMoney(cell, "2", ".", ",", row.currency === "USD" ? "$" : "Bs."),
 			},
 			{ dataField: "haber", text: "Haber" },
-			{ dataField: "saldo_usd", text: "Saldo (USD)" },
-			{ dataField: "saldo_bob", text: "Saldo (BOB)" },
+			{ dataField: "saldo_usd", text: "Saldo (USD)", formatter: (cell) => formatMoney(cell, 2, ",", ".", "$") },
+			{ dataField: "saldo_bob", text: "Saldo (BOB)", formatter: (cell) => formatMoney(cell, 2, ",", ".", "Bs.") },
 		];
 		return (
 			<>
