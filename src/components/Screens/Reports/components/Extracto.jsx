@@ -86,18 +86,21 @@ export const Extracto = ({ show, setShow, data, bob, usd }) => {
 			{
 				dataField: "haber",
 				text: "Haber",
+				csvType: Number,
 				formatter: (cell, row) => formatMoney(cell, "2", ".", ",", row.currency === "USD" ? "$" : "Bs."),
 				style: { textAlign: "right" },
 			},
 			{
 				dataField: "saldo_usd",
 				text: "Saldo (USD)",
+				csvType: Number,
 				formatter: (cell) => formatMoney(cell, 2, ",", ".", "$"),
 				style: { textAlign: "right" },
 			},
 			{
 				dataField: "saldo_bob",
 				text: "Saldo (BOB)",
+				csvType: Number,
 				formatter: (cell) => formatMoney(cell, 2, ",", ".", "Bs."),
 				style: { textAlign: "right" },
 			},
