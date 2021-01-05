@@ -55,7 +55,7 @@ export const ExpenseReceipt = ({ user, data, modal }) => {
 										"https://api.qrserver.com/v1/create-qr-code/?size=40x40&data=https://cobranzas.megabrokerslatam.com/expense/" +
 										data.id +
 										"&uname=" +
-										user
+										user.id
 									}
 									allowDangerousPaths
 								/>
@@ -76,7 +76,7 @@ export const ExpenseReceipt = ({ user, data, modal }) => {
 								label="Monto:"
 								text={data.amount + " " + data.currency}
 							/>
-							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="Operador:" text={user} />
+							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="Operador:" text={user.name} />
 							<Field
 								style={{ flexDirection: "row", justifyContent: "space-between" }}
 								label="# Factura:"
