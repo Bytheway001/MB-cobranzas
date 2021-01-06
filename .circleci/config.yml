@@ -47,5 +47,5 @@ workflows:
           filters:
             branches:
               only:
-                - bolivia
+                - master
   
