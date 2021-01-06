@@ -18,7 +18,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints: 
-            - "a3:dd:b1:80:9d:c3:21:5d:8f:58:b1:0b:b2:08:5a:7f"
+            - "71:3a:6b:fd:84:cf:60:e6:18:f6:fb:02:11:08:8d:0a"
       - checkout
       - run: sudo apt install rsync
 
@@ -36,7 +36,7 @@ jobs:
       # run tests!
       - run: yarn build
       - run:
-          name: Deploy public folder to YOURDOMAIN
+          name: Deploy to Server
           command: rsync -v -e "ssh -o StrictHostKeyChecking=no" -avz --delete --exclude ".htaccess" /home/circleci/repo/build/ $SSH_USER@$SSH_HOST:/home/megabrokers/public_html/mb-cobranzas
 workflows:
   version: 2
