@@ -47,6 +47,7 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 			text: "Cantidad",
 			headerStyle: columnStyles.amount,
 			csvFormatter: (cell) => cell.toString().replace(".", ","),
+			style: { textAlign: "right" },
 		},
 		{ dataField: "currency", text: "Moneda", headerStyle: columnStyles.currency },
 		{
