@@ -41,7 +41,11 @@ const Finances = ({ match }) => {
 			<Row className="mb-2">
 				<Col sm={12}>
 					<DateSearch onSearch={(f, t) => userActions.getReports(f, t, id)} />
-					<CorrectionsModal correction={correction} setCorrection={setCorrection} />
+					<CorrectionsModal
+						correction={correction}
+						setCorrection={setCorrection}
+						updateData={() => userActions.getReports(null, null, id)}
+					/>
 				</Col>
 
 				<Col sm={12}>

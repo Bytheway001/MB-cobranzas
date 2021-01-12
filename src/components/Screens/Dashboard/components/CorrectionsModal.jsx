@@ -4,7 +4,7 @@ import { Modal, Button, Form, Row, Col, ListGroup, ListGroupItem } from "react-b
 import { useNotifications } from "../../../../context/notification";
 import { API } from "../../../../utils/utils";
 
-export const CorrectionsModal = ({ correction, setCorrection }) => {
+export const CorrectionsModal = ({ correction, setCorrection, updateData }) => {
 	const { addNotification } = useNotifications();
 
 	const translateTypes = {
@@ -17,7 +17,9 @@ export const CorrectionsModal = ({ correction, setCorrection }) => {
 		e.preventDefault();
 		Axios.post(API + "/changes", data).then(() => {
 			addNotification("success", "Correccion Realizada");
+
 			setCorrection(null);
+			updateData();
 		});
 	};
 	if (correction) {
