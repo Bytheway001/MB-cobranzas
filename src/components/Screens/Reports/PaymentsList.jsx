@@ -20,19 +20,20 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 	const columns = [
 		{ dataField: "id", text: "Ref", sort: true, headerStyle: columnStyles.id },
 		{ dataField: "payment_date", text: "Fecha", headerStyle: columnStyles.payment_date },
-		{ dataField: "policy.client.first_name", text: "Cliente" },
-		{ dataField: "account.name", text: "Cuenta", csvFormatter: (cell) => cell || "--", headerStyle: columnStyles.account },
+		{ dataField: "policy.client.first_name", text: "Asegurado" },
 		{ dataField: "policy.plan.company.name", text: "Aseguradora" },
-		{ dataField: "policy.plan.name", text: "Plan" },
+		{ dataField: "account.name", text: "Cuenta", csvFormatter: (cell) => cell || "--", headerStyle: columnStyles.account },
 		{ dataField: "payment_method", text: "Metodo de Pago", formatter: (cell) => methods[cell], csvFormatter: (cell) => methods[cell] },
-		{ dataField: "currency", text: "Moneda", headerStyle: columnStyles.currency },
+		{ dataField: "policy.premium", text: "Prima", csvFormatter: (cell) => cell.toString().replace(".", ",") },
+		{ dataField: "agency_discount", text: "Desc Agencia", csvFormatter: (cell) => cell.toString().replace(".", ",") },
+		{ dataField: "agent_discount", text: "Desc Agente", csvFormatter: (cell) => cell.toString().replace(".", ",") },
 		{
 			dataField: "amount",
 			text: "Cantidad",
-			csvType: Number,
 			headerStyle: columnStyles.amount,
-			csvFormatter: (cell) => parseFloat(cell).toFixed(2),
+			csvFormatter: (cell) => cell.toString().replace(".", ","),
 		},
+		{ dataField: "currency", text: "Moneda", headerStyle: columnStyles.currency },
 		{
 			dataField: "download",
 			text: "Acc.",
@@ -57,7 +58,7 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 	return (
 		<ToolkitProvider
 			keyField="id"
-			data={payments}
+			data={payments.filter((x) => !x.corrected_with)}
 			columns={columns}
 			exportCSV={{
 				fileName: "Reporte de Cobranzas.csv",
