@@ -24,9 +24,24 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 		{ dataField: "policy.plan.company.name", text: "Aseguradora" },
 		{ dataField: "account.name", text: "Cuenta", csvFormatter: (cell) => cell || "--", headerStyle: columnStyles.account },
 		{ dataField: "payment_method", text: "Metodo de Pago", formatter: (cell) => methods[cell], csvFormatter: (cell) => methods[cell] },
-		{ dataField: "policy.premium", text: "Prima", csvFormatter: (cell) => cell.toString().replace(".", ",") },
-		{ dataField: "agency_discount", text: "Desc Agencia", csvFormatter: (cell) => cell.toString().replace(".", ",") },
-		{ dataField: "agent_discount", text: "Desc Agente", csvFormatter: (cell) => cell.toString().replace(".", ",") },
+		{
+			dataField: "policy.premium",
+			text: "Prima",
+			csvFormatter: (cell) => cell.toString().replace(".", ","),
+			style: { textAlign: "right" },
+		},
+		{
+			dataField: "agency_discount",
+			text: "Desc Agencia",
+			csvFormatter: (cell) => cell.toString().replace(".", ","),
+			style: { textAlign: "right" },
+		},
+		{
+			dataField: "agent_discount",
+			text: "Desc Agente",
+			csvFormatter: (cell) => cell.toString().replace(".", ","),
+			style: { textAlign: "right" },
+		},
 		{
 			dataField: "amount",
 			text: "Cantidad",
