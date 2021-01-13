@@ -1,7 +1,6 @@
 import Axios from "axios";
 import React, { useContext, useMemo, useState } from "react";
 import { API, setupInterceptors } from "../utils/utils";
-
 export const UsersContext = React.createContext();
 export function UsersProvider({ children }) {
 	const token = localStorage.getItem("user");
