@@ -4,8 +4,12 @@ import { Extracto } from "./Screens/Reports/components/Extracto";
 import Axios from "axios";
 import { API, formatMoney } from "../utils/utils";
 import { CurrencyChange } from "../Forms";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
+import { useGlobal } from "../context/global";
 
 export const CashBox = ({ usd, bob, id }) => {
+	const { globalActions } = useGlobal();
 	const [modalData, setModalData] = useState([]);
 	const [modalShow, setModalShow] = useState(false);
 	const fillModal = (e, id) => {
@@ -20,11 +24,15 @@ export const CashBox = ({ usd, bob, id }) => {
 			<Table variant="bordered" size="sm">
 				<thead>
 					<tr>
-						<th className="bg-info text-white" colSpan={2}>
-							Mi Caja
+						<th className="bg-info text-white px-3" colSpan={2}>
+							<span>Mi Caja</span>
+							<span style={{ float: "right", cursor: "pointer" }} onClick={() => globalActions.getAccounts()}>
+								<FontAwesomeIcon icon={faSync} />{" "}
+							</span>
 						</th>
 					</tr>
 				</thead>
+
 				<tbody>
 					<tr>
 						<th>USD</th>
@@ -35,6 +43,7 @@ export const CashBox = ({ usd, bob, id }) => {
 						<th>{formatMoney(bob, 2, ".", ",", "")}</th>
 					</tr>
 				</tbody>
+
 				<tfoot>
 					<tr>
 						<th>

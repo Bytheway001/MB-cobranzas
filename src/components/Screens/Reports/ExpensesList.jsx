@@ -68,7 +68,7 @@ export const ExpensesList = ({ expenses, setCorrection }) => {
 	return (
 		<ToolkitProvider
 			keyField="id"
-			data={expenses}
+			data={expenses.filter((x) => x.category.name !== "Correcciones" && !x.corrected_with)}
 			columns={columns}
 			exportCSV={{
 				fileName: "Reporte de Gastos.csv",
