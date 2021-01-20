@@ -74,7 +74,7 @@ const Collector = () => {
 							{accounts.length > 0 && user.account && (
 								<Col sm={12}>
 									<CashBox
-										id={accounts.find((x) => x.id === user.account.id).id}
+										account_id={accounts.find((x) => x.id === user.account.id).id}
 										usd={accounts.find((x) => x.id === user.account.id).usd}
 										bob={accounts.find((x) => x.id === user.account.id).bob}
 									/>

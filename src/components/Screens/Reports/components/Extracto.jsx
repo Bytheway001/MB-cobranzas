@@ -4,9 +4,8 @@ import { formatMoney } from "../../../../utils/utils";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { CSVExport } from "react-bootstrap-table2-toolkit";
 import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
-export const Extracto = ({ show, setShow, data }) => {
+export const Extracto = ({ show, setShow, data, onMonthChange }) => {
 	const { ExportCSVButton } = CSVExport;
-	const [month, setMonth] = useState("");
 	const [balance] = useState("all");
 	let finalData = [];
 	if (data) {
@@ -27,7 +26,6 @@ export const Extracto = ({ show, setShow, data }) => {
 						category: row.category,
 					};
 				})
-				.filter((x) => parseInt(x.date.split("-")[1]) === parseInt(month) || month === "")
 				.filter((z) => {
 					return (
 						balance === "all" ||
@@ -115,18 +113,18 @@ export const Extracto = ({ show, setShow, data }) => {
 								<Button className="secondary" disabled>
 									Mes:{" "}
 								</Button>
-								<Button onClick={() => setMonth("01")}>Ene.</Button>
-								<Button onClick={() => setMonth("02")}>Feb.</Button>
-								<Button onClick={() => setMonth("03")}>Mar.</Button>
-								<Button onClick={() => setMonth("04")}>Abr.</Button>
-								<Button onClick={() => setMonth("05")}>May.</Button>
-								<Button onClick={() => setMonth("06")}>Jun.</Button>
-								<Button onClick={() => setMonth("07")}>Jul.</Button>
-								<Button onClick={() => setMonth("08")}>Ago.</Button>
-								<Button onClick={() => setMonth("09")}>Sep.</Button>
-								<Button onClick={() => setMonth("10")}>Oct.</Button>
-								<Button onClick={() => setMonth("11")}>Nov.</Button>
-								<Button onClick={() => setMonth("12")}>Dic.</Button>
+								<Button onClick={() => onMonthChange("01")}>Ene.</Button>
+								<Button onClick={() => onMonthChange("02")}>Feb.</Button>
+								<Button onClick={() => onMonthChange("03")}>Mar.</Button>
+								<Button onClick={() => onMonthChange("04")}>Abr.</Button>
+								<Button onClick={() => onMonthChange("05")}>May.</Button>
+								<Button onClick={() => onMonthChange("06")}>Jun.</Button>
+								<Button onClick={() => onMonthChange("07")}>Jul.</Button>
+								<Button onClick={() => onMonthChange("08")}>Ago.</Button>
+								<Button onClick={() => onMonthChange("09")}>Sep.</Button>
+								<Button onClick={() => onMonthChange("10")}>Oct.</Button>
+								<Button onClick={() => onMonthChange("11")}>Nov.</Button>
+								<Button onClick={() => onMonthChange("12")}>Dic.</Button>
 							</ButtonGroup>
 						</Col>
 					</Row>
