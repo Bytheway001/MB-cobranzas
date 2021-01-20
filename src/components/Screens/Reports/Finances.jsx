@@ -19,8 +19,7 @@ const Finances = ({ match }) => {
 	const { accounts } = useGlobal();
 	const id = match.params.id || null;
 	const [modalshow, setModalShow] = useState(false);
-	const [modalData, setModalData] = useState([]);
-
+	const [modalData, setModalData] = useState(null);
 	const [correction, setCorrection] = useState(null);
 	const [saldo, setSaldo] = useState({ USD: 0, BOB: 0 });
 

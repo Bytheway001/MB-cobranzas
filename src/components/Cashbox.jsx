@@ -10,7 +10,7 @@ import { useGlobal } from "../context/global";
 
 export const CashBox = ({ usd, bob, id }) => {
 	const { globalActions } = useGlobal();
-	const [modalData, setModalData] = useState([]);
+	const [modalData, setModalData] = useState(null);
 	const [modalShow, setModalShow] = useState(false);
 	const fillModal = (e, id) => {
 		Axios.get(API + "/movements/" + id).then((res) => {
@@ -20,7 +20,7 @@ export const CashBox = ({ usd, bob, id }) => {
 	};
 	return (
 		<Fragment>
-			<Extracto bob={bob} usd={usd} show={modalShow} setShow={setModalShow} data={modalData} />
+			<Extracto show={modalShow} setShow={setModalShow} data={modalData} text="Ver Movimientos" />
 			<Table variant="bordered" size="sm">
 				<thead>
 					<tr>
