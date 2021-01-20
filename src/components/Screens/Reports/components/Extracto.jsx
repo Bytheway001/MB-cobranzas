@@ -100,6 +100,21 @@ export const Extracto = ({ show, setShow, data, onMonthChange }) => {
 			style: { textAlign: "right" },
 		},
 	];
+
+	const months = [
+		{ month: "Ene", val: "01" },
+		{ month: "Feb", val: "02" },
+		{ month: "Mar", val: "03" },
+		{ month: "Abr", val: "04" },
+		{ month: "May", val: "05" },
+		{ month: "Jun", val: "06" },
+		{ month: "Jul", val: "07" },
+		{ month: "Ago", val: "08" },
+		{ month: "Sep", val: "09" },
+		{ month: "Oct", val: "10" },
+		{ month: "Nov", val: "11" },
+		{ month: "Dic", val: "12" },
+	];
 	return (
 		<>
 			<Modal size="xl" show={show} onHide={() => setShow(false)}>
@@ -113,18 +128,11 @@ export const Extracto = ({ show, setShow, data, onMonthChange }) => {
 								<Button className="secondary" disabled>
 									Mes:{" "}
 								</Button>
-								<Button onClick={() => onMonthChange("01")}>Ene.</Button>
-								<Button onClick={() => onMonthChange("02")}>Feb.</Button>
-								<Button onClick={() => onMonthChange("03")}>Mar.</Button>
-								<Button onClick={() => onMonthChange("04")}>Abr.</Button>
-								<Button onClick={() => onMonthChange("05")}>May.</Button>
-								<Button onClick={() => onMonthChange("06")}>Jun.</Button>
-								<Button onClick={() => onMonthChange("07")}>Jul.</Button>
-								<Button onClick={() => onMonthChange("08")}>Ago.</Button>
-								<Button onClick={() => onMonthChange("09")}>Sep.</Button>
-								<Button onClick={() => onMonthChange("10")}>Oct.</Button>
-								<Button onClick={() => onMonthChange("11")}>Nov.</Button>
-								<Button onClick={() => onMonthChange("12")}>Dic.</Button>
+								{months.map((month, key) => (
+									<Button key={key} onClick={() => onMonthChange(month.val)}>
+										{month.month}
+									</Button>
+								))}
 							</ButtonGroup>
 						</Col>
 					</Row>
