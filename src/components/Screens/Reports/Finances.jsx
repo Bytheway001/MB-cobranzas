@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useCallback } from "react";
 import { Row, Col, Table, Card, Tabs, Tab } from "react-bootstrap";
 import { useEffect } from "react";
 import Axios from "axios";
@@ -19,22 +19,39 @@ const Finances = ({ match }) => {
 	const { accounts } = useGlobal();
 	const id = match.params.id || null;
 	const [modalshow, setModalShow] = useState(false);
-	const [modalData, setModalData] = useState([]);
-
+	const [modalData, setModalData] = useState(null);
 	const [correction, setCorrection] = useState(null);
 	const [saldo, setSaldo] = useState({ USD: 0, BOB: 0 });
+	const [account_id, setAccountId] = useState(null);
 
+	const fillModal = useCallback(
+		(period) => {
+			console.log(accounts);
+			Axios.get(API + "/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
+				setSaldo({ BOB: accounts.find((x) => x.id === account_id).BOB, USD: accounts.find((x) => x.id === account_id).USD });
+				setModalData(res.data.data);
+				setModalShow(true);
+			});
+		},
+		[account_id, accounts]
+	);
+
+	const changeAccountId = (newId) => {
+		setAccountId(newId);
+	};
+
+	const onMonthChange = (period) => {
+		fillModal(period);
+	};
 	useEffect(() => {
 		userActions.getReports(null, null, id);
 	}, [id, userActions]);
 
-	const fillModal = (e, id) => {
-		Axios.get(API + "/movements/" + id).then((res) => {
-			setSaldo({ BOB: accounts.find((x) => x.id === id).bob, USD: accounts.find((x) => x.id === id).usd });
-			setModalData(res.data.data);
-			setModalShow(true);
-		});
-	};
+	useEffect(() => {
+		if (account_id) {
+			fillModal();
+		}
+	}, [account_id, fillModal]);
 
 	return (
 		<Fragment>
@@ -88,7 +105,7 @@ const Finances = ({ match }) => {
 																		<td>
 																			<button
 																				className="btn-a"
-																				onClick={(e) => fillModal(e, account.id)}
+																				onClick={() => changeAccountId(account.id)}
 																			>
 																				{account.name}
 																			</button>
@@ -116,6 +133,7 @@ const Finances = ({ match }) => {
 													show={modalshow}
 													setShow={setModalShow}
 													data={modalData}
+													onMonthChange={onMonthChange}
 												/>
 												<Table variant="striped" size="sm" style={{ fontSize: "0.8em" }}>
 													<thead>
@@ -134,7 +152,7 @@ const Finances = ({ match }) => {
 																		<td>
 																			<button
 																				className="btn-a"
-																				onClick={(e) => fillModal(e, account.id)}
+																				onClick={() => changeAccountId(account.id)}
 																			>
 																				{account.name}
 																			</button>

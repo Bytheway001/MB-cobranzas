@@ -8,19 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { useGlobal } from "../context/global";
 
-export const CashBox = ({ usd, bob, id }) => {
+export const CashBox = ({ usd, bob, account_id }) => {
 	const { globalActions } = useGlobal();
-	const [modalData, setModalData] = useState([]);
+	const [modalData, setModalData] = useState(null);
 	const [modalShow, setModalShow] = useState(false);
-	const fillModal = (e, id) => {
-		Axios.get(API + "/movements/" + id).then((res) => {
+	const fillModal = (period) => {
+		Axios.get(API + "/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
 			setModalData(res.data.data);
 			setModalShow(true);
 		});
 	};
 	return (
 		<Fragment>
-			<Extracto bob={bob} usd={usd} show={modalShow} setShow={setModalShow} data={modalData} />
+			<Extracto show={modalShow} setShow={setModalShow} data={modalData} onMonthChange={(period) => fillModal(period)} />
 			<Table variant="bordered" size="sm">
 				<thead>
 					<tr>
@@ -47,7 +47,7 @@ export const CashBox = ({ usd, bob, id }) => {
 				<tfoot>
 					<tr>
 						<th>
-							<Button onClick={(e) => fillModal(e, id)} block size="sm">
+							<Button onClick={() => fillModal()} block size="sm">
 								Ver Movimientos
 							</Button>
 						</th>
