@@ -86,7 +86,7 @@ export const ClientProvider = ({ children }) => {
 	};
 
 	const clientActions = {
-		getClients: () => getClientList(),
+		getClients: (val) => getClientList(val),
 		select: (val) => selectClient(val),
 		selectPolicy: (val) => selectPolicy(val),
 		create: (data) => createClient(data),
