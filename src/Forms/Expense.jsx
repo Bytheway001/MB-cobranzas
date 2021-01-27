@@ -148,11 +148,13 @@ const ExpensesForm = () => {
 														onChange={input.onChange}
 														value={input.value}
 														{...input}
-														options={categories.map((cat, index) => (
-															<option key={index} value={cat.id}>
-																{cat.name}
-															</option>
-														))}
+														options={categories
+															.filter((x) => x.type === "Egreso")
+															.map((cat, index) => (
+																<option key={index} value={cat.id}>
+																	{cat.name}
+																</option>
+															))}
 													/>
 												)}
 											</Field>
