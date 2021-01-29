@@ -22,30 +22,39 @@ export const CorrectionsModal = ({ correction, setCorrection, updateData }) => {
 			updateData();
 		});
 	};
+
 	if (correction) {
 		return (
 			<>
-				<Modal size="lg" show={correction} onHide={() => setCorrection(null)}>
+				<Modal animation={false} show={correction ? true : false} onHide={() => setCorrection(null)}>
 					<Modal.Header closeButton>
 						<Modal.Title>Revertir Operacion</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<Form id="correction" onSubmit={(e) => handleSubmit(e, { type: correction.type, ref: correction.row.id })}>
 							<Row>
-								<Col md={6}>
+								<Col md={12}>
 									<p className="mb-2">
 										<b>Datos del registro</b>
 									</p>
 									<ListGroup>
 										<ListGroupItem>Tipo: {translateTypes[correction.type]}</ListGroupItem>
-										<ListGroupItem>Fecha: {correction.row.date}</ListGroupItem>
+
+										<ListGroupItem>
+											Descripcion:{" "}
+											{correction.type === "payments"
+												? `Cobranza ${correction.row.policy.client.first_name}`
+												: correction.type === "policy_payments"
+												? `Pago de poliza ${correction.row.policy.client.first_name}`
+												: correction.row.description}
+										</ListGroupItem>
 									</ListGroup>
 								</Col>
 							</Row>
 						</Form>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button variant="secondary" onClick={() => setCorrection(null)}>
+						<Button variant="danger" onClick={() => setCorrection(null)}>
 							Cancelar
 						</Button>
 						<Button form="correction" type="submit" variant="primary">
