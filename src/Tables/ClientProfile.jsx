@@ -10,7 +10,7 @@ export const ClientProfile = ({ client }) => {
 	}
 	let discounts = policy.totals.discounts.agent + policy.totals.discounts.agency + policy.totals.discounts.agent;
 	return (
-		<Table size="sm" variant="bordered" style={{ fontSize: "0.8em" }}>
+		<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
 			<thead>
 				<tr>
 					<th className="bg-primary text-white text-center" colSpan={4}>

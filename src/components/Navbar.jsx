@@ -47,6 +47,9 @@ const Navbar = () => {
 							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/finances">
 								Financiero
 							</NavDropdown.Item>
+							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/financiamientos">
+								Polizas Financiadas
+							</NavDropdown.Item>
 						</NavDropdown>
 					)}
 				</Nav>
