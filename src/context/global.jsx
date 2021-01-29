@@ -10,7 +10,7 @@ export const GlobalProvider = ({ children }) => {
 	const [accounts, setAccounts] = useState([]);
 	const [collectors, setCollectors] = useState([]);
 	const [companies, setCompanies] = useState([]);
-	const [categories, setCategories] = useState([]);
+	const [categories, setCategories] = useState({ egresos: {}, ingresos: {} });
 	const getAgents = () => {
 		Axios.get(API + "/agents")
 			.then((res) => {
