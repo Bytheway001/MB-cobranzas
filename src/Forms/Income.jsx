@@ -118,16 +118,15 @@ const IncomeForm = () => {
 														onChange={input.onChange}
 														value={input.value}
 														{...input}
-														options={categories
-															.filter((x) => x.type === "Ingreso")
-															.map((cat, key) => (
-																<option key={key} value={cat.id}>
-																	{cat.parent_id
-																		? categories.find((x) => x.id === cat.parent_id).name + " - "
-																		: null}{" "}
-																	{cat.name}
-																</option>
-															))}
+														options={Object.keys(categories.ingresos).map((cname, i) => (
+															<optgroup label={cname} key={i}>
+																{categories.ingresos[cname].map((x, j) => (
+																	<option key={j} value={x.id}>
+																		{x.name}
+																	</option>
+																))}
+															</optgroup>
+														))}
 													/>
 												)}
 											</Field>

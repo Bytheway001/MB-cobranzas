@@ -28,7 +28,7 @@ const ExpensesForm = () => {
 				setError(err.response.data);
 			});
 	};
-
+	console.log(categories);
 	return (
 		<Row>
 			<Col sm={12}>
@@ -148,13 +148,15 @@ const ExpensesForm = () => {
 														onChange={input.onChange}
 														value={input.value}
 														{...input}
-														options={categories
-															.filter((x) => x.type === "Egreso")
-															.map((cat, index) => (
-																<option key={index} value={cat.id}>
-																	{cat.name}
-																</option>
-															))}
+														options={Object.keys(categories.egresos).map((cname, i) => (
+															<optgroup label={cname} key={i}>
+																{categories.egresos[cname].map((x, j) => (
+																	<option key={j} value={x.id}>
+																		{x.name}
+																	</option>
+																))}
+															</optgroup>
+														))}
 													/>
 												)}
 											</Field>
