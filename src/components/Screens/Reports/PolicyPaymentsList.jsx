@@ -1,3 +1,5 @@
+import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Button } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -22,7 +24,9 @@ export const PolicyPaymentsList = ({ payments, setCorrection }) => {
 				<Button
 					size="sm"
 					onClick={() => setCorrection({ type: "policy_payments", row: row, user_id: row.user_id, user: row.user })}
-				></Button>
+				>
+					<FontAwesomeIcon style={{ cursor: "pointer" }} icon={faBan} color="red" />
+				</Button>
 			),
 		},
 	];
