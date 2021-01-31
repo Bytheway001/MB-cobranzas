@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col, Button, Card } from "react-bootstrap";
-import { formatMoney, methods } from "../../../utils/utils";
+import { formatMoney, TranslatePaymentMethods } from "../../../utils/utils";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useUser } from "../../../context/User";
 
@@ -72,7 +72,7 @@ const PaymentsReport = () => {
 				);
 			},
 		},
-		{ dataField: "payment_method", text: "Metodo", formatter: (cell) => methods[cell] },
+		{ dataField: "payment_method", text: "Metodo", formatter: (cell) => TranslatePaymentMethods[cell] },
 		{ dataField: "account.name", text: "Cuenta Receptora", formatter: (cell) => (cell === null ? "N/A" : cell) },
 	];
 
