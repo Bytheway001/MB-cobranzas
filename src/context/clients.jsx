@@ -10,12 +10,17 @@ export const ClientProvider = ({ children }) => {
 	const [editing, setEditing] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const getClientList = (query = null) => {
+		console.log(query);
 		setLoading(true);
 		let string = "";
 		if (!query) {
 			string = API + "/clients/list";
 		} else {
-			string = API + "/clients/list?q=" + query;
+			if (query === "financed") {
+				string = API + "/clients/list?f=true";
+			} else {
+				string = API + "/clients/list?q=" + query;
+			}
 		}
 
 		Axios.get(string)

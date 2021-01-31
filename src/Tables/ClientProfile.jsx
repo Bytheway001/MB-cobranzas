@@ -8,8 +8,9 @@ export const ClientProfile = ({ client }) => {
 	if (!policy) {
 		return null;
 	}
+	let discounts = policy.totals.discounts.agent + policy.totals.discounts.agency + policy.totals.discounts.agent;
 	return (
-		<Table size="sm" variant="bordered" style={{ fontSize: "0.8em" }}>
+		<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
 			<thead>
 				<tr>
 					<th className="bg-primary text-white text-center" colSpan={4}>
@@ -52,13 +53,16 @@ export const ClientProfile = ({ client }) => {
 				</tr>
 				<tr>
 					<th className="bg-info text-white">Prima</th>
-					<td>{formatMoney(policy.premium, 2, ".", ",", "$")}</td>
+					<td>
+						{formatMoney(policy.premium, 2, ".", ",", "$")}{" "}
+						<span style={{ color: "green" }}>(-{formatMoney(discounts, 2, ".", ",", "$")})</span>
+					</td>
 					<th className="bg-info text-white">Cobrado:</th>
 					<td>{formatMoney(policy.totals.collected, 2, ".", ",", "$")}</td>
 				</tr>
 				<tr>
-					<th className="bg-info text-white">Prima</th>
-					<td>{formatMoney(policy.premium, 2, ".", ",", "$")}</td>
+					<th className="bg-info text-white">Descuentos</th>
+					<td>{formatMoney(discounts, 2, ".", ",", "$")}</td>
 					<th className="bg-info text-white">Pagado:</th>
 					<td>{formatMoney(policy.totals.payed, 2, ".", ",", "$")}</td>
 				</tr>

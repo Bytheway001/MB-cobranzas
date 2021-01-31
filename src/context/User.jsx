@@ -11,6 +11,7 @@ export function UsersProvider({ children }) {
 	const [authenticated, setAuthenticated] = useState(token ? true : false);
 	const [reports, setReports] = useState(null);
 	const [payments, setPayments] = useState([]);
+	const [financed, setFinanced] = useState([]);
 	const loginUser = (data) => {
 		localStorage.setItem("user", data);
 		setUser(JSON.parse(data));
@@ -69,6 +70,11 @@ export function UsersProvider({ children }) {
 		setPayments(res.data.data);
 	};
 
+	const getFinancedPolicies = async () => {
+		const res = await Axios.get(API + "/policies/financed");
+		setFinanced(res.data.data);
+	};
+
 	/* Functional Actions */
 
 	const userRole = (level) => {
@@ -95,6 +101,7 @@ export function UsersProvider({ children }) {
 			collectCheck,
 			validatePayment: (id) => validatePayment(id),
 			getReports: (from, to, id) => getReports(from, to, id),
+			getFinancedPolicies: () => getFinancedPolicies(),
 		}),
 		[]
 	);
@@ -106,6 +113,7 @@ export function UsersProvider({ children }) {
 		userRole,
 		reports,
 		payments,
+		financed,
 	};
 	return <UsersContext.Provider value={value}>{children}</UsersContext.Provider>;
 }

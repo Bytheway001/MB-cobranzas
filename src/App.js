@@ -27,6 +27,7 @@ import { ContextDevTool } from "react-context-devtool";
 import { ClientContext } from "./context/clients";
 import { GlobalContext } from "./context/global";
 import IncomeForm from "./Forms/Income";
+import { Financiamientos } from "./components/Screens/Reports/Financiamientos";
 const App = () => {
 	return (
 		<UsersProvider>
@@ -58,6 +59,7 @@ const AppRoutes = () => (
 							<Route exact path="/checks/collect" component={ChecksCollection} />
 							<Route exact path="/reports/finances" component={Finances} />
 							<Route exact path="/reports/finances/:id" component={Finances} />
+							<Route exact path="/reports/financiamientos" component={Financiamientos} />
 							<Route exact path="/policy/pay" component={PolicyPaymentPage}></Route>
 							<Route exact path="/other_incomes" component={IncomeForm} />
 							<Route exact path="/test" component={Renovaciones} />
