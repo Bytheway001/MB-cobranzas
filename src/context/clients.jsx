@@ -90,6 +90,11 @@ export const ClientProvider = ({ children }) => {
 		return res.data;
 	};
 
+	const createRenovation = async (renovation) => {
+		const res = await Axios.post(API + "/renewals", renovation);
+		return res.data;
+	};
+
 	const clientActions = {
 		getClients: (val) => getClientList(val),
 		select: (val) => selectClient(val),
@@ -97,6 +102,7 @@ export const ClientProvider = ({ children }) => {
 		create: (data) => createClient(data),
 		createPolicy: (data) => createPolicy(data),
 		createPayment: (data) => createPayment(data),
+		createRenovation: (data) => createRenovation(data),
 	};
 
 	const value = useMemo(() => {
