@@ -22,7 +22,6 @@ export const Renovaciones = () => {
 	const getEvents = (date) => {
 		let year = date.getFullYear();
 		let month = date.getMonthFormatted();
-
 		Axios.get(API + `/renovations?year=${year}&month=${month}`).then((res) => {
 			let result = res.data.data.map((renovation) => ({
 				title: `${renovation.client.first_name}`,

@@ -20,6 +20,7 @@ export const Financiamientos = () => {
 						<thead>
 							<tr>
 								<th>Cliente</th>
+								<th># Poliza</th>
 								<th>Prima Total</th>
 								<th>Descuentos</th>
 								<th>Cobrado</th>
@@ -34,6 +35,7 @@ export const Financiamientos = () => {
 								return (
 									<tr key={i}>
 										<td>{f.client.first_name}</td>
+										<td>{f.policy_number}</td>
 										<td>{formatMoney(f.premium, 2, ",", ".", "$")}</td>
 										<td>{formatMoney(discounts, 2, ",", ".", "$")}</td>
 										<td>{formatMoney(f.totals.collected, 2, ",", ".", "$")}</td>
