@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Card, Col, FormGroup, Table } from "react-bootstrap";
 import PaymentPolicyForm from "../../../Forms/PolicyPayment";
-import { API } from "../../../utils/utils";
+import { API, formatMoney } from "../../../utils/utils";
 import Axios from "axios";
 import { ClientSelector, PolicySelector } from "../../../Controls";
 import { useClients } from "../../../context/clients";
@@ -67,19 +67,19 @@ const PolicyPaymentsPage = () => {
 											</tr>
 											<tr>
 												<th>Prima</th>
-												<th>{policy.premium}</th>
+												<th>{formatMoney(policy.premium, 2, ",", ".", "$")}</th>
 											</tr>
 											<tr>
 												<th>Cobrado</th>
-												<th>{policy.totals.collected}</th>
+												<th>{formatMoney(policy.totals.collected, 2, ",", ".", "$")}</th>
 											</tr>
 											<tr>
 												<th>Financiado</th>
-												<th>{policy.totals.financed}</th>
+												<th>{formatMoney(policy.totals.financed, 2, ",", ".", "$")}</th>
 											</tr>
 											<tr>
 												<th>Pagado a la Aseg</th>
-												<th>{policy.totals.payed}</th>
+												<th>{formatMoney(policy.totals.payed, 2, ",", ".", "$")}</th>
 											</tr>
 										</tbody>
 									</Table>
