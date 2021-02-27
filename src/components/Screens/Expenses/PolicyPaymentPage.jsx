@@ -23,7 +23,7 @@ const PolicyPaymentsPage = () => {
 	};
 
 	return (
-		<Row>
+		<Row style={{ fontSize: "0.8em" }}>
 			<Col sm={3}>
 				<Card className="h-100">
 					<Card.Header className="bg-primary text-white">Seleccion de Cliente</Card.Header>
@@ -55,31 +55,47 @@ const PolicyPaymentsPage = () => {
 										<tbody>
 											<tr>
 												<th>Aseguradora</th>
-												<th>{policy.company.name}</th>
+												<td>{policy.company.name}</td>
 											</tr>
 											<tr>
 												<th>Plan</th>
-												<th>{policy.plan.name}</th>
+												<td>{policy.plan.name}</td>
 											</tr>
 											<tr>
 												<th># Poliza</th>
-												<th>{policy.policy_number}</th>
+												<td>{policy.policy_number}</td>
 											</tr>
 											<tr>
 												<th>Prima</th>
-												<th>{formatMoney(policy.premium, 2, ",", ".", "$")}</th>
+												<td>{formatMoney(policy.premium, 2, ",", ".", "$")}</td>
+											</tr>
+											<tr>
+												<th>Descuentos</th>
+												<td>
+													{formatMoney(
+														policy.totals.discounts.agency +
+															policy.totals.discounts.agent +
+															policy.totals.discounts.company,
+														2,
+														",",
+														".",
+														"$"
+													)}
+												</td>
 											</tr>
 											<tr>
 												<th>Cobrado</th>
-												<th>{formatMoney(policy.totals.collected, 2, ",", ".", "$")}</th>
+												<td>{formatMoney(policy.totals.collected, 2, ",", ".", "$")}</td>
 											</tr>
 											<tr>
 												<th>Financiado</th>
-												<th>{formatMoney(policy.totals.financed, 2, ",", ".", "$")}</th>
+												<td>{formatMoney(policy.totals.financed, 2, ",", ".", "$")}</td>
 											</tr>
 											<tr>
 												<th>Pagado a la Aseg</th>
-												<th>{formatMoney(policy.totals.payed, 2, ",", ".", "$")}</th>
+												<td>
+													{formatMoney(policy.totals.payed - policy.totals.discounts.company, 2, ",", ".", "$")}
+												</td>
 											</tr>
 										</tbody>
 									</Table>
@@ -115,9 +131,7 @@ const PolicyPaymentsPage = () => {
 												<tr key={k}>
 													<td>{hist.payment_date}</td>
 													<td>{hist.payment_type}</td>
-													<td>
-														{hist.amount} {hist.currency}
-													</td>
+													<td>{formatMoney(hist.amount, 2, ",", ".", hist.currency === "USD" ? "$" : "Bs")}</td>
 												</tr>
 											))}
 										</tbody>
@@ -142,9 +156,7 @@ const PolicyPaymentsPage = () => {
 												<tr key={k}>
 													<td>{hist.payment_date}</td>
 													<td>{hist.payment_type}</td>
-													<td>
-														{hist.amount} {hist.currency}
-													</td>
+													<td>{formatMoney(hist.amount, 2, ",", ".", hist.currency === "USD" ? "$" : "Bs")}</td>
 												</tr>
 											))}
 										</tbody>
