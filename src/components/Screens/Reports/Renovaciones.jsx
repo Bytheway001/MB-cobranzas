@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
 import Axios from "axios";
 import { API } from "../../../utils/utils";
 import "moment/locale/es";
 import { Modal } from "react-bootstrap";
-import FormCobranza from "../../../Forms/Payment";
+import { Renewal } from "../../../Forms/Renewal";
 // eslint-disable-next-line no-extend-native
 Date.prototype.getMonthFormatted = function () {
 	var month = this.getMonth() + 1;
@@ -23,7 +22,6 @@ export const Renovaciones = () => {
 	const getEvents = (date) => {
 		let year = date.getFullYear();
 		let month = date.getMonthFormatted();
-
 		Axios.get(API + `/renovations?year=${year}&month=${month}`).then((res) => {
 			let result = res.data.data.map((renovation) => ({
 				title: `${renovation.client.first_name}`,
@@ -44,7 +42,7 @@ export const Renovaciones = () => {
 				<Modal show={currentEvent ? true : false} onHide={() => setCurrentEvent(null)}>
 					<Modal.Header closeButton>{`Cliente ${currentEvent.title}`}</Modal.Header>
 					<Modal.Body>
-						<FormCobranza policy={currentEvent} renovation={true} />
+						<Renewal pId={currentEvent.id} />
 					</Modal.Body>
 				</Modal>
 			)}

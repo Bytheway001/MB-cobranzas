@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonGroup } from "react-bootstrap";
 import ToolkitProvider, { CSVExport } from "react-bootstrap-table2-toolkit";
 import BootstrapTable from "react-bootstrap-table-next";
-import { methods } from "../../../utils/utils";
+import { TranslatePaymentMethods } from "../../../utils/utils";
 import filterFactory from "react-bootstrap-table2-filter";
 
 const columnStyles = {
@@ -23,7 +23,12 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 		{ dataField: "policy.client.first_name", text: "Asegurado" },
 		{ dataField: "policy.plan.company.name", text: "Aseguradora" },
 		{ dataField: "account.name", text: "Cuenta", csvFormatter: (cell) => cell || "--", headerStyle: columnStyles.account },
-		{ dataField: "payment_method", text: "Metodo de Pago", formatter: (cell) => methods[cell], csvFormatter: (cell) => methods[cell] },
+		{
+			dataField: "payment_method",
+			text: "Metodo de Pago",
+			formatter: (cell) => TranslatePaymentMethods[cell],
+			csvFormatter: (cell) => TranslatePaymentMethods[cell],
+		},
 		{
 			dataField: "policy.premium",
 			text: "Prima",

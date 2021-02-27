@@ -13,6 +13,8 @@ import { ExpensesList } from "./ExpensesList";
 import { PolicyPaymentsList } from "./PolicyPaymentsList";
 import { useUser } from "../../../context/User";
 import { useGlobal } from "../../../context/global";
+import { faBuilding, faCoins, faMoneyBillAlt, faMoneyCheck, faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Finances = ({ match }) => {
 	const { userActions, reports, userRole } = useUser();
@@ -67,22 +69,55 @@ const Finances = ({ match }) => {
 
 				<Col sm={12}>
 					{reports && (
-						<Tabs defaultActiveKey="expenses" id="uncontrolled-tab-example">
-							<Tab eventKey="expenses" title="Gastos" className="p-3">
+						<Tabs defaultActiveKey="expenses" id="uncontrolled-tab-example" className="nav-justified tabs-custom">
+							<Tab
+								eventKey="expenses"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faSignOutAlt} />
+										{"Gastos"}
+									</>
+								}
+								className="p-3"
+							>
 								<ExpensesList expenses={reports.expenses} setCorrection={setCorrection} />
 							</Tab>
-							<Tab eventKey="incomes" title="Ingresos" className="p-3">
+							<Tab
+								eventKey="incomes"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faSignInAlt} />
+										{"Ingresos"}
+									</>
+								}
+								className="p-3"
+							>
 								<IncomeList incomes={reports.incomes} setCorrection={setCorrection} />
 							</Tab>
 							<Tab
 								eventKey="policy_payments"
-								title="Pago de Polizas"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faBuilding} />
+										{"Pago de Polizas"}
+									</>
+								}
 								className="p-3"
 								tabClassName={!userRole(255) ? "d-none" : ""}
 							>
 								<PolicyPaymentsList payments={reports.policy_payments} setCorrection={setCorrection} />
 							</Tab>
-							<Tab eventKey="cash" title="Saldos" className="p-3" tabClassName={!userRole(255) ? "d-none" : ""}>
+							<Tab
+								eventKey="cash"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faCoins} />
+										{"Saldos"}
+									</>
+								}
+								className="p-3"
+								tabClassName={!userRole(255) ? "d-none" : ""}
+							>
 								<Row>
 									<Col sm={6}>
 										<Card>
@@ -172,10 +207,28 @@ const Finances = ({ match }) => {
 									</Col>
 								</Row>
 							</Tab>
-							<Tab eventKey="payments" title="Cobranzas" className="p-3">
+							<Tab
+								eventKey="payments"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faMoneyBillAlt} />
+										{"Cobranzas"}
+									</>
+								}
+								className="p-3"
+							>
 								<PaymentsList payments={reports.payments} setCorrection={setCorrection} />
 							</Tab>
-							<Tab eventKey="checks" title="Cheques" className="p-3">
+							<Tab
+								eventKey="checks"
+								title={
+									<>
+										<FontAwesomeIcon className="mx-2" icon={faMoneyCheck} />
+										{"Cheques"}
+									</>
+								}
+								className="p-3"
+							>
 								<Table style={{ fontSize: "0.8em" }} size="sm" className="table-striped" variant="hover">
 									<thead>
 										<tr className="bg-info text-white">

@@ -50,7 +50,7 @@ export function numerize(number) {
 	return Number(parseFloat(number.replace(",", ".")).toFixed(2));
 }
 
-export const methods = {
+export const TranslatePaymentMethods = {
 	cash_to_agency: "Efectivo",
 	check_to_agency_local: "Cheque -> agencia (L)",
 	check_to_agency_foreign: "Cheque -> agencia (E)",
