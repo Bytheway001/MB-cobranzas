@@ -62,7 +62,7 @@ const AppRoutes = () => (
 							<Route exact path="/reports/financiamientos" component={Financiamientos} />
 							<Route exact path="/policy/pay" component={PolicyPaymentPage}></Route>
 							<Route exact path="/other_incomes" component={IncomeForm} />
-							<Route exact path="/test" component={Renovaciones} />
+							<Route exact path="/renewals" component={Renovaciones} />
 						</Fragment>
 					) : (
 						<Route path="/" component={Maintenance} />
