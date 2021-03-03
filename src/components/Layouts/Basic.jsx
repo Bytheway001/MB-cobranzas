@@ -10,6 +10,7 @@ function responser(err) {
 		console.log(err.response);
 		return err.response.statusText;
 	} else if (err.request) {
+		console.log(err.response);
 		return "Error de Red";
 	} else {
 		return err.message;
@@ -45,7 +46,8 @@ const BasicLayout = ({ children }) => {
 			.catch((x) => {
 				addNotification("danger", "Companies Error: " + responser(x));
 			});
-	}, [globalActions, addNotification]);
+		// eslint-disable-next-line
+	}, [globalActions]);
 
 	return (
 		<>
