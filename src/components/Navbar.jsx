@@ -8,7 +8,7 @@ const Navbar = () => {
 	const { user, userActions, userRole } = useUser();
 
 	return (
-		<Bar variant="dark" bg="dark" expand="lg">
+		<Bar variant="dark" bg="primary" expand="lg">
 			<Bar.Brand href="#home">Cobranzas PS</Bar.Brand>
 			<Bar.Toggle aria-controls="basic-navbar-nav" />
 			<Bar.Collapse id="basic-navbar-nav">
