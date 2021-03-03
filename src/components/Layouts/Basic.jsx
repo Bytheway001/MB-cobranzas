@@ -45,7 +45,7 @@ const BasicLayout = ({ children }) => {
 			.catch((x) => {
 				addNotification("danger", "Companies Error: " + responser(x));
 			});
-	}, [globalActions]);
+	}, [globalActions, addNotification]);
 
 	return (
 		<>
