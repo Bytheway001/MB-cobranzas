@@ -5,16 +5,46 @@ import { useNotifications } from "../../context/notification";
 import { useGlobal } from "../../context/global";
 export const GlobalContext = React.createContext();
 
+function responser(err) {
+	if (err.response) {
+		console.log(err.response);
+		return err.response.statusText;
+	} else if (err.request) {
+		return "Error de Red";
+	} else {
+		return err.message;
+	}
+}
 const BasicLayout = ({ children }) => {
-	const { notifications, deleteNotification } = useNotifications();
+	const { notifications, deleteNotification, addNotification } = useNotifications();
 	const { globalActions } = useGlobal();
 
 	useEffect(() => {
 		globalActions.getCategories();
-		globalActions.getAgents();
-		globalActions.getAccounts();
-		globalActions.getCollectors();
-		globalActions.getCompanies();
+		globalActions
+			.getAgents()
+			.then()
+			.catch((x) => {
+				addNotification("secondary", "Agents Error: " + responser(x));
+			});
+		globalActions
+			.getAccounts()
+			.then()
+			.catch((x) => {
+				addNotification("warning", "Accounts Error: " + responser(x));
+			});
+		globalActions
+			.getCollectors()
+			.then()
+			.catch((x) => {
+				addNotification("info", "Collectors Error: " + responser(x));
+			});
+		globalActions
+			.getCompanies()
+			.then()
+			.catch((x) => {
+				addNotification("danger", "Companies Error: " + responser(x));
+			});
 	}, [globalActions]);
 
 	return (
