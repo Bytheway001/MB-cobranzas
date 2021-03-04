@@ -3,48 +3,87 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 jobs:
-  deploy:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10.15.0
+	deploy:
+		docker:
+			# specify the version you desire here
+			- image: circleci/node:10.15.0
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+			# Specify service dependencies here if necessary
+			# CircleCI maintains a library of pre-built images
+			# documented at https://circleci.com/docs/2.0/circleci-images/
+			# - image: circleci/mongo:3.4.4
 
-    working_directory: ~/repo
+		working_directory: ~/repo
 
-    steps:
-      - add_ssh_keys:
-          fingerprints: 
-            - "71:3a:6b:fd:84:cf:60:e6:18:f6:fb:02:11:08:8d:0a"
-      - checkout
-      - run: sudo apt install rsync
+		steps:
+			- add_ssh_keys:
+					fingerprints: 
+						- "71:3a:6b:fd:84:cf:60:e6:18:f6:fb:02:11:08:8d:0a"
+			- checkout
+			- run: sudo apt install rsync
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      # run tests!
-      - run: yarn build
-      - run:
-          name: Deploy to Server
-          command: rsync -v -e "ssh -o StrictHostKeyChecking=no" -avz --delete --exclude ".htaccess" /home/circleci/repo/build/ $SSH_USER@$SSH_HOST:/home/megabrokers/public_html/mb-cobranzas
+			# Download and cache dependencies
+			- restore_cache:
+					keys:
+						- v1-dependencies-{{ checksum "package.json" }}
+						# fallback to using the latest cache if no exact match is found
+						- v1-dependencies-
+			- run: yarn install
+			- save_cache:
+					paths:
+						- node_modules
+					key: v1-dependencies-{{ checksum "package.json" }}
+			# run tests!
+			- run: yarn build
+			- run:
+					name: Deploy to Server
+					command: rsync -v -e "ssh -o StrictHostKeyChecking=no" -avz --delete --exclude ".htaccess" /home/circleci/repo/build/ $SSH_USER@$SSH_HOST:/home/megabrokers/public_html/mb-cobranzas
+	test_deploy:
+		docker:
+				# specify the version you desire here
+				- image: circleci/node:10.15.0
+			# Specify service dependencies here if necessary
+			# CircleCI maintains a library of pre-built images
+			# documented at https://circleci.com/docs/2.0/circleci-images/
+			# - image: circleci/mongo:3.4.4
+
+		working_directory: ~/repo
+
+		steps:
+			- add_ssh_keys:
+					fingerprints: 
+						- "71:3a:6b:fd:84:cf:60:e6:18:f6:fb:02:11:08:8d:0a"
+			- checkout
+			- run: sudo apt install rsync
+
+			# Download and cache dependencies
+			- restore_cache:
+					keys:
+						- v1-dependencies-{{ checksum "package.json" }}
+						# fallback to using the latest cache if no exact match is found
+						- v1-dependencies-
+			- run: yarn install
+			- save_cache:
+					paths:
+						- node_modules
+					key: v1-dependencies-{{ checksum "package.json" }}
+			# run tests!
+			- run: yarn build
+			- run:
+					name: Deploy to Server
+					command: rsync -v -e "ssh -o StrictHostKeyChecking=no" -avz --delete --exclude ".htaccess" /home/circleci/repo/build/ $SSH_USER@$SSH_HOST:/home/megabrokers/public_html/test
 workflows:
-  version: 2
-  deploy:
-    jobs:
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
-  
+	version: 2
+	deploy:
+		jobs:
+			- deploy:
+					filters:
+						branches:
+							only:
+								- master
+			- test_deploy:
+					filters:
+						branches:
+							only:
+								- test
+	
