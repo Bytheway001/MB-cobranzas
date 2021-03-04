@@ -18,6 +18,7 @@ const HomeScreen = ({ loading }) => {
 		});
 	};
 	const responseGoogleFail = (response) => {
+		console.log(response);
 		alert(response);
 	};
 	if (!user) {
