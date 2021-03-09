@@ -10,8 +10,7 @@ function responser(err) {
 		console.log(err.response);
 		return err.response.statusText;
 	} else if (err.request) {
-		console.log(err.response);
-		return "Error de Red";
+		return JSON.stringify(err);
 	} else {
 		return err.message;
 	}

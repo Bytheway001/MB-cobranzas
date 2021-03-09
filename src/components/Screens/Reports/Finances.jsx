@@ -242,7 +242,7 @@ const Finances = ({ match }) => {
 										{reports.checks.map((check, key) => (
 											<tr key={key}>
 												<td>{check.client}</td>
-												<td>{formatMoney(check.amount, 2, ",", ".", "$")}</td>
+												<td>{formatMoney(check.amount, 2, ",", ".", check.currency === "USD" ? "$" : "Bs.")}</td>
 												<td>{check.status}</td>
 												<td>{check.collected}</td>
 											</tr>
