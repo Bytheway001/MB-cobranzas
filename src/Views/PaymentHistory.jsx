@@ -1,18 +1,35 @@
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Fragment } from "react";
-import { Modal, Button, Table } from "react-bootstrap";
+import React, { useState, useEffect, Fragment } from "react";
+import { Tabs, Tab, Modal, Button, Table } from "react-bootstrap";
+import { useGlobal } from "../context/global";
 import { API, formatMoney, TranslatePaymentMethods } from "../utils/utils";
 const PaymentHistory = ({ policy }) => {
+	const { accounts } = useGlobal();
 	const [show, setShow] = useState(false);
-	const [payments, setPayments] = useState([]);
+	const [history, setHistory] = useState([]);
+
+	/*
+	account_id: 101
+	amount: 9267.24
+	comment: "CR325"
+	corrected_with: null
+	created_at: "12/01/2021"
+	currency: "USD"
+	id: 107
+	payment_date: "08/01/2021"
+	payment_type: "Direct"
+	policy_id: 8283
+	policy_status: null
+	user_id: 3
+	*/
+
 	useEffect(() => {
 		if (show) {
-			Axios.get(`${API}/policies/${policy}/payments`).then((res) => {
-				setPayments(res.data.data);
+			Axios.get(`${API}/payments/policy/${policy}`).then((res) => {
+				setHistory(res.data.data);
 			});
 		}
-	}, [show, setPayments, policy]);
+	}, [show, setHistory, policy]);
 
 	return (
 		<>
@@ -22,56 +39,96 @@ const PaymentHistory = ({ policy }) => {
 			<Modal show={show} onHide={() => setShow(false)} size="xl">
 				<Modal.Header closeButton>Historial de Pagos</Modal.Header>
 				<Modal.Body>
-					<Table size="sm">
-						<thead>
-							<th>#Ref</th>
-							<th>Fecha</th>
-							<th>Metodo</th>
-							<th>Cantidad</th>
-							<th>Descuentos</th>
-							<th>Comentario</th>
-						</thead>
-						<tbody>
-							{Object.keys(payments).map((period, key) => (
-								<Fragment key={key}>
+					<Tabs defaultActiveKey="payments" id="uncontrolled-tab-example">
+						<Tab eventKey="payments" title="Cobranzas" className="p-3">
+							<Table size="sm" style={{ fontSize: "0.8em" }}>
+								<thead>
 									<tr>
-										<td className="bg-primary text-white text-center" colSpan={6}>
-											Periodo {period === "legacy" ? "Anterior" : period}
-										</td>
+										<th>Fecha</th>
+										<th>Metodo</th>
+										<th>Cantidad</th>
+										<th>Cuenta</th>
+										<th>Descuentos</th>
+										<th>Operador</th>
+										<th>Comentario</th>
 									</tr>
-									{payments[period].map((payment, kk) => {
-										let discounts = payment.agent_discount + payment.agency_discount + payment.company_discount;
-										return (
-											<tr key={kk}>
-												<td>{payment.id}</td>
-												<td>{payment.payment_date}</td>
-												<td>{TranslatePaymentMethods[payment.payment_method]}</td>
-												<td>
-													{formatMoney(payment.amount, "2", ".", ",", payment.currency === "USD" ? "$" : "Bs.")}{" "}
+								</thead>
+								<tbody>
+									{Object.keys(history).map((period, key) => (
+										<Fragment key={key}>
+											<tr>
+												<td className="bg-primary text-white text-center" colSpan={7}>
+													Periodo {period === "legacy" ? "Anterior" : period}
 												</td>
-												<td>{formatMoney(discounts, 2, ".", ",", payment.currency === "BOB" ? "Bs" : "$")}</td>
-												<td>{payment.comment}</td>
 											</tr>
-										);
-									})}
-								</Fragment>
-							))}
-							{/* payments.map((payment, key) => {
-								let discounts = payment.agent_discount + payment.agency_discount + payment.company_discount;
-
-								return (
-									<tr key={key}>
-										<td>{payment.id}</td>
-										<td>{payment.payment_date}</td>
-										<td>{TranslatePaymentMethods[payment.payment_method]}</td>
-										<td>{formatMoney(payment.amount, "2", ".", ",", payment.currency === "USD" ? "$" : "Bs.")} </td>
-										<td>{formatMoney(discounts, 2, ".", ",", payment.currency === "BOB" ? "Bs" : "$")}</td>
-										<td>{payment.comment}</td>
+											{history[period].payments.map((payment, kk) => {
+												let discounts = payment.agent_discount + payment.agency_discount + payment.company_discount;
+												return (
+													<tr key={kk}>
+														<td>{payment.payment_date}</td>
+														<td>{TranslatePaymentMethods[payment.payment_method]}</td>
+														<td>
+															{formatMoney(
+																payment.amount,
+																"2",
+																".",
+																",",
+																payment.currency === "USD" ? "$" : "Bs."
+															)}{" "}
+														</td>
+														<td>{accounts.find((x) => x.id === payment.account_id).name || null}</td>
+														<td>
+															{formatMoney(discounts, 2, ".", ",", payment.currency === "BOB" ? "Bs" : "$")}
+														</td>
+														<td>{payment.user.name}</td>
+														<td>{payment.comment}</td>
+													</tr>
+												);
+											})}
+										</Fragment>
+									))}
+								</tbody>
+							</Table>
+						</Tab>
+						<Tab eventKey="policy_payments" title="Pagos de Poliza" className="p-3">
+							<Table size="sm" style={{ fontSize: "0.8em" }}>
+								<thead>
+									<tr>
+										<th>Fecha</th>
+										<th>Pagado con</th>
+										<th>Monto</th>
+										<th>Operador</th>
+										<td>Comentario</td>
 									</tr>
-								);
-							}) */}
-						</tbody>
-					</Table>
+								</thead>
+								<tbody>
+									{Object.keys(history).map((period, key) => (
+										<Fragment key={key}>
+											<tr>
+												<td className="bg-primary text-white text-center" colSpan={6}>
+													Periodo {period === "legacy" ? "Anterior" : period}
+												</td>
+											</tr>
+											{history[period].policy_payments.map((pp, kk) => {
+												console.log(pp.account_id);
+												return (
+													<tr key={kk}>
+														<td>{pp.payment_date}</td>
+														<td>{accounts.find((x) => x.id === pp.account_id).name || null}</td>
+														<td>
+															{formatMoney(pp.amount, "2", ".", ",", pp.currency === "USD" ? "$" : "Bs.")}{" "}
+														</td>
+														<td>{pp.user.name}</td>
+														<td>{pp.comment}</td>
+													</tr>
+												);
+											})}
+										</Fragment>
+									))}
+								</tbody>
+							</Table>
+						</Tab>
+					</Tabs>
 				</Modal.Body>
 			</Modal>
 		</>
