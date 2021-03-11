@@ -109,7 +109,10 @@ export const ClientProfile = ({ client }) => {
 					<th className="bg-info text-white" style={{ verticalAlign: "middle" }}>
 						Acciones:
 					</th>
-					<td>{policy.status !== "Pagada" ? <PaymentForm policy={policy} /> : <Renewal pId={policy.id} />}</td>
+					<td>
+						<Renewal pId={policy.id} />
+						{policy.status !== "Pagada" ? <PaymentForm policy={policy} /> : null}
+					</td>
 					<td colSpan={2}>
 						<PaymentHistory policy={policy.id} />
 					</td>

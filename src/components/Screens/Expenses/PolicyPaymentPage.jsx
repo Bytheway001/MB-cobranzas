@@ -127,13 +127,6 @@ const PolicyPaymentsPage = () => {
 												<th>Tipo</th>
 												<th>Monto</th>
 											</tr>
-											{history.policy_payments.map((hist, k) => (
-												<tr key={k}>
-													<td>{hist.payment_date}</td>
-													<td>{hist.payment_type}</td>
-													<td>{formatMoney(hist.amount, 2, ",", ".", hist.currency === "USD" ? "$" : "Bs")}</td>
-												</tr>
-											))}
 										</tbody>
 									</Table>
 								)}
@@ -152,13 +145,6 @@ const PolicyPaymentsPage = () => {
 												<th>Tipo</th>
 												<th>Monto</th>
 											</tr>
-											{history.payments.map((hist, k) => (
-												<tr key={k}>
-													<td>{hist.payment_date}</td>
-													<td>{hist.payment_type}</td>
-													<td>{formatMoney(hist.amount, 2, ",", ".", hist.currency === "USD" ? "$" : "Bs")}</td>
-												</tr>
-											))}
 										</tbody>
 									</Table>
 								)}
