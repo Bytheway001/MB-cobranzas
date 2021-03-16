@@ -44,9 +44,12 @@ const Navbar = () => {
 							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/payments">
 								Validar Cobranzas
 							</NavDropdown.Item>
-							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/general">
+							{/*
+								<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/general">
 								General
 							</NavDropdown.Item>
+							*/}
+
 							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/finances">
 								Financiero
 							</NavDropdown.Item>
