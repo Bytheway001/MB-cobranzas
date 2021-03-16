@@ -76,7 +76,11 @@ const PaymentHistory = ({ policy }) => {
 																payment.currency === "USD" ? "$" : "Bs."
 															)}{" "}
 														</td>
-														<td>{accounts.find((x) => x.id === payment.account_id).name || null}</td>
+														<td>
+															{payment.account_id
+																? accounts.find((x) => x.id === payment.account_id).name || null
+																: "N/A"}
+														</td>
 														<td>
 															{formatMoney(discounts, 2, ".", ",", payment.currency === "BOB" ? "Bs" : "$")}
 														</td>
