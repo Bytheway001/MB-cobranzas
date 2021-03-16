@@ -20,7 +20,9 @@ const agencyMethods = [
 	"claim_to_company",
 	"check_to_agency_foreign",
 	"check_to_agency_local",
+	"other_credit_card",
 ];
+
 const PaymentForm = ({ policy, renovation }) => {
 	const { clientActions } = useClients();
 	const { addNotification } = useNotifications();
