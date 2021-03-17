@@ -61,6 +61,7 @@ export const TranslatePaymentMethods = {
 	check_to_foreign_company: "Cheque -> Compañia",
 	transfer_to_company: "Transf -> Compañia",
 	tdc_to_company: "Portal -> Compañia",
+	other_credit_card: "Tarj. Terceros",
 };
 
 export function resolve(path, obj) {

@@ -15,6 +15,7 @@ import { useUser } from "../../../context/User";
 import { useGlobal } from "../../../context/global";
 import { faBuilding, faCoins, faMoneyBillAlt, faMoneyCheck, faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { downloadXls } from "../../../utils/donwloadXls";
 
 const Finances = ({ match }) => {
 	const { userActions, reports, userRole } = useUser();
@@ -25,7 +26,11 @@ const Finances = ({ match }) => {
 	const [correction, setCorrection] = useState(null);
 	const [saldo, setSaldo] = useState({ USD: 0, BOB: 0 });
 	const [account_id, setAccountId] = useState(null);
-
+	const [period, setPeriod] = useState(null);
+	const download = async () => {
+		const res = await Axios.get(API + "/exports/cash/" + account_id + (period ? "?period=" + period : ""));
+		downloadXls(res.data.data, res.data.filename);
+	};
 	const fillModal = useCallback(
 		(period) => {
 			console.log(accounts);
@@ -33,6 +38,7 @@ const Finances = ({ match }) => {
 				setSaldo({ BOB: accounts.find((x) => x.id === account_id).BOB, USD: accounts.find((x) => x.id === account_id).USD });
 				setModalData(res.data.data);
 				setModalShow(true);
+				setPeriod(period);
 			});
 		},
 		[account_id, accounts]
@@ -163,6 +169,7 @@ const Finances = ({ match }) => {
 											<Card.Header className="bg-primary text-white">Efectivo</Card.Header>
 											<Card.Body>
 												<Extracto
+													download={download}
 													bob={saldo.BOB}
 													usd={saldo.USD}
 													show={modalshow}
