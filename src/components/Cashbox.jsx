@@ -7,20 +7,35 @@ import { CurrencyChange } from "../Forms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { useGlobal } from "../context/global";
+import { downloadXls } from "../utils/donwloadXls";
 
 export const CashBox = ({ usd, bob, account_id }) => {
 	const { globalActions } = useGlobal();
 	const [modalData, setModalData] = useState(null);
 	const [modalShow, setModalShow] = useState(false);
+	const [period, setPeriod] = useState(false);
+
+	const download = async () => {
+		const res = await Axios.get(API + "/exports/cash/" + account_id + (period ? "?period=" + period : ""));
+		downloadXls(res.data.data, res.data.filename);
+	};
+
 	const fillModal = (period) => {
 		Axios.get(API + "/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
 			setModalData(res.data.data);
 			setModalShow(true);
 		});
+		setPeriod(period);
 	};
 	return (
 		<Fragment>
-			<Extracto show={modalShow} setShow={setModalShow} data={modalData} onMonthChange={(period) => fillModal(period)} />
+			<Extracto
+				show={modalShow}
+				setShow={setModalShow}
+				data={modalData}
+				download={download}
+				onMonthChange={(period) => fillModal(period)}
+			/>
 			<Table variant="bordered" size="sm">
 				<thead>
 					<tr>
