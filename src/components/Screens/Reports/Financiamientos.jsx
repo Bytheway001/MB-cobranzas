@@ -21,7 +21,7 @@ export const Financiamientos = () => {
 							<tr>
 								<th>Cliente</th>
 								<th># Poliza</th>
-								<th>Prima Total</th>
+								<th>Compañia</th>
 								<th>Monto Financiado</th>
 							</tr>
 						</thead>

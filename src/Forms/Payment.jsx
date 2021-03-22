@@ -9,7 +9,7 @@ import { Field, Form } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
 
 import { composeValidators, Validators } from "./Validators";
-import { DatePicker, Select } from "../Controls";
+import { ClientSelector, DatePicker, Select } from "../Controls";
 import { useClients } from "../context/clients";
 import { useNotifications } from "../context/notification";
 const agencyMethods = [
@@ -24,16 +24,19 @@ const agencyMethods = [
 ];
 
 const PaymentForm = ({ policy, renovation }) => {
-	const { clientActions } = useClients();
+	const { clientActions, clients } = useClients();
 	const { addNotification } = useNotifications();
 	const [show, setShow] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 	const onFormSubmit = (values) => {
+		// eslint-disable-next-line
+		let { receiving_client, ...realValues } = values;
+
 		setLoading(true);
 		clientActions
-			.createPayment(values)
+			.createPayment(realValues)
 			.then(() => {
 				addNotification("success", "Cobranza Registrada con exito");
 				setLoading(false);
@@ -100,6 +103,8 @@ const PaymentForm = ({ policy, renovation }) => {
 							amount: 0,
 							change_rate: "1.00",
 							currency: "USD",
+							receiving_client: null,
+							receiving_policy: null,
 						}}
 					>
 						{({ handleSubmit, values }) => (
@@ -138,6 +143,44 @@ const PaymentForm = ({ policy, renovation }) => {
 															options={<AccountsOptions />}
 															{...input}
 														/>
+														{meta.error && meta.touched && <span className="error-feedback">{meta.error}</span>}
+													</FormGroup>
+												)}
+											</Field>
+										)}
+										{values.payment_method === "other_credit_card" && (
+											<Field name="receiving_client" validate={Validators.required}>
+												{({ input, meta }) => (
+													<FormGroup>
+														<label>Cliente que recibe el pago</label>
+
+														<ClientSelector
+															onSearch={clientActions.getClients}
+															title="Cliente"
+															options={clients}
+															isLoading={loading}
+															onChange={input.onChange}
+															clearButton={true}
+															selected={input.value[0]}
+														/>
+														{meta.error && meta.touched && <span className="error-feedback">{meta.error}</span>}
+													</FormGroup>
+												)}
+											</Field>
+										)}
+										{values.receiving_client && values.receiving_client[0] && (
+											<Field name="receiving_policy" validate={Validators.required}>
+												{({ input, meta }) => (
+													<FormGroup>
+														<label>Poliza que Recibe el Pago</label>
+														<Select
+															options={values.receiving_client[0].policies.map((policy, key) => (
+																<option key={key} value={policy.id}>
+																	{policy.policy_number}-{policy.plan.name}
+																</option>
+															))}
+															{...input}
+														></Select>
 														{meta.error && meta.touched && <span className="error-feedback">{meta.error}</span>}
 													</FormGroup>
 												)}
