@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Card, Col, FormGroup, Table } from "react-bootstrap";
 import PaymentPolicyForm from "../../../Forms/PolicyPayment";
-import { API, formatMoney } from "../../../utils/utils";
+import { API, formatMoney, TranslatePaymentMethods } from "../../../utils/utils";
 import Axios from "axios";
 import { ClientSelector, PolicySelector } from "../../../Controls";
 import { useClients } from "../../../context/clients";
@@ -17,7 +17,7 @@ const PolicyPaymentsPage = () => {
 		}
 	}, [policy]);
 	const getPayments = (policy) => {
-		Axios.get(API + "/payments/policy/" + policy.id).then((res) => {
+		Axios.get(API + "/payments/policy/" + policy.id + "?type=list").then((res) => {
 			setHistory(res.data.data);
 		});
 	};
@@ -121,12 +121,21 @@ const PolicyPaymentsPage = () => {
 							<Card.Body>
 								{history && (
 									<Table size="sm">
-										<tbody>
+										<thead>
 											<tr>
 												<th>Fecha</th>
-												<th>Tipo</th>
+												<th>Cuenta</th>
 												<th>Monto</th>
 											</tr>
+										</thead>
+										<tbody>
+											{history.policy_payments.map((pp, k) => (
+												<tr key={k}>
+													<td>{pp.payment_date}</td>
+													<td>{pp.account_id || "Tarjeta Terceros"}</td>
+													<td>{pp.amount}</td>
+												</tr>
+											))}
 										</tbody>
 									</Table>
 								)}
@@ -139,12 +148,21 @@ const PolicyPaymentsPage = () => {
 							<Card.Body>
 								{history && (
 									<Table size="sm">
-										<tbody>
+										<thead>
 											<tr>
 												<th>Fecha</th>
 												<th>Tipo</th>
 												<th>Monto</th>
 											</tr>
+										</thead>
+										<tbody>
+											{history.payments.map((pp, k) => (
+												<tr key={k}>
+													<td>{pp.payment_date}</td>
+													<td>{TranslatePaymentMethods[pp.payment_method]}</td>
+													<td>{pp.amount}</td>
+												</tr>
+											))}
 										</tbody>
 									</Table>
 								)}
