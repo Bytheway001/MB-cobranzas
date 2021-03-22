@@ -114,11 +114,11 @@ const PaymentHistory = ({ policy }) => {
 												</td>
 											</tr>
 											{history[period].policy_payments.map((pp, kk) => {
-												console.log(pp.account_id);
+												let account = accounts.find((x) => x.id === pp.account_id);
 												return (
 													<tr key={kk}>
 														<td>{pp.payment_date}</td>
-														<td>{accounts.find((x) => x.id === pp.account_id).name || null}</td>
+														<td>{account ? account.name : "Tarjeta Terceros"}</td>
 														<td>
 															{formatMoney(pp.amount, "2", ".", ",", pp.currency === "USD" ? "$" : "Bs.")}{" "}
 														</td>

@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Modal, Button, ButtonGroup, Row, Col } from "react-bootstrap";
 import { formatMoney } from "../../../../utils/utils";
 import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, { CSVExport } from "react-bootstrap-table2-toolkit";
+import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
-export const Extracto = ({ show, setShow, data, onMonthChange }) => {
-	const { ExportCSVButton } = CSVExport;
+export const Extracto = ({ show, setShow, data, onMonthChange, download }) => {
 	const [balance] = useState("all");
 	let finalData = [];
 	if (data) {
@@ -152,9 +151,9 @@ export const Extracto = ({ show, setShow, data, onMonthChange }) => {
 						{(props) => {
 							return (
 								<>
-									<ExportCSVButton className="btn btn-primary btn-sm my-2" {...props.csvProps}>
-										Descargar CSV!!
-									</ExportCSVButton>
+									<Button className="btn btn-primary btn-sm my-2" onClick={download}>
+										Descargar Reporte
+									</Button>
 									<BootstrapTable
 										{...props.baseProps}
 										striped
