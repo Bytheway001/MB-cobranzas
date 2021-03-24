@@ -24,7 +24,7 @@ export function UsersProvider({ children }) {
 	/* Post Requests */
 	const createTransfer = async (values) => {
 		try {
-			const res = await Axios.post(API + "/transfers", values);
+			const res = await Axios.post(API + "/operations/createtransfer", values);
 			return res.data;
 		} catch (err) {
 			return err.response;
@@ -33,17 +33,18 @@ export function UsersProvider({ children }) {
 	const createExpense = async (values) => {
 		if (window.confirm("Desea registrar este egreso?")) {
 			const res = await Axios.post(API + "/expenses", { ...values });
+			console.log(res);
 			return res.data.data;
 		}
 	};
 	const createIncome = async (values) => {
-		if (window.confirm("Desea registrar este egreso?")) {
-			const res = await Axios.post(API + "/income", { ...values });
+		if (window.confirm("Desea registrar este Ingreso?")) {
+			const res = await Axios.post(API + "/operations/createincome", { ...values });
 			return res.data;
 		}
 	};
 	const createPolicyPayment = async (policy_payment) => {
-		const res = await Axios.post(API + "/payments/policy", policy_payment);
+		const res = await Axios.post(API + "/policies/" + policy_payment.policy_id + "/pay", policy_payment);
 		return res.data;
 	};
 
@@ -58,10 +59,10 @@ export function UsersProvider({ children }) {
 			const f = new Date(from).toLocaleDateString();
 			const t = new Date(to).toLocaleDateString();
 			const res = await Axios.get(API + "/reports?f=" + f + "&t=" + t + (id ? "&id=" + id : ""));
-			setReports(res.data);
+			setReports(res.data.data);
 		} else {
 			const res = await Axios.get(API + "/reports" + (id ? "?id=" + id : ""));
-			setReports(res.data);
+			setReports(res.data.data);
 		}
 	};
 

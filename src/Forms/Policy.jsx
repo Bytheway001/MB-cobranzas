@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Button, Modal, Row, Col, FormGroup, FormControl } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
-import ReactDatePicker from "react-datepicker";
 import { Field, Form } from "react-final-form";
 import { useClients } from "../context/clients";
-
 import { useGlobal } from "../context/global";
-
-import { formatDate } from "../utils/utils";
-
+import { DatePicker } from "../Controls";
 import { composeValidators, Validators } from "./Validators";
 
 const PolicyForm = ({ policy, client }) => {
@@ -40,7 +36,13 @@ const PolicyForm = ({ policy, client }) => {
 					<Modal.Title>Nueva Poliza</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form onSubmit={onFormSubmit} initialValues={{ ...policy, client_id: client }}>
+					<Form
+						onSubmit={onFormSubmit}
+						initialValues={{
+							...policy,
+							client_id: client,
+						}}
+					>
 						{({ handleSubmit, values }) => (
 							<form id="policy-form" onSubmit={handleSubmit}>
 								<Row>
@@ -182,13 +184,9 @@ const PolicyForm = ({ policy, client }) => {
 												{({ input, meta }) => (
 													<>
 														<label>Fecha Efectiva</label>
-														<ReactDatePicker
-															selected={
-																input.value
-																	? new Date(input.value.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3"))
-																	: ""
-															}
-															onChange={(val) => input.onChange(formatDate(val))}
+														<DatePicker
+															value={input.value}
+															onChange={input.onChange}
 															className="form-control form-control-sm"
 															dateFormat="dd-MM-yyyy"
 														/>
@@ -202,13 +200,9 @@ const PolicyForm = ({ policy, client }) => {
 												{({ input, meta }) => (
 													<>
 														<label>Fecha Renovacion</label>
-														<ReactDatePicker
-															selected={
-																input.value
-																	? new Date(input.value.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3"))
-																	: ""
-															}
-															onChange={(val) => input.onChange(formatDate(val))}
+														<DatePicker
+															value={input.value}
+															onChange={input.onChange}
 															className="form-control form-control-sm"
 															dateFormat="dd-MM-yyyy"
 														/>

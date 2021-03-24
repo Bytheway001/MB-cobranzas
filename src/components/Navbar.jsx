@@ -20,21 +20,10 @@ const Navbar = () => {
 						Mi Gestion
 					</Nav.Link>
 					<NavDropdown title="Operaciones">
-						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/transfers/new">
-							Transferencias Internas
-						</NavDropdown.Item>
-						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/checks/collect">
-							Cobro de Cheques en transito
-						</NavDropdown.Item>
 						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/policy/pay">
 							Pago de Polizas
 						</NavDropdown.Item>
-						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/categories">
-							Categorias
-						</NavDropdown.Item>
-						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/other_incomes">
-							Otros Ingresos
-						</NavDropdown.Item>
+
 						<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/renewals">
 							Renovaciones
 						</NavDropdown.Item>
@@ -44,12 +33,6 @@ const Navbar = () => {
 							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/payments">
 								Validar Cobranzas
 							</NavDropdown.Item>
-							{/*
-								<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/general">
-								General
-							</NavDropdown.Item>
-							*/}
-
 							<NavDropdown.Item style={{ fontSize: "0.8em" }} as={Link} to="/reports/finances">
 								Financiero
 							</NavDropdown.Item>

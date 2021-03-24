@@ -38,13 +38,13 @@ export const ClientProfile = ({ client }) => {
 					<th className="bg-info text-white">Poliza</th>
 					<td>{policy.policy_number}</td>
 					<th className="bg-info text-white">F. Renovacion</th>
-					<td>{policy.renovation_date}</td>
+					<td>{new Date(policy.renovation_date).toLocaleDateString()}</td>
 				</tr>
 				<tr>
 					<th className="bg-info text-white">Cliente</th>
 					<td>{client.first_name}</td>
 					<th className="bg-info text-white">F. Efectiva</th>
-					<td>{policy.effective_date}</td>
+					<td>{new Date(policy.effective_date).toLocaleDateString()}</td>
 				</tr>
 				<tr>
 					<th className="bg-info text-white">Telefono</th>

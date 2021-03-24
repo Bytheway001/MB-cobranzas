@@ -33,8 +33,7 @@ const Finances = ({ match }) => {
 	};
 	const fillModal = useCallback(
 		(period) => {
-			console.log(accounts);
-			Axios.get(API + "/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
+			Axios.get(API + "/reports/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
 				setSaldo({ BOB: accounts.find((x) => x.id === account_id).BOB, USD: accounts.find((x) => x.id === account_id).USD });
 				setModalData(res.data.data);
 				setModalShow(true);

@@ -19,7 +19,12 @@ export const PaymentsList = ({ payments, setCorrection }) => {
 	const { ExportCSVButton } = CSVExport;
 	const columns = [
 		{ dataField: "id", text: "Ref", sort: true, headerStyle: columnStyles.id },
-		{ dataField: "payment_date", text: "Fecha", headerStyle: columnStyles.payment_date },
+		{
+			dataField: "payment_date",
+			text: "Fecha",
+			headerStyle: columnStyles.payment_date,
+			formatter: (cell) => new Date(cell).toLocaleDateString(),
+		},
 		{ dataField: "policy.client.first_name", text: "Asegurado" },
 		{ dataField: "policy.plan.company.name", text: "Aseguradora" },
 		{ dataField: "account.name", text: "Cuenta", csvFormatter: (cell) => cell || "--", headerStyle: columnStyles.account },
