@@ -34,13 +34,8 @@ const PaymentPolicyForm = ({ policy }) => {
 					<Field name="payment_date" validate={Validators.required}>
 						{({ input, meta }) => (
 							<FormGroup>
-								<DatePicker
-									label="Fecha de Pago de la Poliza:"
-									isInvalid={meta.error && meta.touched}
-									isValid={!meta.errors && meta.touched}
-									dateFormat="dd/MM/yyyy"
-									{...input}
-								/>
+								<label>Fecha de Pago de la Póliza</label>
+								<DatePicker dateFormat="dd/MM/yyyy" {...input} />
 								{meta.error && meta.touched && <span className="error-feedback">{meta.error}</span>}
 							</FormGroup>
 						)}

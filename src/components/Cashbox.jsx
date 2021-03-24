@@ -17,11 +17,11 @@ export const CashBox = ({ usd, bob, account_id }) => {
 
 	const download = async () => {
 		const res = await Axios.get(API + "/exports/cash/" + account_id + (period ? "?period=" + period : ""));
-		downloadXls(res.data.data, res.data.filename);
+		downloadXls(res.data.data.file, res.data.data.filename);
 	};
 
 	const fillModal = (period) => {
-		Axios.get(API + "/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
+		Axios.get(API + "/reports/movements/" + account_id + (period ? `?period=${period}` : "")).then((res) => {
 			setModalData(res.data.data);
 			setModalShow(true);
 		});

@@ -10,16 +10,15 @@ export const ClientProvider = ({ children }) => {
 	const [editing, setEditing] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const getClientList = (query = null) => {
-		console.log(query);
 		setLoading(true);
 		let string = "";
 		if (!query) {
-			string = API + "/clients/list";
+			string = API + "/clients";
 		} else {
 			if (query === "financed") {
-				string = API + "/clients/list?f=true";
+				string = API + "/clients?f=true";
 			} else {
-				string = API + "/clients/list?q=" + query;
+				string = API + "/clients?q=" + query;
 			}
 		}
 
@@ -29,7 +28,6 @@ export const ClientProvider = ({ children }) => {
 				setLoading(false);
 			})
 			.catch(() => {
-				alert("a");
 				setClients([]);
 				setLoading(false);
 			});
@@ -62,7 +60,7 @@ export const ClientProvider = ({ children }) => {
 	};
 
 	const createClient = async (data) => {
-		const res = await Axios.post(API + "/clients/create", data);
+		const res = await Axios.post(API + "/clients", data);
 		if (!data.id) {
 			clients.push(res.data.data);
 		} else {
@@ -74,11 +72,13 @@ export const ClientProvider = ({ children }) => {
 		return res.data;
 	};
 	const createPolicy = async (policy) => {
-		const res = await Axios.post(API + "/clients/policies/create", policy);
+		let res;
 		if (policy.id) {
+			res = await Axios.put(API + "/policies/" + policy.id, policy);
 			let index = editing.policies.findIndex((x) => x.id === policy.id);
 			editing.policies[index] = { ...res.data.data, selected: true };
 		} else {
+			res = await Axios.post(API + "/policies", policy);
 			editing.policies.push({ ...res.data.data, selected: true });
 		}
 		setEditing({ ...editing });
@@ -86,12 +86,12 @@ export const ClientProvider = ({ children }) => {
 	};
 
 	const createPayment = async (payment) => {
-		const res = await Axios.post(API + "/payments/create", payment);
+		const res = await Axios.post(API + "/payments", payment);
 		return res.data;
 	};
 
 	const createRenovation = async (renovation) => {
-		const res = await Axios.post(API + "/renewals", renovation);
+		const res = await Axios.post(API + "/policies/" + renovation.policy_id + "/renew", renovation);
 		return res.data;
 	};
 
