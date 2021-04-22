@@ -47,27 +47,32 @@ export const Extracto = ({ show, setShow, data, onMonthChange, download }) => {
 	}
 
 	const columns = [
-		{ dataField: "date", text: "Fecha" },
+		{
+			dataField: "date",
+			text: "Fecha",
+			type: "date",
+		},
 		{
 			dataField: "category",
-			text: "Categoria",
+			headerTitle: false,
+			text: null,
 			filter: selectFilter({
 				options: [...new Set(finalData.map((e) => e["category"]))].map((x) => ({ value: x, label: x })),
 				className: "form-control-sm",
-				placeholder: "Todas",
+				placeholder: "Todas las Categorias",
 			}),
 		},
 		{ dataField: "description", text: "Desc." },
 		{
 			dataField: "currency",
-			text: "Moneda",
+			text: null,
 			filter: selectFilter({
 				options: [
 					{ value: "USD", label: "USD" },
 					{ value: "BOB", label: "BOB" },
 				],
 				className: "form-control-sm",
-				placeholder: "Todas",
+				placeholder: "Todas las Monedas",
 			}),
 		},
 		{
@@ -116,7 +121,7 @@ export const Extracto = ({ show, setShow, data, onMonthChange, download }) => {
 	];
 	return (
 		<>
-			<Modal size="xl" show={show} onHide={() => setShow(false)}>
+			<Modal dialogClassName="modal-fs" show={show} onHide={() => setShow(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>Movimientos De Cuenta</Modal.Title>
 				</Modal.Header>

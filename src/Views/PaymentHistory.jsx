@@ -8,24 +8,9 @@ const PaymentHistory = ({ policy }) => {
 	const [show, setShow] = useState(false);
 	const [history, setHistory] = useState([]);
 
-	/*
-	account_id: 101
-	amount: 9267.24
-	comment: "CR325"
-	corrected_with: null
-	created_at: "12/01/2021"
-	currency: "USD"
-	id: 107
-	payment_date: "08/01/2021"
-	payment_type: "Direct"
-	policy_id: 8283
-	policy_status: null
-	user_id: 3
-	*/
-
 	useEffect(() => {
 		if (show) {
-			Axios.get(`${API}/payments/policy/${policy}`).then((res) => {
+			Axios.get(`${API}/policies/history/${policy}`).then((res) => {
 				setHistory(res.data.data);
 			});
 		}
@@ -65,7 +50,7 @@ const PaymentHistory = ({ policy }) => {
 												let discounts = payment.agent_discount + payment.agency_discount + payment.company_discount;
 												return (
 													<tr key={kk}>
-														<td>{payment.payment_date}</td>
+														<td>{new Date(payment.payment_date).toLocaleDateString()}</td>
 														<td>{TranslatePaymentMethods[payment.payment_method]}</td>
 														<td>
 															{formatMoney(

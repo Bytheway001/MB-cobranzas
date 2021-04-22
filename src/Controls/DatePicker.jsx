@@ -1,10 +1,17 @@
-import React from 'react';
-import {FormGroup} from 'react-bootstrap'
-import ReactDatePicker from 'react-datepicker';
+import React from "react";
 
-export const DatePicker = ({ label, onChange, value, ...props }) => (
-    <FormGroup>
-        <label>{label}</label>
-        <ReactDatePicker autoComplete="off" {...props} className='form-control form-control-sm' onChange={onChange} dateFormat='dd-MM-yyyy' selected={value} />
-    </FormGroup>
-)
+import ReactDatePicker from "react-datepicker";
+
+export const DatePicker = ({ onChange, value, ...props }) => {
+	let real_value = value ? new Date(value) : null;
+	return (
+		<ReactDatePicker
+			autoComplete="off"
+			className="form-control form-control-sm"
+			onChange={onChange}
+			dateFormat="dd-MM-yyyy"
+			selected={real_value}
+			{...props}
+		/>
+	);
+};

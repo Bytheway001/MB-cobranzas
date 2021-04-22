@@ -17,7 +17,7 @@ export const ExpensesList = ({ expenses, setCorrection }) => {
 
 	const columns = [
 		{ dataField: "id", text: "Ref", sort: true, headerStyle: { width: 50 } },
-		{ dataField: "date", text: "Fecha", headerStyle: { width: 100 } },
+		{ dataField: "date", text: "Fecha", headerStyle: { width: 100 }, formatter: (cell) => new Date(cell).toLocaleDateString() },
 		{
 			dataField: "account.name",
 			text: "Cuenta",

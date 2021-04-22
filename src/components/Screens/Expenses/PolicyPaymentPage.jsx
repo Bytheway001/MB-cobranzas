@@ -5,9 +5,11 @@ import { API, formatMoney, TranslatePaymentMethods } from "../../../utils/utils"
 import Axios from "axios";
 import { ClientSelector, PolicySelector } from "../../../Controls";
 import { useClients } from "../../../context/clients";
+import { useGlobal } from "../../../context/global";
 
 const PolicyPaymentsPage = () => {
 	const { clients, clientActions, loading, editing } = useClients();
+	const { accounts } = useGlobal();
 	let [history, setHistory] = useState(null);
 	let policy = editing && editing.policies.find((x) => x.selected);
 
@@ -17,7 +19,7 @@ const PolicyPaymentsPage = () => {
 		}
 	}, [policy]);
 	const getPayments = (policy) => {
-		Axios.get(API + "/payments/policy/" + policy.id + "?type=list").then((res) => {
+		Axios.get(API + "/policies/history/" + policy.id + "?type=list").then((res) => {
 			setHistory(res.data.data);
 		});
 	};
@@ -131,9 +133,9 @@ const PolicyPaymentsPage = () => {
 										<tbody>
 											{history.policy_payments.map((pp, k) => (
 												<tr key={k}>
-													<td>{pp.payment_date}</td>
-													<td>{pp.account_id || "Tarjeta Terceros"}</td>
-													<td>{pp.amount}</td>
+													<td>{new Date(pp.payment_date).toLocaleDateString()}</td>
+													<td>{accounts.find((x) => x.id === pp.account_id).name || "Tarjeta Terceros"}</td>
+													<td>{formatMoney(pp.amount, 2, ".", ",", pp.currency === "USD" ? "$" : "Bs.")}</td>
 												</tr>
 											))}
 										</tbody>
@@ -158,7 +160,7 @@ const PolicyPaymentsPage = () => {
 										<tbody>
 											{history.payments.map((pp, k) => (
 												<tr key={k}>
-													<td>{pp.payment_date}</td>
+													<td>{new Date(pp.payment_date).toLocaleDateString()}</td>
 													<td>{TranslatePaymentMethods[pp.payment_method]}</td>
 													<td>{pp.amount}</td>
 												</tr>

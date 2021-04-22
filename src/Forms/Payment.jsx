@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { FormControl, Row, Col, FormGroup, Button, Modal, InputGroup, FormCheck } from "react-bootstrap";
-
 import arrayMutators from "final-form-arrays";
 import { PaymentMethodOptions, OfficeOptions, PaymentTypeOptions, CurrencyOptions } from "../options/options";
 import AccountsOptions from "../options/accounts";
-
 import { Field, Form } from "react-final-form";
 import { FieldArray } from "react-final-form-arrays";
-
 import { composeValidators, Validators } from "./Validators";
 import { ClientSelector, DatePicker, Select } from "../Controls";
 import { useClients } from "../context/clients";
@@ -223,17 +220,9 @@ const PaymentForm = ({ policy, renovation }) => {
 										<Field name="payment_date" validate={Validators.required}>
 											{({ input, meta }) => (
 												<FormGroup>
-													<DatePicker
-														autoComplete={false}
-														isInvalid={meta.error && meta.touched}
-														isValid={!meta.errors && meta.touched}
-														required
-														label="Fecha de pago"
-														onChange={input.onChange}
-														dateFormat="dd/MM/yyyy"
-														value={input.value}
-														{...input}
-													/>
+													<label>Fecha de Pago</label>
+													<DatePicker {...input} />
+
 													{meta.error && meta.touched && <span className="error-feedback">{meta.error}</span>}
 												</FormGroup>
 											)}

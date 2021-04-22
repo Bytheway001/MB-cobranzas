@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { FormControl, Row, Button, Modal, Col, FormGroup } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
-import ReactDatePicker from "react-datepicker";
 import { Field, Form } from "react-final-form";
 import { useClients } from "../context/clients";
 import { useGlobal } from "../context/global";
 import { useNotifications } from "../context/notification";
-import { API, formatDate, formatMoney } from "../utils/utils";
+import { DatePicker } from "../Controls";
+import { API, formatMoney } from "../utils/utils";
 import { composeValidators, Validators } from "./Validators";
 export const Renewal = ({ pId }) => {
 	const { companies } = useGlobal();
@@ -79,23 +79,13 @@ export const Renewal = ({ pId }) => {
 												<tbody>
 													<tr>
 														<th>Fecha de Renovacion</th>
-														<td>{policy.renovation_date}</td>
+														<td>{new Date(policy.renovation_date).toLocaleDateString()}</td>
 														<td>
 															<Field name="renovation_date" validate={Validators.required}>
 																{({ input, meta }) => (
 																	<>
-																		<ReactDatePicker
-																			selected={
-																				input.value
-																					? new Date(
-																							input.value.replace(
-																								/(\d{2})\/(\d{2})\/(\d{4})/,
-																								"$2/$1/$3"
-																							)
-																					  )
-																					: ""
-																			}
-																			onChange={(val) => input.onChange(formatDate(val))}
+																		<DatePicker
+																			{...input}
 																			className="form-control form-control-sm "
 																			dateFormat="dd-MM-yyyy"
 																		/>

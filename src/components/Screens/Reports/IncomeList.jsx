@@ -14,7 +14,13 @@ export const IncomeList = ({ incomes, setCorrection }) => {
 
 	const columns = [
 		{ dataField: "id", text: "Ref", sort: true, headerStyle: { width: 50 } },
-		{ dataField: "date", headerStyle: { width: 100 }, text: "Fecha", sort: true },
+		{
+			dataField: "date",
+			headerStyle: { width: 100 },
+			text: "Fecha",
+			sort: true,
+			formatter: (cell) => new Date(cell).toLocaleDateString(),
+		},
 		{
 			dataField: "account.name",
 			headerStyle: { width: 150 },

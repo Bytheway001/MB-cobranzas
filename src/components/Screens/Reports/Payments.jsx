@@ -25,8 +25,25 @@ const PaymentsReport = () => {
 
 	const columns = [
 		{ dataField: "id", text: "#Ref", style: { textAlign: "center", verticalAlign: "middle" }, headerStyle: { width: 40 }, sort: true },
-		{ dataField: "payment_date", text: "Fecha", style: { textAlign: "center", verticalAlign: "middle" }, headerStyle: { width: 80 } },
-		{ dataField: "policy.plan.company.name", sort: true, text: "Aseguradora", style: { textAlign: "center", verticalAlign: "middle" } },
+		{
+			dataField: "payment_date",
+			text: "Fecha",
+			style: {
+				textAlign: "center",
+				verticalAlign: "middle",
+			},
+			headerStyle: { width: 80 },
+			formatter: (cell) => new Date(cell).toLocaleDateString(),
+		},
+		{
+			dataField: "policy.plan.company.name",
+			sort: true,
+			text: "Aseguradora",
+			style: {
+				textAlign: "center",
+				verticalAlign: "middle",
+			},
+		},
 		{ dataField: "policy.client.first_name", text: "Cliente", style: { textAlign: "center", verticalAlign: "middle" } },
 		{
 			dataField: "planoption",
