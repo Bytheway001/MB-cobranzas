@@ -1,147 +1,134 @@
+import { faBuilding, faCashRegister, faDownload, faMoneyBill, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import Axios from "axios";
-import React, { useEffect } from "react";
-import { useState } from "react";
-
-import { Row, Col, Table } from "react-bootstrap";
+import React, { useState } from "react";
+import { Row, Col, Modal, Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { SmartCard } from "../components/library/SmartCard";
-import { API, formatMoney } from "../utils/utils";
+import { Thumbnail } from "../components/Thumbnail";
+import AccountsOptions from "../options/accounts";
+import { downloadXls } from "../utils/donwloadXls";
+import { API } from "../utils/utils";
 
 const GeneralReport = () => {
-	const [report, setReport] = useState(null);
-	const LookReports = (from = null, to = null) => {
-		if (from && to) {
-			const f = new Date(from).toLocaleDateString();
-			const t = new Date(to).toLocaleDateString();
-			Axios.get(API + "/reports?f=" + f + "&t=" + t).then((res) => {
-				setReport(res.data);
-			});
-		} else {
-			Axios.get(API + "/reports").then((res) => {
-				setReport(res.data);
-			});
-		}
-	};
-
-	useEffect(() => {
-		LookReports();
-	}, []);
-
-	const getGyPCobranzas = () => {
-		let result = { BOB: 0, USD: 0 };
-		if (report) {
-			report.payments.forEach((p) => {
-				result[p.currency] = result[p.currency] + p.amount;
-			});
-		}
-
-		return result;
-	};
-	const getGyPIngresos = () => {
-		let result = {};
-		let Totales = { BOB: 0, USD: 0 };
-		if (report) {
-			report.incomes.forEach((inc) => {
-				if (!result[inc.category.name]) {
-					result[inc.category.name] = { BOB: 0, USD: 0 };
-				}
-				result[inc.category.name][inc.currency] = result[inc.category.name][inc.currency] + inc.amount;
-				Totales[inc.currency] = Totales[inc.currency] + inc.amount;
-			});
-		}
-		return { ...result, Totales: Totales };
-	};
-
-	const getGyPPolicyPayments = () => {
-		let result = 0;
-		if (report) {
-			report.policy_payments.forEach((pp) => {
-				result = result + pp.amount;
-			});
-		}
-		return result;
-	};
-
-	const getGyPExpenses = () => {
-		let result = {};
-		let Totales = { BOB: 0, USD: 0 };
-		if (report) {
-			report.expenses.forEach((inc) => {
-				if (!result[inc.category.name]) {
-					result[inc.category.name] = { BOB: 0, USD: 0 };
-				}
-				result[inc.category.name][inc.currency] = result[inc.category.name][inc.currency] + inc.amount;
-				Totales[inc.currency] = Totales[inc.currency] + inc.amount;
-			});
-		}
-		return { ...result, Totales: Totales };
-	};
-	var ingresos = getGyPIngresos();
-	var cobranzas = getGyPCobranzas();
-	var policyPayments = getGyPPolicyPayments();
-	var gastos = getGyPExpenses();
-	ingresos.Totales.BOB += cobranzas.BOB;
-	ingresos.Totales.USD += cobranzas.USD;
-	gastos.Totales.USD += policyPayments;
-
+	const [reportType, setReportType] = useState("");
 	return (
 		<Row>
 			<Col sm={12}>
-				<h1 className="text-center">Estado de GyP</h1>
-			</Col>
-			<Col sm={6}>
-				<SmartCard title="Ingresos">
-					<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
-						<thead>
-							<tr>
-								<th style={{ width: "50%" }}>--</th>
-								<th className="text-right">USD</th>
-								<th className="text-right">BOB</th>
-							</tr>
-							<tr>
-								<th>Cobranzas Realizadas</th>
-								<td className="text-right">{formatMoney(cobranzas.USD, 2, ".", ",", "$ ")}</td>
-								<td className="text-right">{formatMoney(cobranzas.BOB, 2, ".", ",", "Bs. ")}</td>
-							</tr>
-
-							{Object.keys(ingresos).map((obj, key) => (
-								<tr key={key}>
-									<th>{obj}</th>
-									<td className="text-right">{formatMoney(ingresos[obj].USD, 2, ".", ".", "$ ")}</td>
-									<td className="text-right">{formatMoney(ingresos[obj].BOB, 2, ".", ".", "Bs. ")}</td>
-								</tr>
-							))}
-						</thead>
-					</Table>
-				</SmartCard>
-			</Col>
-			<Col sm={6}>
-				<SmartCard title="Egresos">
-					<Table size="sm" variant="bordered" style={{ fontSize: "0.9em" }}>
-						<thead>
-							<tr>
-								<th style={{ width: "50%" }}>--</th>
-								<th className="text-right">USD</th>
-								<th className="text-right">BOB</th>
-							</tr>
-							<tr>
-								<th>Pago de Polizas</th>
-								<td className="text-right">{formatMoney(policyPayments, 2, ".", ",", "$ ")}</td>
-								<td className="text-right">{0}</td>
-							</tr>
-
-							{Object.keys(gastos).map((obj, key) => (
-								<tr key={key}>
-									<th>{obj}</th>
-
-									<td className="text-right">{formatMoney(gastos[obj].USD, 2, ".", ".", "$ ")}</td>
-									<td className="text-right">{formatMoney(gastos[obj].BOB, 2, ".", ".", "Bs. ")}</td>
-								</tr>
-							))}
-						</thead>
-					</Table>
+				<SmartCard title="Reportes">
+					<Row>
+						<Col sm={3}>
+							<Thumbnail title="Reporte de Caja" onClick={() => setReportType("cash")} icon={faCashRegister} />
+						</Col>
+						<Col sm={3}>
+							<Thumbnail title="Reporte de Cobranzas" onClick={() => setReportType("payments")} icon={faMoneyBill} />
+						</Col>
+						<Col sm={3}>
+							<Thumbnail title="Reporte de General" onClick={() => setReportType("main")} icon={faBuilding} />
+						</Col>
+						<Col sm={3}>
+							<Thumbnail title="Reporte de Financiamientos" onClick={() => setReportType("financed")} icon={faQuestion} />
+						</Col>
+					</Row>
+					<ModalReport reportType={reportType} setReportType={setReportType} />
 				</SmartCard>
 			</Col>
 		</Row>
+	);
+};
+const months = [
+	{ value: "01", label: "Enero" },
+	{ value: "02", label: "Febrero" },
+	{ value: "03", label: "Marzo" },
+	{ value: "04", label: "Abril" },
+	{ value: "05", label: "Mayo" },
+	{ value: "06", label: "Junio" },
+	{ value: "07", label: "Julio" },
+	{ value: "08", label: "Agosto" },
+	{ value: "09", label: "Septiembre" },
+	{ value: "10", label: "Octubre" },
+	{ value: "11", label: "Noviembre" },
+	{ value: "12", label: "Diciembre" },
+];
+
+const ModalReport = ({ reportType, setReportType }) => {
+	const [report, setReport] = useState(null);
+	const [month, setMonth] = useState("");
+	const [year, setYear] = useState("");
+	const [account, setAccount] = useState("");
+	const getReport = () => {
+		setReport(null);
+		let url = API + "/exports/" + reportType;
+		if (reportType === "cash") {
+			url += "/" + account;
+		}
+		url += `?year=${year}&month=${month}`;
+		Axios.get(url).then((res) => {
+			setReport(res.data.data);
+		});
+	};
+	return (
+		<>
+			<Modal show={reportType !== ""} onHide={() => setReportType("")}>
+				<Modal.Header closeButton>Seleccionar Periodo</Modal.Header>
+				<Modal.Body>
+					<Row>
+						{reportType === "cash" && (
+							<Col sm={12}>
+								<FormGroup>
+									<FormLabel>Seleccione Caja</FormLabel>
+									<FormControl as="select" onChange={({ target }) => setAccount(target.value)}>
+										<AccountsOptions />
+									</FormControl>
+								</FormGroup>
+							</Col>
+						)}
+						<Col sm={6}>
+							<FormGroup>
+								<FormLabel>Mes</FormLabel>
+								<FormControl as="select" onChange={({ target }) => setMonth(target.value)}>
+									<option value="">Seleccione...</option>
+									{months.map((month, key) => (
+										<option key={key} value={month.value}>
+											{month.label}
+										</option>
+									))}
+								</FormControl>
+							</FormGroup>
+						</Col>
+						<Col sm={6}>
+							<FormGroup>
+								<FormLabel>Año</FormLabel>
+								<FormControl as="select" onChange={({ target }) => setYear(target.value)}>
+									<option value="">Seleccione...</option>
+									{["2020", "2021"].map((month, key) => (
+										<option key={key} value={month}>
+											{month}
+										</option>
+									))}
+								</FormControl>
+							</FormGroup>
+						</Col>
+						<Col sm={12}>
+							<Button onClick={() => getReport()} block>
+								Generar Reporte
+							</Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12}>
+							{report && (
+								<Thumbnail
+									title="Descargar Reporte"
+									onClick={() => downloadXls(report.file, report.filename)}
+									icon={faDownload}
+								>
+									Descargar Report
+								</Thumbnail>
+							)}
+						</Col>
+					</Row>
+				</Modal.Body>
+			</Modal>
+		</>
 	);
 };
 
