@@ -134,7 +134,11 @@ const PolicyPaymentsPage = () => {
 											{history.policy_payments.map((pp, k) => (
 												<tr key={k}>
 													<td>{new Date(pp.payment_date).toLocaleDateString()}</td>
-													<td>{accounts.find((x) => x.id === pp.account_id).name || "Tarjeta Terceros"}</td>
+													<td>
+														{accounts.find((x) => x.id === pp.account_id)
+															? accounts.find((x) => x.id === pp.account_id).name
+															: "Tarjeta Terceros"}
+													</td>
 													<td>{formatMoney(pp.amount, 2, ".", ",", pp.currency === "USD" ? "$" : "Bs.")}</td>
 												</tr>
 											))}
