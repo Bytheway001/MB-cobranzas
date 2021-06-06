@@ -60,10 +60,12 @@ export const ClientProvider = ({ children }) => {
 	};
 
 	const createClient = async (data) => {
-		const res = await Axios.post(API + "/clients", data);
+		let res = null;
 		if (!data.id) {
+			res = await Axios.post(API + "/clients", data);
 			clients.push(res.data.data);
 		} else {
+			res = await Axios.put(API + `/clients/${data.id}`, data);
 			let index = clients.findIndex((x) => x.id === data.id);
 			clients[index] = res.data.data;
 		}
@@ -74,7 +76,17 @@ export const ClientProvider = ({ children }) => {
 	const createPolicy = async (policy) => {
 		let res;
 		if (policy.id) {
-			res = await Axios.put(API + "/policies/" + policy.id, policy);
+			let data = (({ plan_id, policy_number, premium, frequency, renovation_date, effective_date, option, comment }) => ({
+				plan_id,
+				policy_number,
+				premium,
+				frequency,
+				renovation_date,
+				effective_date,
+				option,
+				comment,
+			}))(policy);
+			res = await Axios.put(API + "/policies/" + policy.id, data);
 			let index = editing.policies.findIndex((x) => x.id === policy.id);
 			editing.policies[index] = { ...res.data.data, selected: true };
 		} else {
