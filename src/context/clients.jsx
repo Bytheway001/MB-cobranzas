@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useContext, useMemo, useState } from "react";
+import { CLIENT_RESOURCE } from "../utils/endpoints";
 import { API } from "../utils/utils";
 export const ClientContext = React.createContext();
 
@@ -11,17 +12,14 @@ export const ClientProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const getClientList = (query = null) => {
 		setLoading(true);
-		let string = "";
-		if (!query) {
-			string = API + "/clients";
-		} else {
+		let string = CLIENT_RESOURCE;
+		if (query) {
 			if (query === "financed") {
-				string = API + "/clients?f=true";
+				string += "?f=true";
 			} else {
-				string = API + "/clients?q=" + query;
+				string += "?q=" + query;
 			}
 		}
-
 		Axios.get(string)
 			.then((res) => {
 				setClients(res.data.data);
@@ -35,7 +33,7 @@ export const ClientProvider = ({ children }) => {
 
 	const selectClient = (clientArr) => {
 		if (clientArr[0]) {
-			Axios.get(API + "/clients/" + clientArr[0].id).then((res) => {
+			Axios.get(`${CLIENT_RESOURCE}/${clientArr[0].id}`).then((res) => {
 				setEditing(res.data.data);
 			});
 		} else {
@@ -62,10 +60,10 @@ export const ClientProvider = ({ children }) => {
 	const createClient = async (data) => {
 		let res = null;
 		if (!data.id) {
-			res = await Axios.post(API + "/clients", data);
+			res = await Axios.post(CLIENT_RESOURCE, data);
 			clients.push(res.data.data);
 		} else {
-			res = await Axios.put(API + `/clients/${data.id}`, data);
+			res = await Axios.put(`${CLIENT_RESOURCE}/${data.id}`, data);
 			let index = clients.findIndex((x) => x.id === data.id);
 			clients[index] = res.data.data;
 		}
