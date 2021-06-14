@@ -10,7 +10,7 @@ import { useGlobal } from "../context/global";
 import { downloadXls } from "../utils/donwloadXls";
 
 export const CashBox = ({ usd, bob, account_id }) => {
-	const { globalActions } = useGlobal();
+	const { globalActions, accounts } = useGlobal();
 	const [modalData, setModalData] = useState(null);
 	const [modalShow, setModalShow] = useState(false);
 	const [period, setPeriod] = useState(false);
@@ -67,7 +67,7 @@ export const CashBox = ({ usd, bob, account_id }) => {
 							</Button>
 						</th>
 						<th>
-							<CurrencyChange />
+							<CurrencyChange handleAccountRefresh={() => globalActions.getAccounts()} accounts={accounts} />
 						</th>
 					</tr>
 				</tfoot>
