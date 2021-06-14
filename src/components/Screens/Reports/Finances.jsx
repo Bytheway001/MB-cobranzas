@@ -29,7 +29,7 @@ const Finances = ({ match }) => {
 	const [period, setPeriod] = useState(null);
 	const download = async () => {
 		const res = await Axios.get(API + "/exports/cash/" + account_id + (period ? "?period=" + period : ""));
-		downloadXls(res.data.data, res.data.filename);
+		downloadXls(res.data.data.file, res.data.data.filename);
 	};
 	const fillModal = useCallback(
 		(period) => {

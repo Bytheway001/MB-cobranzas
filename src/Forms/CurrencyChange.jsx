@@ -1,41 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 
 import Axios from "axios";
-import { API } from "../utils/utils";
+
 import { Input, Select } from "../Controls";
+import { CONVERT_CURRENCY } from "../utils/endpoints";
 
-const CurrencyChange = () => {
+const CurrencyChange = ({ handleAccountRefresh, accounts }) => {
 	const [show, setShow] = useState(false);
-	const [account_from, setAccountFrom] = useState("");
-	const [account_to, setAccountTo] = useState("");
+	const [from, setAccountFrom] = useState("");
+	const [to, setAccountTo] = useState("");
 	const [amount, setAmount] = useState("");
-	const [currencyRate, setCurrencyRate] = useState("");
+	const [rate, setCurrencyRate] = useState("");
 	const [currency, setCurrency] = useState("");
-	const [accounts, setAccounts] = useState([]);
-
-	const refreshAccounts = () => {
-		Axios.get(API + "/accounts").then((res) => {
-			setAccounts(res.data.data);
-		});
-	};
-	useEffect(() => {
-		refreshAccounts();
-	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		let data = {
-			from: account_from,
-			to: account_to,
-			amount: amount,
-			rate: currencyRate,
-			type: currency,
-		};
-		Axios.post(API + "/convert", data)
+		let data = { from, to, amount, rate, currency };
+		Axios.post(CONVERT_CURRENCY, data)
 			.then(() => {
-				window.location.reload();
+				handleAccountRefresh();
+				setShow(false);
 			})
 			.catch((err) => {
 				alert(err);
@@ -52,16 +38,17 @@ const CurrencyChange = () => {
 			<Button block size="sm" onClick={() => setShow(true)}>
 				Cambiar Divisas
 			</Button>
+
 			<Modal size="lg" show={show} onHide={() => setShow(false)}>
-				<Modal.Header closeButton>
-					<Modal.Title>Cambio de Divisas</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Form onSubmit={handleSubmit}>
+				<Form onSubmit={handleSubmit} id="change_currency_form">
+					<Modal.Header closeButton>
+						<Modal.Title>Cambio de Divisas</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
 						<Row>
 							<Col sm={6}>
 								<Select
-									value={account_from}
+									value={from}
 									onChange={({ target }) => setAccountFrom(target.value)}
 									options={accounts.map((a, k) => (
 										<option key={k} value={a.id}>
@@ -73,7 +60,7 @@ const CurrencyChange = () => {
 							</Col>
 							<Col sm={6}>
 								<Select
-									value={account_to}
+									value={to}
 									onChange={({ target }) => setAccountTo(target.value)}
 									options={accounts.map((a, k) => (
 										<option key={k} value={a.id}>
@@ -84,7 +71,6 @@ const CurrencyChange = () => {
 								/>
 							</Col>
 						</Row>
-
 						<Row>
 							<Col sm={6}>
 								<Select
@@ -100,29 +86,28 @@ const CurrencyChange = () => {
 							</Col>
 							<Col sm={6}>
 								<Input
-									value={currencyRate}
+									value={rate}
 									onChange={({ target }) => setCurrencyRate(target.value)}
 									type="number"
 									label="Tipo de Cambio"
 								/>
 							</Col>
-							<Col sm={12}>
+						</Row>
+						<Row>
+							<Col sm={6}>
 								<Input value={amount} onChange={({ target }) => setAmount(target.value)} type="number" label="Cantidad" />
 							</Col>
 						</Row>
-						<Button block size="sm" type="submit">
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="danger" onClick={() => setShow(false)}>
+							Cancelar
+						</Button>
+						<Button variant="success" for="change_currency_form" type="submit">
 							Cambiar divisas
 						</Button>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setShow(false)}>
-						Close
-					</Button>
-					<Button variant="primary" onClick={() => setShow(false)}>
-						Save Changes
-					</Button>
-				</Modal.Footer>
+					</Modal.Footer>
+				</Form>
 			</Modal>
 		</>
 	);

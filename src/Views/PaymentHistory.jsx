@@ -10,7 +10,7 @@ const PaymentHistory = ({ policy }) => {
 
 	useEffect(() => {
 		if (show) {
-			Axios.get(`${API}/policies/history/${policy}`).then((res) => {
+			Axios.get(`${API}/policies/${policy}/history`).then((res) => {
 				setHistory(res.data.data);
 			});
 		}
