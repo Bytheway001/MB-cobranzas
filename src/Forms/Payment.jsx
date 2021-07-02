@@ -41,6 +41,9 @@ const PaymentForm = ({ policy, renovation }) => {
 			})
 			.catch(() => {
 				addNotification("success", "No se Pudo Registrar La Cobranza");
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 	const recipients = [
