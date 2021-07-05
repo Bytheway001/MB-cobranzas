@@ -15,7 +15,7 @@ const CheckForm = () => {
 	const [show, setShow] = useState(false);
 	const [checks, setChecks] = useState([]);
 	const handleShow = () => {
-		Axios.get(API + "/checks")
+		Axios.get(API + "/checks?status=Collected")
 			.then((res) => {
 				setChecks(res.data.data);
 			})
