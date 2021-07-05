@@ -27,7 +27,9 @@ export const Validators = {
 		return value <= top.premium - top.payed ? undefined : "El monto supera la cantidad adeudada por el cliente";
 	},
 	mustBePayable: (value, values, policy) => {
-		let debt = 0;
+		console.log(policy);
+		let debt = policy.totals.debt;
+		/*
 		let amounts = {
 			debt: policy.premium - policy.payed,
 			cr: parseFloat(values.change_rate),
@@ -36,6 +38,7 @@ export const Validators = {
 			ad: parseFloat(values.agent_discount),
 		};
 
+
 		if (values.currency === "BOB") {
 			let discounts = (amounts.cd + amounts.ag + amounts.ad) / amounts.cr;
 			debt = (amounts.debt - discounts) * amounts.cr;
@@ -43,7 +46,8 @@ export const Validators = {
 			let discounts = amounts.cd + amounts.ag + amounts.ad;
 			debt = amounts.debt - discounts;
 		}
-
+		*/
+		console.log(value, debt);
 		return value <= debt ? undefined : "El monto ingresado supera la deuda del cliente";
 	},
 	isDifferent: (value, allValues) => {
