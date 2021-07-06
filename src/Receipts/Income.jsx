@@ -71,7 +71,11 @@ export const IncomeReceipt = ({ user, data, modal }) => {
 					<Fila style={{ marginTop: 10, padding: 5, borderColor: "#A1A1A1", borderWidth: 3, borderStyle: "solid" }}>
 						<Columna style={{ width: "50%" }}>
 							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="# Ingreso" text={data.id} />
-							<Field style={{ flexDirection: "row", justifyContent: "space-between" }} label="Fecha:" text={data.date} />
+							<Field
+								style={{ flexDirection: "row", justifyContent: "space-between" }}
+								label="Fecha:"
+								text={new Date(data.date).toLocaleDateString()}
+							/>
 							<Field
 								style={{ flexDirection: "row", justifyContent: "space-between" }}
 								label="Monto:"
