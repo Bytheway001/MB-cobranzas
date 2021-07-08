@@ -12,14 +12,14 @@ const PolicyPaymentsPage = () => {
 	const { accounts } = useGlobal();
 	let [history, setHistory] = useState(null);
 	let policy = editing && editing.policies.find((x) => x.selected);
-
 	useEffect(() => {
 		if (policy) {
 			getPayments(policy);
 		}
 	}, [policy]);
+
 	const getPayments = (policy) => {
-		Axios.get(API + "/policies/history/" + policy.id + "?type=list").then((res) => {
+		Axios.get(API + "/policies/" + policy.id + "/history?type=list").then((res) => {
 			setHistory(res.data.data);
 		});
 	};
