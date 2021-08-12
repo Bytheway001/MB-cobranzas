@@ -1,0 +1,26 @@
+1.- Crear Cliente
+    1.1 Validar Parametros Obligatorios
+        -   Debe incluir Nombre
+        -   Debe incluir Agente
+        -   Debe incluir Cobrador
+        -   Debe incluir ID de hubspot
+
+2.- Actualizar Cliente
+    2.1 Validar Parametros Obligatorios
+        -   Debe incluir Nombre
+        -   Debe incluir Agente
+        -   Debe incluir Cobrador
+        -   Debe incluir ID de hubspot
+
+3.- Crear Poliza del Cliente
+4.- Modificar Poliza del Cliente
+
+5.- Registrar Cobranza
+6.- Registrar Gasto
+7.- Registrar Ingreso
+8.- Registrar Pago de Poliza
+9.- Cambiar Divisas
+10.- Transferir Dinero
+11.- Cobrar Cheque
+
+Cliente con ID: 154 dice que cobrador es la agente

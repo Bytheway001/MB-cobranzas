@@ -1,0 +1,80 @@
+version: 2.1
+commands:
+  set_up_container:
+    description: "Install System deps, Checkout Code, Add SSH keys and restore cache"
+    steps:
+      - add_ssh_keys:
+          fingerprints: 
+            - "71:3a:6b:fd:84:cf:60:e6:18:f6:fb:02:11:08:8d:0a"
+      - run: sudo apt install rsync
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+  install_project_dependencies:
+    description: yarn install and cache saving
+    steps:
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+  create_build:
+    description: "We create a build based on the environment given"
+    parameters:
+      environment:
+        type: string
+        default: development
+    steps:
+      - run: REACT_APP_API_URL=<<parameters.environment>> yarn run build
+  deploy_build:
+    description: "Send data to VPS"
+    parameters:
+      url:
+        type: string
+        default: none
+    steps:
+      - run:
+         name: "Send Data to vps"
+         command: rsync -I -v -e "ssh -o StrictHostKeyChecking=no" -avz --delete --exclude ".htaccess" /home/circleci/repo/build/ $SSH_USER@$SSH_HOST:<<parameters.url>>
+executors:
+  default:
+    docker:
+      - image: circleci/node:10.15.0
+jobs:
+  create_test_build:
+    executor: default
+    working_directory: ~/repo
+    steps:
+      - set_up_container
+      - install_project_dependencies
+      - create_build:
+          environment: $STAGING_URL
+      - deploy_build:
+          url: /home/megabrokers/public_html/test/cobranzas/ui
+  create_production_build:
+    executor: default
+    working_directory: ~/repo
+    steps:
+      - set_up_container
+      - install_project_dependencies
+      - create_build:
+          environment: $PRODUCTION_URL
+      - deploy_build:
+          url: /home/megabrokers/public_html/cobranzas/ui
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - create_test_build:
+          filters:
+            branches:
+              only:
+                - test
+      - create_production_build:
+          filters:
+            branches:
+              only:
+                - master
+
