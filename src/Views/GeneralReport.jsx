@@ -99,7 +99,7 @@ const ModalReport = ({ reportType, setReportType }) => {
 								<FormLabel>Año</FormLabel>
 								<FormControl as="select" onChange={({ target }) => setYear(target.value)}>
 									<option value="">Seleccione...</option>
-									{["2020", "2021"].map((month, key) => (
+									{["2020", "2021", "2022"].map((month, key) => (
 										<option key={key} value={month}>
 											{month}
 										</option>
