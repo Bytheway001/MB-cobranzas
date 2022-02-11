@@ -17,7 +17,7 @@
     "final-form": "^4.20.1",
     "final-form-arrays": "^3.0.2",
     "moment": "^2.29.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-big-calendar": "^0.29.0",
